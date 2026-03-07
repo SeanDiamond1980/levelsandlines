@@ -1407,12 +1407,12 @@ export default function LevelsAndLinesPage() {
                 <h1 className="text-2xl font-bold tracking-tight leading-tight sm:text-3xl font-heading">
                   Step Inside Your Future,
                   <br />
-                  <span className="text-structure">Before You Build It</span>
+                  <span className="text-focus">Before You Build It</span>
                 </h1>
-                <p className="text-sm text-structure leading-relaxed sm:text-base font-body">
-                The Levels and Lines{" "}
-                <span className="text-white font-semibold">
-                  Design Theater<sup className="text-xs">™</sup>
+                <p className="text-sm text-white/90 leading-relaxed sm:text-base font-body">
+                The{" "}
+                <span className="text-focus font-semibold">
+                  Levels and Lines Design Theater<sup className="text-xs">™</sup>
                 </span>{" "}
                 lets you experience, touch and feel your space in real life and true dimensions.
               </p>
@@ -1515,12 +1515,12 @@ export default function LevelsAndLinesPage() {
                 <h1 className="text-4xl font-bold tracking-tight leading-tight lg:text-5xl xl:text-6xl 2xl:text-7xl font-heading">
                   Step Inside Your Future,
                   <br />
-                  <span className="text-structure">Before You Build It</span>
+                  <span className="text-focus">Before You Build It</span>
                 </h1>
-                <p className="text-lg text-structure leading-relaxed lg:text-xl max-w-3xl mx-auto font-body">
-                  The Levels and Lines{" "}
-                  <span className="text-white font-semibold">
-                    Design Theater<sup className="text-xs">™</sup>
+                <p className="text-lg text-white/90 leading-relaxed lg:text-xl max-w-3xl mx-auto font-body">
+                  The{" "}
+                  <span className="text-focus font-semibold">
+                    Levels and Lines Design Theater<sup className="text-xs">™</sup>
                   </span>{" "}
                   lets you experience, touch and feel your space in real life and true dimensions.
                 </p>
