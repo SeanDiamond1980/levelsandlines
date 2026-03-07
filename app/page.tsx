@@ -5,6 +5,17 @@ import Image from "next/image"
 import { useState, useEffect, useRef, useCallback } from "react"
 import InstagramPost from "@/components/InstagramPost"
 
+// Type for Instagram posts - must match InstagramPost component props
+interface InstagramPostType {
+  id: string
+  type: "image" | "video"
+  src: string
+  caption: string
+  likes: number
+  comments: number
+  permalink: string
+}
+
 // Replace the LLLogo component with:
 function LLLogo({
   className = "h-8 w-8",
@@ -1156,7 +1167,7 @@ function HowItWorksCarousel() {
 
 export default function LevelsAndLinesPage() {
   // State for Instagram posts - Start with empty array, only populate from API
-  const [instagramPosts, setInstagramPosts] = useState([])
+  const [instagramPosts, setInstagramPosts] = useState<InstagramPostType[]>([])
 
   // Mobile static post - no API needed
   const mobileStaticPost = {
@@ -1220,7 +1231,7 @@ export default function LevelsAndLinesPage() {
           console.log("✅ Successfully fetched", data.data.length, "Instagram posts")
           console.log(
             "📋 Posts received:",
-            data.data.map((p) => ({
+            data.data.map((p: { id: string; type: string; src?: string }) => ({
               id: p.id,
               type: p.type,
               src: p.src?.substring(0, 50) + "...",

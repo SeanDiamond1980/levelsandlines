@@ -36,7 +36,7 @@ export default function WebhookSetupPage() {
       setTestResult(result)
     } catch (error) {
       console.error("❌ Test failed:", error)
-      setTestResult({ error: error.message })
+      setTestResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }
@@ -72,7 +72,7 @@ export default function WebhookSetupPage() {
       setTestResult(result)
     } catch (error) {
       console.error("❌ Webhook test failed:", error)
-      setTestResult({ error: error.message })
+      setTestResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }

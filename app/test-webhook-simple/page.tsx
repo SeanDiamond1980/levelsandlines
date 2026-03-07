@@ -37,7 +37,7 @@ export default function TestWebhookSimplePage() {
       setResult(result)
     } catch (error) {
       console.error("❌ Test failed:", error)
-      setResult({ error: error.message })
+      setResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }
@@ -73,7 +73,7 @@ export default function TestWebhookSimplePage() {
       setResult(result)
     } catch (error) {
       console.error("❌ Test failed:", error)
-      setResult({ error: error.message })
+      setResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }
@@ -110,7 +110,7 @@ export default function TestWebhookSimplePage() {
       setResult(result)
     } catch (error) {
       console.error("❌ Test failed:", error)
-      setResult({ error: error.message })
+      setResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }
@@ -130,7 +130,7 @@ export default function TestWebhookSimplePage() {
       setResult(result)
     } catch (error) {
       console.error("❌ Check failed:", error)
-      setResult({ error: error.message })
+      setResult({ error: error instanceof Error ? error.message : "Unknown error" })
     } finally {
       setLoading(false)
     }

@@ -19,7 +19,7 @@ export default function CustomizeWalkthroughUI() {
     },
   ])
 
-  function addNextRoom(floorIndex) {
+  function addNextRoom(floorIndex: number) {
     setFloors((prev) => {
       const copy = JSON.parse(JSON.stringify(prev))
       const floor = copy[floorIndex]
@@ -37,7 +37,7 @@ export default function CustomizeWalkthroughUI() {
     setFloors((prev) => [...prev, { id: Date.now(), name: `Floor ${prev.length + 1}`, rooms: [] }])
   }
 
-  function removeElement(floorIndex, roomIndex, elementIndex) {
+  function removeElement(floorIndex: number, roomIndex: number, elementIndex: number) {
     setFloors((prev) => {
       const copy = JSON.parse(JSON.stringify(prev))
       copy[floorIndex].rooms[roomIndex].elements.splice(elementIndex, 1)
@@ -45,7 +45,7 @@ export default function CustomizeWalkthroughUI() {
     })
   }
 
-  function Pill({ label, onRemove }) {
+  function Pill({ label, onRemove }: { label: string; onRemove: () => void }) {
     return (
       <span className="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1 text-sm font-medium text-white shadow-sm">
         <span>{label}</span>
@@ -71,7 +71,7 @@ export default function CustomizeWalkthroughUI() {
     )
   }
 
-  function Toggle({ checked, onChange }) {
+  function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boolean) => void }) {
     return (
       <button
         role="switch"
