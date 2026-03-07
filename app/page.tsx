@@ -1220,7 +1220,7 @@ export default function LevelsAndLinesPage() {
           console.log("✅ Successfully fetched", data.data.length, "Instagram posts")
           console.log(
             "📋 Posts received:",
-            data.data.map((p) => ({
+            data.data.map((p: { id: string; type: string; src?: string }) => ({
               id: p.id,
               type: p.type,
               src: p.src?.substring(0, 50) + "...",
