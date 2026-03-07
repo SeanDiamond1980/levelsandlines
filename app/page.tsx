@@ -62,52 +62,52 @@ function HowItWorksCarousel() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden mx-auto relative pb-16 min-h-[300px]">
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm">
                 1
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Upload Your Drawings</h3>
+              <h3 className="text-lg font-bold text-ink">Upload Your Drawings</h3>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-structure leading-relaxed">
                 Share your high-resolution architectural drawings and floor plans with our team.
               </p>
-              <p className="text-xs text-slate-500">We accept all major file formats.</p>
+              <p className="text-xs text-structure">We accept all major file formats.</p>
             </div>
 
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-900">Supported Formats</h4>
+              <h4 className="text-sm font-semibold text-ink">Supported Formats</h4>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-700">PDF</span>
-                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-700">DWG</span>
-                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-700">JPG</span>
-                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-700">PNG</span>
-                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-700">BIM</span>
+                <span className="bg-structure/20 px-3 py-1 rounded-full text-xs font-medium text-ink/80">PDF</span>
+                <span className="bg-structure/20 px-3 py-1 rounded-full text-xs font-medium text-ink/80">DWG</span>
+                <span className="bg-structure/20 px-3 py-1 rounded-full text-xs font-medium text-ink/80">JPG</span>
+                <span className="bg-structure/20 px-3 py-1 rounded-full text-xs font-medium text-ink/80">PNG</span>
+                <span className="bg-structure/20 px-3 py-1 rounded-full text-xs font-medium text-ink/80">BIM</span>
               </div>
             </div>
           </div>
 
           {/* Mobile Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-3 h-3 rotate-180" />
                 <span className="text-xs font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-3 py-1">
-                <span className="text-xs text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-3 py-1">
+                <span className="text-xs text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-xs font-medium">Next</span>
@@ -124,27 +124,27 @@ function HowItWorksCarousel() {
             <div className="w-3/5 p-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold">
                     1
                   </div>
-                  <h3 className="text-3xl font-bold text-slate-900">Upload Your Drawings</h3>
+                  <h3 className="text-3xl font-bold text-ink">Upload Your Drawings</h3>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-structure leading-relaxed">
                     Share your high-resolution architectural drawings and floor plans with our team.
                   </p>
-                  <p className="text-slate-500">We accept all major file formats.</p>
+                  <p className="text-structure">We accept all major file formats.</p>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-lg font-semibold text-slate-900">Supported Formats</h4>
+                  <h4 className="text-lg font-semibold text-ink">Supported Formats</h4>
                   <div className="flex flex-wrap gap-3">
-                    <span className="bg-slate-100 px-4 py-2 rounded-full text-sm font-medium text-slate-700">PDF</span>
-                    <span className="bg-slate-100 px-4 py-2 rounded-full text-sm font-medium text-slate-700">DWG</span>
-                    <span className="bg-slate-100 px-4 py-2 rounded-full text-sm font-medium text-slate-700">JPG</span>
-                    <span className="bg-slate-100 px-4 py-2 rounded-full text-sm font-medium text-slate-700">PNG</span>
-                    <span className="bg-slate-100 px-4 py-2 rounded-full text-sm font-medium text-slate-700">BIM</span>
+                    <span className="bg-structure/20 px-4 py-2 rounded-full text-sm font-medium text-ink/80">PDF</span>
+                    <span className="bg-structure/20 px-4 py-2 rounded-full text-sm font-medium text-ink/80">DWG</span>
+                    <span className="bg-structure/20 px-4 py-2 rounded-full text-sm font-medium text-ink/80">JPG</span>
+                    <span className="bg-structure/20 px-4 py-2 rounded-full text-sm font-medium text-ink/80">PNG</span>
+                    <span className="bg-structure/20 px-4 py-2 rounded-full text-sm font-medium text-ink/80">BIM</span>
                   </div>
                 </div>
               </div>
@@ -154,10 +154,10 @@ function HowItWorksCarousel() {
             <div className="w-2/5 relative flex items-center justify-center p-6">
               <div className="w-full max-w-md space-y-4">
                 {/* Upload Area - Made smaller */}
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div className="border-2 border-dashed border-structure rounded-lg p-6 text-center bg-structure/10 hover:bg-structure/20 transition-colors">
                   <div className="space-y-3">
-                    <div className="mx-auto w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="mx-auto w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -167,8 +167,8 @@ function HowItWorksCarousel() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Drop files here or click to browse</p>
-                      <p className="text-xs text-gray-500 mt-1">PDF, DWG, BIM, JPG, PNG up to 50MB</p>
+                      <p className="text-sm font-medium text-ink">Drop files here or click to browse</p>
+                      <p className="text-xs text-structure mt-1">PDF, DWG, BIM, JPG, PNG up to 50MB</p>
                     </div>
                   </div>
                 </div>
@@ -176,9 +176,9 @@ function HowItWorksCarousel() {
                 {/* Uploaded Files */}
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50 text-center">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="border-2 border-dashed border-structure rounded-lg p-3 bg-structure/10 text-center">
+                      <div className="w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -187,12 +187,12 @@ function HowItWorksCarousel() {
                           />
                         </svg>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">Main_Floor.dwg</p>
+                      <p className="text-sm font-medium text-ink">Main_Floor.dwg</p>
                     </div>
 
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50 text-center">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="border-2 border-dashed border-structure rounded-lg p-3 bg-structure/10 text-center">
+                      <div className="w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -201,14 +201,14 @@ function HowItWorksCarousel() {
                           />
                         </svg>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">Second_Floor.dwg</p>
+                      <p className="text-sm font-medium text-ink">Second_Floor.dwg</p>
                     </div>
                   </div>
 
                   {/* Ready for Processing - Made smaller */}
-                  <div className="border-2 border-dashed border-green-300 rounded-lg p-2 bg-green-50 text-center">
-                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-1">
-                      <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="border-2 border-dashed border-focus rounded-lg p-2 bg-focus/20 text-center">
+                    <div className="w-8 h-8 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                      <svg className="w-4 h-4 text-ink" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
                           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -216,12 +216,12 @@ function HowItWorksCarousel() {
                         />
                       </svg>
                     </div>
-                    <p className="text-sm font-semibold text-green-800">Upload Successful</p>
+                    <p className="text-sm font-semibold text-ink">Upload Successful</p>
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                <button className="w-full bg-ink hover:bg-ink/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -235,32 +235,32 @@ function HowItWorksCarousel() {
 
                 {/* Status Message */}
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">Your files are encrypted and secure</p>
+                  <p className="text-xs text-structure">Your files are encrypted and secure</p>
                 </div>
               </div>
             </div>
           </div>
           {/* Card Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span className="text-sm font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-4 py-2">
-                <span className="text-sm text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-4 py-2">
+                <span className="text-sm text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-sm font-medium">Next</span>
@@ -278,14 +278,14 @@ function HowItWorksCarousel() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden mx-auto relative pb-16 min-h-[300px]">
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm">
                 2
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Supporting Images</h3>
+              <h3 className="text-lg font-bold text-ink">Supporting Images</h3>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-structure leading-relaxed">
                 Upload 3D renderings, conceptual drawings, or supporting images that can be projected on the walls
                 alongside the drawings.
               </p>
@@ -293,26 +293,26 @@ function HowItWorksCarousel() {
           </div>
 
           {/* Mobile Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-3 h-3 rotate-180" />
                 <span className="text-xs font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-3 py-1">
-                <span className="text-xs text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-3 py-1">
+                <span className="text-xs text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-xs font-medium">Next</span>
@@ -329,14 +329,14 @@ function HowItWorksCarousel() {
             <div className="w-3/5 p-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold">
                     2
                   </div>
-                  <h3 className="text-3xl font-bold text-slate-900">Provide Any Supporting Images</h3>
+                  <h3 className="text-3xl font-bold text-ink">Provide Any Supporting Images</h3>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-structure leading-relaxed">
                     Upload 3D renderings, conceptual drawings, or supporting images that can be projected on the walls
                     alongside the drawings.
                   </p>
@@ -348,10 +348,10 @@ function HowItWorksCarousel() {
             <div className="w-2/5 relative flex items-center justify-center p-6">
               <div className="w-full max-w-md space-y-4">
                 {/* Upload Area */}
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div className="border-2 border-dashed border-structure rounded-lg p-6 text-center bg-structure/10 hover:bg-structure/20 transition-colors">
                   <div className="space-y-3">
-                    <div className="mx-auto w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="mx-auto w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -361,8 +361,8 @@ function HowItWorksCarousel() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Drop 3D renderings here</p>
-                      <p className="text-xs text-gray-500 mt-1">PDF, JPG, PNG</p>
+                      <p className="text-sm font-medium text-ink">Drop 3D renderings here</p>
+                      <p className="text-xs text-structure mt-1">PDF, JPG, PNG</p>
                     </div>
                   </div>
                 </div>
@@ -370,9 +370,9 @@ function HowItWorksCarousel() {
                 {/* Uploaded Files */}
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50 text-center">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="border-2 border-dashed border-structure rounded-lg p-3 bg-structure/10 text-center">
+                      <div className="w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -381,12 +381,12 @@ function HowItWorksCarousel() {
                           />
                         </svg>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">Living_Room.pdf</p>
+                      <p className="text-sm font-medium text-ink">Living_Room.pdf</p>
                     </div>
 
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50 text-center">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="border-2 border-dashed border-structure rounded-lg p-3 bg-structure/10 text-center">
+                      <div className="w-10 h-10 bg-marine/30 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-5 h-5 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -395,14 +395,14 @@ function HowItWorksCarousel() {
                           />
                         </svg>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">Kitchen.pdf</p>
+                      <p className="text-sm font-medium text-ink">Kitchen.pdf</p>
                     </div>
                   </div>
 
                   {/* Ready for Processing - Made smaller */}
-                  <div className="border-2 border-dashed border-green-300 rounded-lg p-1 bg-green-50 text-center">
-                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-1">
-                      <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="border-2 border-dashed border-focus rounded-lg p-1 bg-focus/20 text-center">
+                    <div className="w-8 h-8 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                      <svg className="w-4 h-4 text-ink" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
                           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -410,12 +410,12 @@ function HowItWorksCarousel() {
                         />
                       </svg>
                     </div>
-                    <p className="text-sm font-semibold text-green-800">Upload Successful</p>
+                    <p className="text-sm font-semibold text-ink">Upload Successful</p>
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                <button className="w-full bg-ink hover:bg-ink/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -429,32 +429,32 @@ function HowItWorksCarousel() {
 
                 {/* Status Message */}
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">Supporting images enhance the walkthrough</p>
+                  <p className="text-xs text-structure">Supporting images enhance the walkthrough</p>
                 </div>
               </div>
             </div>
           </div>
           {/* Card Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span className="text-sm font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-4 py-2">
-                <span className="text-sm text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-4 py-2">
+                <span className="text-sm text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-sm font-medium">Next</span>
@@ -472,46 +472,46 @@ function HowItWorksCarousel() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden mx-auto relative pb-16 min-h-[300px]">
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm">
                 3
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Customize Experience</h3>
+              <h3 className="text-lg font-bold text-ink">Customize Experience</h3>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-structure leading-relaxed">
                 Tailor the walkthrough to your presentation needs. Choose to display dimensions, focus on specific
                 rooms, or create a comprehensive tour.
               </p>
               <div className="space-y-2 text-xs">
-                <div className="text-slate-700">• Show/hide dimensions and measurements</div>
-                <div className="text-slate-700">• Select the walkthrough order</div>
-                <div className="text-slate-700">• Identify what furniture to add to each room</div>
+                <div className="text-ink/80">• Show/hide dimensions and measurements</div>
+                <div className="text-ink/80">• Select the walkthrough order</div>
+                <div className="text-ink/80">• Identify what furniture to add to each room</div>
               </div>
             </div>
           </div>
 
           {/* Mobile Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-3 h-3 rotate-180" />
                 <span className="text-xs font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-3 py-1">
-                <span className="text-xs text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-3 py-1">
+                <span className="text-xs text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-xs font-medium">Next</span>
@@ -528,59 +528,59 @@ function HowItWorksCarousel() {
             <div className="w-3/5 p-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold">
                     3
                   </div>
-                  <h3 className="text-3xl font-bold text-slate-900">Customize The Experience</h3>
+                  <h3 className="text-3xl font-bold text-ink">Customize The Experience</h3>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-structure leading-relaxed">
                     Tailor the walkthrough to your presentation needs. Choose to display dimensions, focus on specific
                     rooms, or create a comprehensive tour.
                   </p>
                   <div className="space-y-3">
-                    <div className="text-slate-700">• Show/hide dimensions and measurements</div>
-                    <div className="text-slate-700">• Select the walkthrough order</div>
-                    <div className="text-slate-700">• Identify what furniture to add to each room</div>
+                    <div className="text-ink/80">• Show/hide dimensions and measurements</div>
+                    <div className="text-ink/80">• Select the walkthrough order</div>
+                    <div className="text-ink/80">• Identify what furniture to add to each room</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Right side - Walkthrough Customization Interface */}
-            <div className="w-2/5 relative flex items-center justify-center p-6 bg-gray-50">
+            <div className="w-2/5 relative flex items-center justify-center p-6 bg-structure/10">
               <div className="w-full max-w-xs space-y-1 bg-white rounded-lg shadow-sm p-2">
                 {/* Header */}
                 <div className="text-center border-b pb-1">
-                  <h3 className="text-sm font-bold text-gray-900">Customize Your Walkthrough</h3>
+                  <h3 className="text-sm font-bold text-ink">Customize Your Walkthrough</h3>
                 </div>
 
                 {/* Show Measurements Toggle */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">Show measurements</span>
-                  <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-blue-600 transition-colors">
+                  <span className="text-sm font-medium text-ink/80">Show measurements</span>
+                  <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-focus transition-colors">
                     <div className="inline-block h-4 w-4 transform rounded-full bg-white shadow-lg transition-transform translate-x-6" />
                   </div>
                 </div>
 
                 {/* Main Floor Section */}
                 <div className="space-y-1">
-                  <div className="bg-gray-50 rounded-lg p-2 border">
-                    <h4 className="text-xs font-semibold text-gray-900 mb-1">Main Floor</h4>
+                  <div className="bg-structure/10 rounded-lg p-2 border">
+                    <h4 className="text-xs font-semibold text-ink mb-1">Main Floor</h4>
 
                     {/* Room 1 - Foyer */}
                     <div className="space-y-1 mb-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-gray-800">1. Foyer</span>
-                        <div className="text-gray-400 text-sm">≡</div>
+                        <span className="text-xs font-medium text-ink">1. Foyer</span>
+                        <div className="text-structure text-sm">≡</div>
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        <span className="inline-flex items-center bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="inline-flex items-center bg-focus text-white text-xs px-2 py-1 rounded-full">
                           Walls
                           <X className="w-3 h-3 ml-1 cursor-pointer" />
                         </span>
-                        <button className="inline-flex items-center bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-gray-300">
+                        <button className="inline-flex items-center bg-structure/30 text-ink/80 text-xs px-2 py-1 rounded-full hover:bg-structure/50">
                           <Plus className="w-3 h-3 mr-1" />
                           New Element
                         </button>
@@ -590,19 +590,19 @@ function HowItWorksCarousel() {
                     {/* Room 2 - Living Room */}
                     <div className="space-y-1 mb-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-gray-800">2. Living Room</span>
-                        <div className="text-gray-400 text-sm">≡</div>
+                        <span className="text-xs font-medium text-ink">2. Living Room</span>
+                        <div className="text-structure text-sm">≡</div>
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        <span className="inline-flex items-center bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="inline-flex items-center bg-marine text-ink text-xs px-2 py-1 rounded-full">
                           Sofa
                           <X className="w-3 h-3 ml-1 cursor-pointer" />
                         </span>
-                        <span className="inline-flex items-center bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="inline-flex items-center bg-marine text-ink text-xs px-2 py-1 rounded-full">
                           Coffee Table
                           <X className="w-3 h-3 ml-1 cursor-pointer" />
                         </span>
-                        <button className="inline-flex items-center bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-gray-300">
+                        <button className="inline-flex items-center bg-structure/30 text-ink/80 text-xs px-2 py-1 rounded-full hover:bg-structure/50">
                           <Plus className="w-3 h-3 mr-1" />
                           New Element
                         </button>
@@ -612,15 +612,15 @@ function HowItWorksCarousel() {
                     {/* Room 3 - Kitchen */}
                     <div className="space-y-1 mb-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-gray-800">3. Kitchen</span>
-                        <div className="text-gray-400 text-sm">≡</div>
+                        <span className="text-xs font-medium text-ink">3. Kitchen</span>
+                        <div className="text-structure text-sm">≡</div>
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        <span className="inline-flex items-center bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="inline-flex items-center bg-focus text-ink text-xs px-2 py-1 rounded-full">
                           Kitchen Island
                           <X className="w-3 h-3 ml-1 cursor-pointer" />
                         </span>
-                        <button className="inline-flex items-center bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-gray-300">
+                        <button className="inline-flex items-center bg-structure/30 text-ink/80 text-xs px-2 py-1 rounded-full hover:bg-structure/50">
                           <Plus className="w-3 h-3 mr-1" />
                           New Element
                         </button>
@@ -628,18 +628,18 @@ function HowItWorksCarousel() {
                     </div>
 
                     {/* Add New Room Button */}
-                    <button className="w-full border-2 border-dashed border-gray-300 rounded-lg p-1 text-xs text-gray-600 hover:border-gray-400 hover:text-gray-800 transition-colors">
+                    <button className="w-full border-2 border-dashed border-structure rounded-lg p-1 text-xs text-structure hover:border-structure hover:text-ink transition-colors">
                       + New Room
                     </button>
                   </div>
 
                   {/* Add New Floor Button */}
-                  <button className="w-full border border-gray-300 rounded-lg p-1 text-xs text-gray-700 hover:bg-gray-50 transition-colors">
+                  <button className="w-full border border-structure rounded-lg p-1 text-xs text-ink/80 hover:bg-structure/10 transition-colors">
                     + New Floor
                   </button>
 
                   {/* Submit Button */}
-                  <button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-1 px-2 rounded-lg transition-colors text-xs">
+                  <button className="w-full bg-ink hover:bg-ink/90 text-white font-medium py-1 px-2 rounded-lg transition-colors text-xs">
                     Submit Walkthrough Plan
                   </button>
                 </div>
@@ -647,26 +647,26 @@ function HowItWorksCarousel() {
             </div>
           </div>
           {/* Card Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span className="text-sm font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-4 py-2">
-                <span className="text-sm text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-4 py-2">
+                <span className="text-sm text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-sm font-medium">Next</span>
@@ -684,28 +684,28 @@ function HowItWorksCarousel() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden mx-auto relative pb-16 min-h-[300px]">
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm">
                 4
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Schedule Your Visit</h3>
+              <h3 className="text-lg font-bold text-ink">Schedule Your Visit</h3>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-structure leading-relaxed">
                 Book your full-scale walkthrough experience at one of our downtown Toronto Studios. Request to book 2-4
                 weeks in advance.
               </p>
 
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-slate-900">Studio Options</h4>
+                <h4 className="text-sm font-semibold text-ink">Studio Options</h4>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center space-x-2">
-                    <MapPin className="w-3 h-3 text-slate-600" />
-                    <span className="text-slate-700">Downtown East @ Illuminarium</span>
+                    <MapPin className="w-3 h-3 text-structure" />
+                    <span className="text-ink/80">Downtown East @ Illuminarium</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <MapPin className="w-3 h-3 text-slate-600" />
-                    <span className="text-slate-700">Downtown West @ Arcadia Earth</span>
+                    <MapPin className="w-3 h-3 text-structure" />
+                    <span className="text-ink/80">Downtown West @ Arcadia Earth</span>
                   </div>
                 </div>
               </div>
@@ -713,26 +713,26 @@ function HowItWorksCarousel() {
           </div>
 
           {/* Mobile Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-3 h-3 rotate-180" />
                 <span className="text-xs font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-3 py-1">
-                <span className="text-xs text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-3 py-1">
+                <span className="text-xs text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-xs font-medium">Next</span>
@@ -749,14 +749,14 @@ function HowItWorksCarousel() {
             <div className="w-3/5 p-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold">
                     4
                   </div>
-                  <h3 className="text-3xl font-bold text-slate-900">Schedule Your Visit</h3>
+                  <h3 className="text-3xl font-bold text-ink">Schedule Your Visit</h3>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-structure leading-relaxed">
                     Book your full-scale walkthrough experience at one of our downtown Toronto Studios. Request to book
                     2-4 weeks in advance and choose your location and time to accommodate your project needs.
                   </p>
@@ -764,15 +764,15 @@ function HowItWorksCarousel() {
 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-lg font-semibold text-slate-900 mb-3">Studio Options</h4>
+                    <h4 className="text-lg font-semibold text-ink mb-3">Studio Options</h4>
                     <div className="space-y-3">
                       <div className="flex items-center space-x-3">
-                        <MapPin className="w-5 h-5 text-slate-600" />
-                        <span className="text-slate-700">Downtown Toronto East @ Illuminarium</span>
+                        <MapPin className="w-5 h-5 text-structure" />
+                        <span className="text-ink/80">Downtown Toronto East @ Illuminarium</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <MapPin className="w-5 h-5 text-slate-600" />
-                        <span className="text-slate-700">Downtown Toronto West @ Arcadia Earth</span>
+                        <MapPin className="w-5 h-5 text-structure" />
+                        <span className="text-ink/80">Downtown Toronto West @ Arcadia Earth</span>
                       </div>
                     </div>
                   </div>
@@ -781,42 +781,42 @@ function HowItWorksCarousel() {
             </div>
 
             {/* Right side - Booking Interface */}
-            <div className="w-2/5 relative flex items-center justify-center p-6 bg-gray-50">
+            <div className="w-2/5 relative flex items-center justify-center p-6 bg-structure/10">
               <div className="w-full max-w-[200px] bg-white rounded-lg shadow-sm p-2 space-y-2">
                 {/* Header */}
                 <div className="text-center">
-                  <h3 className="text-sm font-bold text-gray-900">Book Walkthrough</h3>
-                  <p className="text-xs text-gray-600">Select options</p>
+                  <h3 className="text-sm font-bold text-ink">Book Walkthrough</h3>
+                  <p className="text-xs text-structure">Select options</p>
                 </div>
 
                 {/* Location Selection */}
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-gray-700">Location</label>
+                  <label className="text-xs font-medium text-ink/80">Location</label>
                   <div className="space-y-0.5">
-                    <div className="border-2 border-blue-500 bg-blue-50 rounded p-1 cursor-pointer">
+                    <div className="border-2 border-focus bg-focus/20 rounded p-1 cursor-pointer">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-xs font-medium text-gray-900">Downtown West</p>
+                          <p className="text-xs font-medium text-ink">Downtown West</p>
                         </div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-focus rounded-full"></div>
                       </div>
                     </div>
 
-                    <div className="border border-gray-300 rounded p-1 cursor-pointer">
+                    <div className="border border-structure rounded p-1 cursor-pointer">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-xs font-medium text-gray-900">Downtown East</p>
+                          <p className="text-xs font-medium text-ink">Downtown East</p>
                         </div>
-                        <div className="w-2 h-2 border border-gray-300 rounded-full"></div>
+                        <div className="w-2 h-2 border border-structure rounded-full"></div>
                       </div>
                     </div>
 
-                    <div className="border border-gray-200 bg-gray-50 rounded p-1 opacity-50">
+                    <div className="border border-structure/30 bg-structure/10 rounded p-1 opacity-50">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-xs font-medium text-gray-500">Midtown</p>
+                          <p className="text-xs font-medium text-structure">Midtown</p>
                         </div>
-                        <div className="w-2 h-2 border border-gray-200 rounded-full"></div>
+                        <div className="w-2 h-2 border border-structure/30 rounded-full"></div>
                       </div>
                     </div>
                   </div>
@@ -824,104 +824,104 @@ function HowItWorksCarousel() {
 
                 {/* Date Selection - Calendar */}
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-gray-700">Date</label>
+                  <label className="text-xs font-medium text-ink/80">Date</label>
                   <div className="grid grid-cols-7 gap-0.5 text-xs">
                     {/* Calendar header */}
-                    <div className="text-center text-gray-500 font-medium">S</div>
-                    <div className="text-center text-gray-500 font-medium">M</div>
-                    <div className="text-center text-gray-500 font-medium">T</div>
-                    <div className="text-center text-gray-500 font-medium">W</div>
-                    <div className="text-center text-gray-500 font-medium">T</div>
-                    <div className="text-center text-gray-500 font-medium">F</div>
-                    <div className="text-center text-gray-500 font-medium">S</div>
+                    <div className="text-center text-structure font-medium">S</div>
+                    <div className="text-center text-structure font-medium">M</div>
+                    <div className="text-center text-structure font-medium">T</div>
+                    <div className="text-center text-structure font-medium">W</div>
+                    <div className="text-center text-structure font-medium">T</div>
+                    <div className="text-center text-structure font-medium">F</div>
+                    <div className="text-center text-structure font-medium">S</div>
 
                     {/* Calendar dates - ensure all buttons are properly closed */}
-                    <button className="p-0.5 text-xs text-gray-400 rounded">1</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">2</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">3</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">4</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">5</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">6</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">7</button>
+                    <button className="p-0.5 text-xs text-structure rounded">1</button>
+                    <button className="p-0.5 text-xs text-structure rounded">2</button>
+                    <button className="p-0.5 text-xs text-structure rounded">3</button>
+                    <button className="p-0.5 text-xs text-structure rounded">4</button>
+                    <button className="p-0.5 text-xs text-structure rounded">5</button>
+                    <button className="p-0.5 text-xs text-structure rounded">6</button>
+                    <button className="p-0.5 text-xs text-structure rounded">7</button>
 
-                    <button className="p-0.5 text-xs text-gray-400 rounded">8</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">9</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">10</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">11</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">12</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">13</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">14</button>
+                    <button className="p-0.5 text-xs text-structure rounded">8</button>
+                    <button className="p-0.5 text-xs text-structure rounded">9</button>
+                    <button className="p-0.5 text-xs text-structure rounded">10</button>
+                    <button className="p-0.5 text-xs text-structure rounded">11</button>
+                    <button className="p-0.5 text-xs text-structure rounded">12</button>
+                    <button className="p-0.5 text-xs text-structure rounded">13</button>
+                    <button className="p-0.5 text-xs text-structure rounded">14</button>
 
-                    <button className="p-0.5 text-xs border-2 border-blue-500 bg-blue-50 text-blue-700 rounded font-medium">
+                    <button className="p-0.5 text-xs border-2 border-focus bg-focus/20 text-ink rounded font-medium">
                       15
                     </button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">16</button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">17</button>
-                    <button className="p-0.5 text-xs border-2 border-blue-500 bg-blue-50 text-blue-700 rounded font-medium">
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">16</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">17</button>
+                    <button className="p-0.5 text-xs border-2 border-focus bg-focus/20 text-ink rounded font-medium">
                       18
                     </button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">19</button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">20</button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">21</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">19</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">20</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">21</button>
 
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">22</button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">23</button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded hover:bg-gray-50">24</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">25</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">26</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">27</button>
-                    <button className="p-0.5 text-xs text-gray-400 rounded">28</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">22</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">23</button>
+                    <button className="p-0.5 text-xs border border-structure rounded hover:bg-structure/10">24</button>
+                    <button className="p-0.5 text-xs text-structure rounded">25</button>
+                    <button className="p-0.5 text-xs text-structure rounded">26</button>
+                    <button className="p-0.5 text-xs text-structure rounded">27</button>
+                    <button className="p-0.5 text-xs text-structure rounded">28</button>
                   </div>
                 </div>
 
                 {/* Time Selection */}
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-gray-700">Time</label>
+                  <label className="text-xs font-medium text-ink/80">Time</label>
                   <div className="grid grid-cols-2 gap-0.5">
-                    <button className="p-0.5 text-xs border border-gray-300 rounded">9AM</button>
-                    <button className="p-0.5 text-xs border-2 border-blue-500 bg-blue-50 text-blue-700 rounded font-medium">
+                    <button className="p-0.5 text-xs border border-structure rounded">9AM</button>
+                    <button className="p-0.5 text-xs border-2 border-focus bg-focus/20 text-ink rounded font-medium">
                       10AM
                     </button>
-                    <button className="p-0.5 text-xs border border-gray-300 rounded">1PM</button>
-                    <button className="p-0.5 text-xs border-2 border-blue-500 bg-blue-50 text-blue-700 rounded font-medium">
+                    <button className="p-0.5 text-xs border border-structure rounded">1PM</button>
+                    <button className="p-0.5 text-xs border-2 border-focus bg-focus/20 text-ink rounded font-medium">
                       2PM
                     </button>
                   </div>
                 </div>
 
                 {/* Request Booking Button */}
-                <button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-1 px-1 rounded text-xs">
+                <button className="w-full bg-ink hover:bg-ink/90 text-white font-medium py-1 px-1 rounded text-xs">
                   Request Booking
                 </button>
 
                 {/* Note */}
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">2-4 weeks ahead</p>
+                  <p className="text-xs text-structure">2-4 weeks ahead</p>
                 </div>
               </div>
             </div>
           </div>
           {/* Card Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span className="text-sm font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-4 py-2">
-                <span className="text-sm text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-4 py-2">
+                <span className="text-sm text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-sm font-medium">Next</span>
@@ -939,66 +939,66 @@ function HowItWorksCarousel() {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden mx-auto relative pb-16 min-h-[300px]">
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <div className="w-8 h-8 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm">
                 5
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Experience Your Design</h3>
+              <h3 className="text-lg font-bold text-ink">Experience Your Design</h3>
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-structure leading-relaxed">
                 Step inside your future space and experience it in true dimensions.
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-structure">
                 Lay down furniture, put up walls and walk through room layouts to validate your space decisions.
               </p>
             </div>
 
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-900">What You'll Experience</h4>
+              <h4 className="text-sm font-semibold text-ink">What You'll Experience</h4>
               <div className="space-y-2 text-xs">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-3 h-3 text-green-600" />
-                  <span className="text-slate-700">Test room layouts and proportions</span>
+                  <span className="text-ink/80">Test room layouts and proportions</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-3 h-3 text-blue-600" />
-                  <span className="text-slate-700">Feel spatial relationships</span>
+                  <CheckCircle className="w-3 h-3 text-ink" />
+                  <span className="text-ink/80">Feel spatial relationships</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-3 h-3 text-purple-600" />
-                  <span className="text-slate-700">Make confident decisions</span>
+                  <span className="text-ink/80">Make confident decisions</span>
                 </div>
               </div>
             </div>
 
-            <div className="inline-flex items-center space-x-2 text-xs text-slate-600 bg-slate-50 px-3 py-1 rounded-full">
+            <div className="inline-flex items-center space-x-2 text-xs text-structure bg-structure/10 px-3 py-1 rounded-full">
               <Clock className="w-3 h-3" />
               <span>Typical session: 60-90 minutes</span>
             </div>
           </div>
 
           {/* Mobile Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-4 py-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-3 h-3 rotate-180" />
                 <span className="text-xs font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-3 py-1">
-                <span className="text-xs text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-3 py-1">
+                <span className="text-xs text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-1 px-3 py-1 text-slate-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50 text-sm"
+                className="flex items-center space-x-1 px-3 py-1 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10 text-sm"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-xs font-medium">Next</span>
@@ -1015,40 +1015,40 @@ function HowItWorksCarousel() {
             <div className="w-3/5 p-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold">
                     5
                   </div>
-                  <h3 className="text-3xl font-bold text-slate-900">Experience Your Design</h3>
+                  <h3 className="text-3xl font-bold text-ink">Experience Your Design</h3>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-structure leading-relaxed">
                     Step inside your future space and experience it in true dimensions.
                   </p>
-                  <p className="text-slate-500">
+                  <p className="text-structure">
                     Lay down furniture, put up walls and walk through room layouts to validate your space decisions.
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-3">What You'll Experience</h4>
+                  <h4 className="text-lg font-semibold text-ink mb-3">What You'll Experience</h4>
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-slate-700">Test room layouts and proportions</span>
+                      <span className="text-ink/80">Test room layouts and proportions</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-blue-600" />
-                      <span className="text-slate-700">Feel spatial relationships</span>
+                      <CheckCircle className="w-5 h-5 text-ink" />
+                      <span className="text-ink/80">Feel spatial relationships</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-purple-600" />
-                      <span className="text-slate-700">Make confident decisions</span>
+                      <span className="text-ink/80">Make confident decisions</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="inline-flex items-center space-x-2 text-sm text-slate-600 bg-slate-50 px-4 py-2 rounded-full">
+                <div className="inline-flex items-center space-x-2 text-sm text-structure bg-structure/10 px-4 py-2 rounded-full">
                   <Clock className="w-4 h-4" />
                   <span>Typical session: 60-90 minutes</span>
                 </div>
@@ -1056,7 +1056,7 @@ function HowItWorksCarousel() {
             </div>
 
             {/* Right side - Video */}
-            <div className="w-2/5 relative flex items-center justify-center p-6 bg-gray-50">
+            <div className="w-2/5 relative flex items-center justify-center p-6 bg-structure/10">
               <div className="w-full h-full max-w-md max-h-[400px] flex items-center justify-center">
                 <video className="w-full h-full object-cover rounded-lg shadow-sm" autoPlay muted loop playsInline>
                   <source
@@ -1069,26 +1069,26 @@ function HowItWorksCarousel() {
             </div>
           </div>
           {/* Card Navigation Footer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-structure/30 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={prevStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === 0}
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span className="text-sm font-medium">Previous</span>
               </button>
 
-              <div className="bg-slate-100 rounded-full px-4 py-2">
-                <span className="text-sm text-slate-700 font-medium">
+              <div className="bg-structure/20 rounded-full px-4 py-2">
+                <span className="text-sm text-ink/80 font-medium">
                   {currentStep + 1} of {totalSteps}
                 </span>
               </div>
 
               <button
                 onClick={nextStep}
-                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-slate-50"
+                className="flex items-center space-x-2 px-4 py-2 text-structure hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-structure/10"
                 disabled={currentStep === totalSteps - 1}
               >
                 <span className="text-sm font-medium">Next</span>
@@ -1104,7 +1104,7 @@ function HowItWorksCarousel() {
   const currentStepData = steps[currentStep]
 
   return (
-    <section data-section="how-it-works" className="relative py-16 bg-gray-50 overflow-hidden">
+    <section data-section="how-it-works" className="relative py-16 bg-structure/10 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -1119,8 +1119,8 @@ function HowItWorksCarousel() {
       <div className="relative z-10 max-w-4xl mx-auto px-4">
         {/* Section Title */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">How It Works</h2>
-          <p className="text-slate-600 mt-2">Experience your architectural designs in 5 simple steps</p>
+          <h2 className="text-3xl font-bold text-ink md:text-4xl font-heading">How It Works</h2>
+          <p className="text-structure mt-2 font-body">Experience your architectural designs in 5 simple steps</p>
         </div>
 
         {/* Carousel Container with Navigation */}
@@ -1142,7 +1142,7 @@ function HowItWorksCarousel() {
                   key={index}
                   onClick={() => goToStep(index)}
                   className={`w-3 h-3 rounded-full transition-colors cursor-pointer ${
-                    index === currentStep ? "bg-slate-900" : "bg-slate-300 hover:bg-slate-400"
+                    index === currentStep ? "bg-ink" : "bg-structure hover:bg-structure/80"
                   }`}
                 />
               ))}
@@ -1404,12 +1404,12 @@ export default function LevelsAndLinesPage() {
           {/* Mobile Header Text - Top */}
           <div className="flex-shrink-0 px-4 pt-8 pb-4 text-center text-white">
             <div className="space-y-3">
-              <h1 className="text-2xl font-bold tracking-tight leading-tight sm:text-3xl">
-                Step Inside Your Future,
-                <br />
-                <span className="text-slate-300">Before You Build It</span>
-              </h1>
-              <p className="text-sm text-slate-200 leading-relaxed sm:text-base">
+                <h1 className="text-2xl font-bold tracking-tight leading-tight sm:text-3xl font-heading">
+                  Step Inside Your Future,
+                  <br />
+                  <span className="text-structure">Before You Build It</span>
+                </h1>
+                <p className="text-sm text-structure leading-relaxed sm:text-base font-body">
                 The Levels and Lines{" "}
                 <span className="text-white font-semibold">
                   Design Theater<sup className="text-xs">™</sup>
@@ -1438,7 +1438,7 @@ export default function LevelsAndLinesPage() {
             <div className="flex flex-col gap-2">
               <Button
                 size="lg"
-                className="text-sm px-4 py-2 bg-white text-slate-900 hover:bg-slate-100 sm:text-base sm:px-6 sm:py-3 shadow-lg border-2 border-black"
+                className="text-sm px-4 py-2 bg-white text-ink hover:bg-structure/20 sm:text-base sm:px-6 sm:py-3 shadow-lg border-2 border-black"
               >
                 Book Your Full-Scale Walkthrough
                 <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -1464,8 +1464,8 @@ export default function LevelsAndLinesPage() {
                 {postsLoading || instagramPosts.length === 0 ? (
                   <div className="bg-white rounded-lg shadow-lg overflow-hidden w-80 h-96 sm:w-96 sm:h-[500px] flex items-center justify-center">
                     <div className="text-center">
-                      <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-gray-600">{postsLoading ? "Loading posts..." : "No posts available"}</p>
+                      <div className="w-16 h-16 border-4 border-focus/30 border-t-focus rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-structure">{postsLoading ? "Loading posts..." : "No posts available"}</p>
                     </div>
                   </div>
                 ) : (
@@ -1512,12 +1512,12 @@ export default function LevelsAndLinesPage() {
           <div className={`relative z-30 px-4 text-center text-white pt-4 transition-all duration-500`}>
             <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8">
               <div className="space-y-4 lg:space-y-6">
-                <h1 className="text-4xl font-bold tracking-tight leading-tight lg:text-5xl xl:text-6xl 2xl:text-7xl">
+                <h1 className="text-4xl font-bold tracking-tight leading-tight lg:text-5xl xl:text-6xl 2xl:text-7xl font-heading">
                   Step Inside Your Future,
                   <br />
-                  <span className="text-slate-300">Before You Build It</span>
+                  <span className="text-structure">Before You Build It</span>
                 </h1>
-                <p className="text-lg text-slate-200 leading-relaxed lg:text-xl max-w-3xl mx-auto">
+                <p className="text-lg text-structure leading-relaxed lg:text-xl max-w-3xl mx-auto font-body">
                   The Levels and Lines{" "}
                   <span className="text-white font-semibold">
                     Design Theater<sup className="text-xs">™</sup>
@@ -1530,7 +1530,7 @@ export default function LevelsAndLinesPage() {
               <div className="flex flex-col gap-3 justify-center sm:flex-row sm:gap-4">
                 <Button
                   size="lg"
-                  className="text-base px-6 py-3 bg-white text-slate-900 hover:bg-slate-100 md:text-lg md:px-8 shadow-lg border-2 border-black"
+                  className="text-base px-6 py-3 bg-white text-ink hover:bg-structure/20 md:text-lg md:px-8 shadow-lg border-2 border-black"
                 >
                   Book Your Full-Scale Walkthrough
                   <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
@@ -1731,10 +1731,10 @@ export default function LevelsAndLinesPage() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 md:text-4xl mb-4">
+            <h2 className="text-3xl font-bold text-ink md:text-4xl mb-4 font-heading">
               An Important Part of the Architectural Journey
             </h2>
-            <p className="text-lg text-slate-600 max-w-4xl mx-auto">
+            <p className="text-lg text-structure max-w-4xl mx-auto font-body">
               Whether for homes, offices, retail spaces, corporate headquarters, commercial spaces or industrial ones,
               we amplify your expertise.
             </p>
@@ -1743,11 +1743,43 @@ export default function LevelsAndLinesPage() {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Residential */}
             <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Home className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-marine/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Home className="w-8 h-8 text-ink" />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-4">Residential</h3>
-              <p className="text-slate-600 text-lg">Test kitchen layouts, hallway widths, bedroom flows</p>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Residential</h3>
+              <p className="text-structure text-lg">Test kitchen layouts, hallway widths, bedroom flows</p>
+            </div>
+
+            {/* Retail */}
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+              <div className="w-16 h-16 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Store className="w-8 h-8 text-ink" />
+              </div>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Retail</h3>
+              <p className="text-structure text-lg">Visualize customer traffic, optimize shelving</p>
+            </div>
+
+            {/* Commercial */}
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+              <div className="w-16 h-16 bg-marine/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Building className="w-8 h-8 text-ink" />
+              </div>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Commercial</h3>
+              <p className="text-structure text-lg">Get full stakeholder alignment before construction</p>
+            </div>
+
+            {/* Corporate */}
+            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+              <div className="w-16 h-16 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Building2 className="w-8 h-8 text-ink" />
+              </div>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Corporate</h3>
+              <p className="text-structure text-lg">
+                Build team excitement while validating workstation flow and meeting room design
+              </p>
+            </div>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Residential</h3>
+              <p className="text-structure text-lg">Test kitchen layouts, hallway widths, bedroom flows</p>
             </div>
 
             {/* Retail */}
@@ -1755,8 +1787,8 @@ export default function LevelsAndLinesPage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Store className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-4">Retail</h3>
-              <p className="text-slate-600 text-lg">Visualize customer traffic, optimize shelving</p>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Retail</h3>
+              <p className="text-structure text-lg">Visualize customer traffic, optimize shelving</p>
             </div>
 
             {/* Commercial */}
@@ -1764,8 +1796,8 @@ export default function LevelsAndLinesPage() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Building className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-4">Commercial</h3>
-              <p className="text-slate-600 text-lg">Get full stakeholder alignment before construction</p>
+              <h3 className="text-2xl font-semibold text-ink mb-4">Commercial</h3>
+              <p className="text-structure text-lg">Get full stakeholder alignment before construction</p>
             </div>
 
             {/* Corporate */}
@@ -1773,8 +1805,8 @@ export default function LevelsAndLinesPage() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Building2 className="w-8 h-8 text-orange-600" />
               </div>
-              <h3 className="text-2xl font-semibold text-slate-900 mb-4">Corporate</h3>
-              <p className="text-slate-600 text-lg">
+              <h3 className="text-2xl font-semibold text-ink mb-4">Corporate</h3>
+              <p className="text-structure text-lg">
                 Build team excitement while validating workstation flow and meeting room design
               </p>
             </div>
@@ -1783,7 +1815,7 @@ export default function LevelsAndLinesPage() {
       </section>
 
       {/* Pricing Section */}
-      <section data-section="pricing" className="relative py-16 bg-slate-50 overflow-hidden">
+      <section data-section="pricing" className="relative py-16 bg-structure/10 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -1797,8 +1829,8 @@ export default function LevelsAndLinesPage() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 md:text-4xl lg:text-5xl mb-4">Investment & Pricing</h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-ink md:text-4xl lg:text-5xl mb-4 font-heading">Investment & Pricing</h2>
+            <p className="text-lg text-structure max-w-3xl mx-auto font-body">
               Every project is unique, and our pricing reflects the custom nature of your architectural visualization
               experience.
             </p>
@@ -1807,36 +1839,36 @@ export default function LevelsAndLinesPage() {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
             {/* Left side - Pricing Factors */}
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-slate-900 mb-6">What Influences Pricing</h3>
+              <h3 className="text-2xl font-semibold text-ink mb-6">What Influences Pricing</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-3 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-focus rounded-full mt-3 flex-shrink-0"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Total Square Footage</h4>
-                    <p className="text-slate-600 text-sm">
+                    <h4 className="font-semibold text-ink">Total Square Footage</h4>
+                    <p className="text-structure text-sm">
                       Larger spaces require more projection setup and coordination
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-3 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-focus rounded-full mt-3 flex-shrink-0"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Number of Rooms</h4>
-                    <p className="text-slate-600 text-sm">Each space requires individual customization and setup</p>
+                    <h4 className="font-semibold text-ink">Number of Rooms</h4>
+                    <p className="text-structure text-sm">Each space requires individual customization and setup</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-3 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-focus rounded-full mt-3 flex-shrink-0"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Complexity Level</h4>
-                    <p className="text-slate-600 text-sm">Multi-floor layouts and detailed customizations</p>
+                    <h4 className="font-semibold text-ink">Complexity Level</h4>
+                    <p className="text-structure text-sm">Multi-floor layouts and detailed customizations</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-3 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-focus rounded-full mt-3 flex-shrink-0"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-900">Session Duration</h4>
-                    <p className="text-slate-600 text-sm">Comprehensive walkthroughs with multiple stakeholders</p>
+                    <h4 className="font-semibold text-ink">Session Duration</h4>
+                    <p className="text-structure text-sm">Comprehensive walkthroughs with multiple stakeholders</p>
                   </div>
                 </div>
               </div>
@@ -1844,12 +1876,12 @@ export default function LevelsAndLinesPage() {
 
             {/* Right side - What's Included */}
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-slate-900 mb-6">What's Included</h3>
+              <h3 className="text-2xl font-semibold text-ink mb-6">What's Included</h3>
               <div className="space-y-6">
                 {/* Removed Downtown Toronto Residential section */}
 
-                <div className="bg-slate-50/80 backdrop-blur-sm rounded-lg p-4">
-                  <ul className="text-sm text-slate-600 space-y-2">
+                <div className="bg-structure/10/80 backdrop-blur-sm rounded-lg p-4">
+                  <ul className="text-sm text-structure space-y-2">
                     <li>• Complete project setup and customization</li>
                     <li>• Full-scale floor and wall projections</li>
                     <li>• Physical furniture and wall elements</li>
@@ -1867,19 +1899,19 @@ export default function LevelsAndLinesPage() {
       </section>
 
       {/* Ready to Experience Your Design? Section */}
-      <section data-section="ready-to-experience" className="w-full bg-slate-900 text-white py-16 md:py-24">
+      <section data-section="ready-to-experience" className="w-full bg-ink text-white py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="space-y-8">
-            <h2 className="text-3xl font-bold md:text-4xl lg:text-5xl">Ready to Experience Your Design?</h2>
-            <p className="text-lg text-slate-300 max-w-3xl mx-auto md:text-xl">
+            <h2 className="text-3xl font-bold md:text-4xl lg:text-5xl font-heading">Ready to Experience Your Design?</h2>
+            <p className="text-lg text-structure max-w-3xl mx-auto md:text-xl font-body">
               Book your full-scale walkthrough experience today.
             </p>
 
-            <div className="bg-slate-800 rounded-lg p-6 max-w-2xl mx-auto">
-              <p className="text-slate-300 mb-4">Book 2-4 weeks in advance or more</p>
+            <div className="bg-ink/90 rounded-lg p-6 max-w-2xl mx-auto">
+              <p className="text-structure mb-4">Book 2-4 weeks in advance or more</p>
               <Button
                 size="lg"
-                className="text-base px-8 py-4 bg-white text-slate-900 hover:bg-slate-100 md:text-lg md:px-10 md:py-5 shadow-lg"
+                className="text-base px-8 py-4 bg-white text-ink hover:bg-structure/20 md:text-lg md:px-10 md:py-5 shadow-lg"
                 onClick={() => mounted && window.open("https://levelsandlines.com/book", "_blank")}
               >
                 Online Booking
@@ -1895,7 +1927,7 @@ export default function LevelsAndLinesPage() {
         <div className="fixed bottom-4 left-4 right-4 z-50 flex flex-col gap-2 sm:flex-row sm:justify-center sm:gap-3">
           <Button
             size="lg"
-            className="text-sm px-4 py-2 bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-100 shadow-lg sm:text-base sm:px-6 sm:py-3"
+            className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
           >
             Book Walkthrough
             <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -1903,7 +1935,7 @@ export default function LevelsAndLinesPage() {
           <Button
             size="lg"
             variant="outline"
-            className="text-sm px-4 py-2 bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-100 shadow-lg sm:text-base sm:px-6 sm:py-3"
+            className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
           >
             Bring This To Your Clients
             <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -1911,7 +1943,7 @@ export default function LevelsAndLinesPage() {
           <Button
             size="lg"
             variant="outline"
-            className="text-sm px-4 py-2 bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-100 shadow-lg sm:text-base sm:px-6 sm:py-3"
+            className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
             onClick={() => mounted && window.open("https://www.instagram.com/levels.and.lines", "_blank")}
           >
             <Image
@@ -1926,7 +1958,7 @@ export default function LevelsAndLinesPage() {
           <Button
             size="lg"
             variant="outline"
-            className="text-sm px-4 py-2 bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-100 shadow-lg sm:text-base sm:px-6 sm:py-3"
+            className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
             onClick={() => mounted && window.open("tel:6474LEVELS", "_self")}
           >
             <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
