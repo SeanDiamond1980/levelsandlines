@@ -1,9 +1,21 @@
 import { NextResponse } from "next/server"
-import { kv } from "@vercel/kv"
+import { createClient } from "@vercel/kv"
 
 // Check if KV is available
 const isKVAvailable = () => {
   return process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+}
+
+// Create KV client lazily
+let kvClient = null
+const getKVClient = () => {
+  if (!kvClient && isKVAvailable()) {
+    kvClient = createClient({
+      url: process.env.KV_REST_API_URL,
+      token: process.env.KV_REST_API_TOKEN,
+    })
+  }
+  return kvClient
 }
 
 // Demo posts for fallback
@@ -26,17 +38,28 @@ let memoryPosts = [...demoPosts]
 // KV storage functions
 async function getPostsFromKV() {
   try {
-    const posts = await kv.get("instagram_posts")
+    const client = getKVClient()
+    if (!client) {
+      console.log("⚠️ KV client not available, using demo posts")
+      return demoPosts
+    }
+    const posts = await client.get("instagram_posts")
     return posts || demoPosts
   } catch (error) {
     console.error("❌ Error retrieving posts from KV:", error.message)
+    // Return demo posts on any error - don't let KV issues break the site
     return demoPosts
   }
 }
 
 async function savePostsToKV(posts) {
   try {
-    await kv.set("instagram_posts", posts)
+    const client = getKVClient()
+    if (!client) {
+      console.log("⚠️ KV client not available, cannot save")
+      return false
+    }
+    await client.set("instagram_posts", posts)
     console.log("✅ Posts saved to KV successfully")
     return true
   } catch (error) {
