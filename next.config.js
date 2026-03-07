@@ -1,20 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    remotePatterns: [
+  async rewrites() {
+    return [
       {
-        protocol: "https",
-        hostname: "**",
+        source: '/booking',
+        destination: 'https://YOUR-BOOKING-URL.vercel.app',
       },
-    ],
-    unoptimized: true,
+      {
+        source: '/booking/:path*',
+        destination: 'https://YOUR-BOOKING-URL.vercel.app/:path*',
+      },
+    ]
   },
 }
 
-module.exports = nextConfig
+export default nextConfig
