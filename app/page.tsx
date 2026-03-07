@@ -1450,7 +1450,7 @@ export default function LevelsAndLinesPage() {
               <Button
                 size="lg"
                 className="text-sm px-4 py-2 bg-white text-ink hover:bg-structure/20 sm:text-base sm:px-6 sm:py-3 shadow-lg border-2 border-black"
-                onClick={() => window.open("https://levelsandlines.com/booking", "_blank")}
+                onClick={() => window.location.href = "https://levelsandlines.com/booking"}
               >
                 Book Your Full-Scale Walkthrough
                 <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -1543,7 +1543,7 @@ export default function LevelsAndLinesPage() {
                 <Button
                   size="lg"
                   className="text-base px-6 py-3 bg-white text-ink hover:bg-structure/20 md:text-lg md:px-8 shadow-lg border-2 border-black"
-                  onClick={() => window.open("https://levelsandlines.com/booking", "_blank")}
+                  onClick={() => window.location.href = "https://levelsandlines.com/booking"}
                 >
                   Book Your Full-Scale Walkthrough
                   <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
@@ -1562,7 +1562,7 @@ export default function LevelsAndLinesPage() {
               <div className="flex justify-between items-center w-full max-w-4xl mx-auto mt-4">
                 <a
                   href="https://www.instagram.com/levels.and.lines"
-                  target="_blank"
+                  target="_self"
                   rel="noopener noreferrer"
                   className="flex flex-col items-center space-y-1 bg-white/95 backdrop-blur-sm border-2 border-black rounded-lg px-4 py-3 shadow-lg hover:bg-white transition-colors"
                 >
@@ -1893,7 +1893,7 @@ export default function LevelsAndLinesPage() {
               <Button
                 size="lg"
                 className="text-base px-8 py-4 bg-white text-ink hover:bg-structure/20 md:text-lg md:px-10 md:py-5 shadow-lg"
-                onClick={() => mounted && window.open("https://levelsandlines.com/booking", "_blank")}
+                onClick={() => mounted && (window.location.href = "https://levelsandlines.com/booking")}
               >
                 Online Booking
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -1909,7 +1909,7 @@ export default function LevelsAndLinesPage() {
           <Button
             size="lg"
             className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
-            onClick={() => window.open("https://levelsandlines.com/booking", "_blank")}
+            onClick={() => window.location.href = "https://levelsandlines.com/booking"}
           >
             Book Walkthrough
             <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
@@ -1926,7 +1926,7 @@ export default function LevelsAndLinesPage() {
             size="lg"
             variant="outline"
             className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
-            onClick={() => mounted && window.open("https://www.instagram.com/levels.and.lines", "_blank")}
+            onClick={() => mounted && (window.location.href = "https://www.instagram.com/levels.and.lines")}
           >
             <Image
               src="/images/instagram-icon-clean.png"
