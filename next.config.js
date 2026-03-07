@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: '/booking',
-        destination: 'https://YOUR-BOOKING-URL.vercel.app',
+        destination: https://v0-booking-page-design-zeta.vercel.app/,
       },
       {
         source: '/booking/:path*',
