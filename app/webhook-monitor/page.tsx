@@ -6,11 +6,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { RefreshCw, Send, CheckCircle, AlertCircle, Database, HardDrive } from "lucide-react"
 
+interface Post {
+  id: string
+  type: "image" | "video"
+  src: string
+  caption: string
+  likes: number
+  comments: number
+  permalink: string
+  isDemo?: boolean
+}
+
 export default function WebhookMonitor() {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(false)
   const [testing, setTesting] = useState(false)
-  const [lastUpdated, setLastUpdated] = useState(null)
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null)
   const [storageInfo, setStorageInfo] = useState({ type: "unknown", totalPosts: 0, realPosts: 0, demoPosts: 0 })
 
   const fetchPosts = async () => {
