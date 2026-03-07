@@ -1578,7 +1578,7 @@ export default function LevelsAndLinesPage() {
       </section>
 
       {/* What is it / Why Use Levels and Lines Section */}
-      <section data-section="what-why" className="relative py-16 bg-slate-900 overflow-hidden">
+      <section data-section="what-why" className="relative py-16 bg-ink overflow-hidden">
         {/* Floor projection background - the actual technology in action */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -1587,68 +1587,68 @@ export default function LevelsAndLinesPage() {
             fill
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-slate-900/85"></div>
+          <div className="absolute inset-0 bg-ink/90"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4">
           {/* Section Headers */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl mb-4">
+            <h2 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl mb-4 font-heading">
               Experience Architecture Like Never Before
             </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Step into your future space with our revolutionary Design Theater™ technology
+            <p className="text-xl text-structure max-w-3xl mx-auto font-body">
+              Step into your future space with our revolutionary Design Theater technology
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left Side - What Is It */}
-            <div className="space-y-8">
-              <div className="text-center lg:text-left">
-                <h3 className="text-3xl font-bold text-white md:text-4xl mb-8 pb-4 border-b-2 border-blue-500">
+            <div className="flex flex-col h-full">
+              <div className="text-center lg:text-left mb-8">
+                <h3 className="text-3xl font-bold text-white md:text-4xl pb-4 border-b-2 border-marine font-heading">
                   What Is It
                 </h3>
               </div>
 
-              <div className="space-y-6">
+              <div className="flex flex-col gap-4 flex-1">
                 {/* First bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-marine/10 backdrop-blur-sm border border-marine/30 hover:bg-marine/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 bg-marine rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Floor Projection</h4>
-                    <p className="text-lg text-slate-300">Your plans, projected on the floor in full-size dimensions</p>
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Floor Projection</h4>
+                    <p className="text-base text-structure font-body">Your plans, projected on the floor in full-size dimensions</p>
                   </div>
                 </div>
 
                 {/* Second bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-marine/10 backdrop-blur-sm border border-marine/30 hover:bg-marine/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 bg-marine rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Physical Elements</h4>
-                    <p className="text-lg text-slate-300">
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Physical Elements</h4>
+                    <p className="text-base text-structure font-body">
                       Real size walls and furniture to give a true sense of space
                     </p>
                   </div>
                 </div>
 
                 {/* Third bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-marine/10 backdrop-blur-sm border border-marine/30 hover:bg-marine/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 bg-marine rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Wall Projections</h4>
-                    <p className="text-lg text-slate-300">
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Wall Projections</h4>
+                    <p className="text-base text-structure font-body">
                       Additional floor to ceiling projection to showcase 3D renderings, elevations and more
                     </p>
                   </div>
@@ -1657,52 +1657,52 @@ export default function LevelsAndLinesPage() {
             </div>
 
             {/* Right Side - Why Use Levels and Lines */}
-            <div className="space-y-8">
-              <div className="text-center lg:text-left">
-                <h3 className="text-3xl font-bold text-white md:text-4xl mb-8 pb-4 border-b-2 border-yellow-500">
+            <div className="flex flex-col h-full">
+              <div className="text-center lg:text-left mb-8">
+                <h3 className="text-3xl font-bold text-white md:text-4xl pb-4 border-b-2 border-focus font-heading">
                   Why Use Levels and Lines
                 </h3>
               </div>
 
-              <div className="space-y-6">
+              <div className="flex flex-col gap-4 flex-1">
                 {/* First bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-yellow-500/10 backdrop-blur-sm rounded-xl border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-focus/10 backdrop-blur-sm border border-focus/30 hover:bg-focus/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-slate-900" />
+                    <div className="w-10 h-10 bg-focus rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Save Money</h4>
-                    <p className="text-lg text-slate-300">Catch costly mistakes before construction begins</p>
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Save Money</h4>
+                    <p className="text-base text-structure font-body">Catch costly mistakes before construction begins</p>
                   </div>
                 </div>
 
                 {/* Second bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-yellow-500/10 backdrop-blur-sm rounded-xl border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-focus/10 backdrop-blur-sm border border-focus/30 hover:bg-focus/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-slate-900" />
+                    <div className="w-10 h-10 bg-focus rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Team Alignment</h4>
-                    <p className="text-lg text-slate-300">
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Team Alignment</h4>
+                    <p className="text-base text-structure font-body">
                       Generate full team alignment - builders, trades, architects, designers and more
                     </p>
                   </div>
                 </div>
 
                 {/* Third bullet point */}
-                <div className="flex items-start space-x-4 p-6 bg-yellow-500/10 backdrop-blur-sm rounded-xl border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">
+                <div className="flex items-start gap-4 p-6 bg-focus/10 backdrop-blur-sm border border-focus/30 hover:bg-focus/20 transition-colors flex-1">
                   <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-slate-900" />
+                    <div className="w-10 h-10 bg-focus rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-6 h-6 text-ink" />
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">Fall In Love</h4>
-                    <p className="text-lg text-slate-300">
+                    <h4 className="text-xl font-semibold text-white mb-2 font-heading">Fall In Love</h4>
+                    <p className="text-base text-structure font-body">
                       Experience and fall in love with your space before it is real
                     </p>
                   </div>
