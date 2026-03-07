@@ -5,15 +5,15 @@ import Image from "next/image"
 import { useState, useEffect, useRef, useCallback } from "react"
 import InstagramPost from "@/components/InstagramPost"
 
-// Type for Instagram posts
+// Type for Instagram posts - must match InstagramPost component props
 interface InstagramPostType {
   id: string
   type: "image" | "video"
   src: string
-  caption?: string
-  likes?: number
-  comments?: number
-  permalink?: string
+  caption: string
+  likes: number
+  comments: number
+  permalink: string
 }
 
 // Replace the LLLogo component with:
