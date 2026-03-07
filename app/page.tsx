@@ -1778,38 +1778,6 @@ export default function LevelsAndLinesPage() {
                 Build team excitement while validating workstation flow and meeting room design
               </p>
             </div>
-              <h3 className="text-2xl font-semibold text-ink mb-4">Residential</h3>
-              <p className="text-structure text-lg">Test kitchen layouts, hallway widths, bedroom flows</p>
-            </div>
-
-            {/* Retail */}
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Store className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-semibold text-ink mb-4">Retail</h3>
-              <p className="text-structure text-lg">Visualize customer traffic, optimize shelving</p>
-            </div>
-
-            {/* Commercial */}
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Building className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-semibold text-ink mb-4">Commercial</h3>
-              <p className="text-structure text-lg">Get full stakeholder alignment before construction</p>
-            </div>
-
-            {/* Corporate */}
-            <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Building2 className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="text-2xl font-semibold text-ink mb-4">Corporate</h3>
-              <p className="text-structure text-lg">
-                Build team excitement while validating workstation flow and meeting room design
-              </p>
-            </div>
           </div>
         </div>
       </section>
