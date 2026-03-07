@@ -4,11 +4,11 @@ const nextConfig = {
     return [
       {
         source: '/booking',
-        destination: https://v0-booking-page-design-zeta.vercel.app/,
+        destination: 'https://v0-booking-page-design-zeta.vercel.app/',
       },
       {
         source: '/booking/:path*',
-        destination:'https://levels-and-lines-booking-abc123.vercel.app',,
+        destination: 'https://levels-and-lines-booking-abc123.vercel.app/:path*',
       },
     ]
   },
