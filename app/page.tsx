@@ -1756,7 +1756,7 @@ export default function LevelsAndLinesPage() {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Residential */}
             <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-marine/30 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Home className="w-8 h-8 text-ink" />
               </div>
               <h3 className="text-2xl font-semibold text-ink mb-4">Residential</h3>
@@ -1774,7 +1774,7 @@ export default function LevelsAndLinesPage() {
 
             {/* Commercial */}
             <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-              <div className="w-16 h-16 bg-marine/30 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-focus/30 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Building className="w-8 h-8 text-ink" />
               </div>
               <h3 className="text-2xl font-semibold text-ink mb-4">Commercial</h3>
