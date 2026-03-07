@@ -37,16 +37,25 @@ let memoryPosts = [...demoPosts]
 
 // KV storage functions
 async function getPostsFromKV() {
+  // Wrap everything in try-catch to prevent any errors from propagating
+  let client = null
   try {
-    const client = getKVClient()
-    if (!client) {
-      console.log("⚠️ KV client not available, using demo posts")
-      return demoPosts
-    }
+    client = getKVClient()
+  } catch (e) {
+    console.log("[v0] Failed to create KV client:", e.message)
+    return demoPosts
+  }
+  
+  if (!client) {
+    console.log("[v0] KV client not available, using demo posts")
+    return demoPosts
+  }
+  
+  try {
     const posts = await client.get("instagram_posts")
     return posts || demoPosts
   } catch (error) {
-    console.error("❌ Error retrieving posts from KV:", error.message)
+    console.log("[v0] KV fetch failed, using demo posts:", error.message)
     // Return demo posts on any error - don't let KV issues break the site
     return demoPosts
   }
@@ -70,12 +79,18 @@ async function savePostsToKV(posts) {
 
 // Unified storage functions
 async function getPosts() {
-  if (isKVAvailable()) {
-    console.log("📦 Using KV storage")
-    return await getPostsFromKV()
-  } else {
-    console.log("🧠 Using memory storage (KV not available)")
-    return memoryPosts
+  try {
+    if (isKVAvailable()) {
+      console.log("[v0] Using KV storage")
+      const posts = await getPostsFromKV()
+      return posts
+    } else {
+      console.log("[v0] Using memory storage (KV not available)")
+      return memoryPosts
+    }
+  } catch (error) {
+    console.log("[v0] getPosts failed, returning demo posts:", error.message)
+    return demoPosts
   }
 }
 
