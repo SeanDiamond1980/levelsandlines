@@ -1415,6 +1415,7 @@ export default function LevelsAndLinesPage() {
           {/* Mobile Header Text - Top */}
           <div className="flex-shrink-0 px-4 pt-8 pb-4 text-center text-white">
             <div className="space-y-3">
+                <span className="inline-block bg-focus text-ink px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold sm:text-sm shadow-lg animate-pulse">Now in Downtown Toronto</span>
                 <h1 className="text-2xl font-bold tracking-tight leading-tight sm:text-3xl font-heading">
                   Step Inside Your Future,
                   <br />
@@ -1524,6 +1525,7 @@ export default function LevelsAndLinesPage() {
           <div className={`relative z-30 px-4 text-center text-white pt-4 transition-all duration-500`}>
             <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8">
               <div className="space-y-4 lg:space-y-6">
+                <span className="inline-block bg-focus text-ink px-6 py-2 rounded-full text-sm uppercase tracking-widest font-bold lg:text-base shadow-lg animate-pulse">Now in Downtown Toronto</span>
                 <h1 className="text-4xl font-bold tracking-tight leading-tight lg:text-5xl xl:text-6xl 2xl:text-7xl font-heading">
                   Step Inside Your Future,
                   <br />
@@ -1578,11 +1580,11 @@ export default function LevelsAndLinesPage() {
                   </div>
                 </a>
                 <a
-                  href="tel:6474LEVELS"
+                  href="tel:8335383571"
                   className="flex items-center justify-center space-x-2 bg-white/95 backdrop-blur-sm border-2 border-black rounded-lg px-4 py-3 shadow-lg hover:bg-white transition-colors"
                 >
                   <Phone className="w-5 h-5 text-black" />
-                  <span className="text-base font-semibold text-black">(647) 4LEVELS</span>
+                  <span className="text-base font-semibold text-black">(833) LEVELS1</span>
                 </a>
               </div>
             </div>
@@ -1941,10 +1943,10 @@ export default function LevelsAndLinesPage() {
             size="lg"
             variant="outline"
             className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
-            onClick={() => mounted && window.open("tel:6474LEVELS", "_self")}
-          >
-            <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            (647) 4LEVELS
+onClick={() => mounted && window.open("tel:8335383571", "_self")}
+                >
+                  <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  (833) LEVELS1
           </Button>
         </div>
       )}
