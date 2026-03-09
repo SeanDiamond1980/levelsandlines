@@ -1415,6 +1415,7 @@ export default function LevelsAndLinesPage() {
           {/* Mobile Header Text - Top */}
           <div className="flex-shrink-0 px-4 pt-8 pb-4 text-center text-white">
             <div className="space-y-3">
+                <p className="text-xs uppercase tracking-widest text-focus font-semibold sm:text-sm">Now in Downtown Toronto</p>
                 <h1 className="text-2xl font-bold tracking-tight leading-tight sm:text-3xl font-heading">
                   Step Inside Your Future,
                   <br />
@@ -1524,6 +1525,7 @@ export default function LevelsAndLinesPage() {
           <div className={`relative z-30 px-4 text-center text-white pt-4 transition-all duration-500`}>
             <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8">
               <div className="space-y-4 lg:space-y-6">
+                <p className="text-sm uppercase tracking-widest text-focus font-semibold lg:text-base">Now in Downtown Toronto</p>
                 <h1 className="text-4xl font-bold tracking-tight leading-tight lg:text-5xl xl:text-6xl 2xl:text-7xl font-heading">
                   Step Inside Your Future,
                   <br />
