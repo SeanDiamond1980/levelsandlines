@@ -1578,11 +1578,11 @@ export default function LevelsAndLinesPage() {
                   </div>
                 </a>
                 <a
-                  href="tel:6474LEVELS"
+                  href="tel:8335383571"
                   className="flex items-center justify-center space-x-2 bg-white/95 backdrop-blur-sm border-2 border-black rounded-lg px-4 py-3 shadow-lg hover:bg-white transition-colors"
                 >
                   <Phone className="w-5 h-5 text-black" />
-                  <span className="text-base font-semibold text-black">(647) 4LEVELS</span>
+                  <span className="text-base font-semibold text-black">(833) LEVELS1</span>
                 </a>
               </div>
             </div>
@@ -1941,10 +1941,10 @@ export default function LevelsAndLinesPage() {
             size="lg"
             variant="outline"
             className="text-sm px-4 py-2 bg-white border-2 border-ink text-ink hover:bg-structure/20 shadow-lg sm:text-base sm:px-6 sm:py-3"
-            onClick={() => mounted && window.open("tel:6474LEVELS", "_self")}
-          >
-            <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            (647) 4LEVELS
+onClick={() => mounted && window.open("tel:8335383571", "_self")}
+                >
+                  <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  (833) LEVELS1
           </Button>
         </div>
       )}

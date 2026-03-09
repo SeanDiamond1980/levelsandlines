@@ -132,11 +132,18 @@
 }
 
 @layer components {
-  /* Global hover style for all links and buttons - black background on hover */
+  /* Global hover style for all links and buttons - black background on hover with white text */
   a:hover,
   button:hover {
     background-color: hsl(var(--primary)) !important;
     color: hsl(var(--primary-foreground)) !important;
     transition: background-color 0.2s, color 0.2s;
+  }
+  
+  /* Ensure all children elements also turn white on hover */
+  a:hover *,
+  button:hover * {
+    color: hsl(var(--primary-foreground)) !important;
+    stroke: hsl(var(--primary-foreground)) !important;
   }
 }
