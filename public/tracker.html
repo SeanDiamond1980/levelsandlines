@@ -593,9 +593,14 @@ function addComment(goalId){
   // send email notification
   sendCommentNotification(goalId, text, authorName);
 
-  // re-render just this card's notes section
-  const notesEl = document.querySelector(`#gc-${goalId} .gc-notes`);
-  if(notesEl) notesEl.innerHTML = renderComments(goalId);
+  // re-render just this card's thread in place — don't touch anything else
+  const notesEl = document.querySelector('#gc-'+goalId+' .gc-notes');
+  if(notesEl){
+    notesEl.innerHTML = renderComments(goalId);
+    // re-focus the new input
+    const newInput = document.getElementById('ci-'+goalId);
+    if(newInput) newInput.focus();
+  }
 }
 
 function sendCommentNotification(goalId, commentText, authorName){
@@ -619,6 +624,74 @@ function sendCommentNotification(goalId, commentText, authorName){
     note:       commentText,
     reply_to:   EMAILS[partner],
   }).catch(err => console.error('EmailJS comment error:', err));
+}
+
+// ── SILENT BACKGROUND SYNC ───────────────────────────────────────────────────
+// Updates state from sheet without re-rendering if user is actively typing
+async function silentSync(){
+  // Don't sync if any comment input is focused
+  const active = document.activeElement;
+  if(active && (active.classList.contains('comment-input') || active.classList.contains('notes-ta') || active.classList.contains('add-task-input'))) {
+    return; // user is typing, skip this cycle
+  }
+
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec');
+    const result = await res.json();
+    if(!result.success) return;
+    const rows = (result.values||[]).slice(1);
+    let changed = false;
+    rows.forEach(r=>{
+      const [id,tk,text,period,owner,status,notes]=r;
+      if(!id) return;
+      if(!state[id]) state[id]={status:'not-started',notes:'',owner:owner||'S',text:text||''};
+      // Only update if something actually changed
+      if(state[id].status !== (status||'not-started') ||
+         state[id].owner  !== (owner||'S') ||
+         state[id].text   !== (text||'')) {
+        state[id].status = status||'not-started';
+        state[id].owner  = owner||'S';
+        state[id].text   = text||'';
+        changed = true;
+      }
+      // Merge comments from sheet without overwriting local ones
+      if(notes && (notes.includes('[Sean]') || notes.includes('[Mike]'))){
+        const parts = notes.split(' | ').filter(Boolean);
+        const parsed = parts.map(p=>{
+          const m=p.match(/^\[(Sean|Mike)\] (.+)$/);
+          return m ? {author:m[1],text:m[2],ts:Date.now()} : null;
+        }).filter(Boolean);
+        const localComments = state[id].comments||[];
+        // Only update if sheet has more comments than local
+        if(parsed.length > localComments.length){
+          state[id].comments = parsed;
+          changed = true;
+        }
+      }
+      // sync to TRACKS
+      const track=TRACKS[tk];
+      if(track){
+        const g=track.goals.find(g=>g.id===id);
+        if(g){g.text=text||g.text;g.owner=owner||g.owner;}
+      }
+    });
+    if(changed){
+      save();
+      // Only re-render if no card is expanded
+      const expanded = document.querySelector('.gc.expanded');
+      if(!expanded){
+        renderAll();
+      } else {
+        // Just update the timeline badges and rail without touching the board
+        renderTimelineBadges();
+        renderRail();
+      }
+    }
+    setSyncStatus('synced','Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
+  } catch(e){
+    // silent — don't show error for background sync
+    console.error('Silent sync error:',e);
+  }
 }
 function renderAll(){renderTimelineBadges();renderBoard();renderRail();}
 initState();renderAll();
@@ -729,7 +802,7 @@ async function syncFromSheet(){
 }
 
 // Auto-sync every 30s if configured
-setInterval(()=>{ syncFromSheet(); }, 15000);
+setInterval(()=>{ silentSync(); }, 60000);
 
 // ── INLINE TASK EDITING ──────────────────────────────────────────────────────
 function startEdit(e, goalId){
