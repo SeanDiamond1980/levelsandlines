@@ -548,7 +548,7 @@ function renderComments(goalId){
               <span class="comment-author">${c.author}</span>
               <span class="comment-time">${timeAgo(c.ts)}</span>
             </div>
-            <div class="comment-text">${c.text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+            <div class="comment-text">${linkify(c.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')).replace(/\n/g,'<br>')}</div>
           </div>
         </div>`;
     });
