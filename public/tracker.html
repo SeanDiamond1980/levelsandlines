@@ -269,7 +269,7 @@ function applyStatus(s){
     if(g){state[popTarget].owner=g.owner;state[popTarget].text=g.text;}
   });
   save();
-  if(cfg.apiKey&&cfg.sheetId) syncToSheet();
+  syncToSheet();
   sendNotification(popTarget,s);
   closePop();
   renderAll();
@@ -342,7 +342,7 @@ function saveNote(id, val){
   // debounce sheet sync
   if(cfg.apiKey&&cfg.sheetId){
     clearTimeout(window._noteTimer);
-    window._noteTimer=setTimeout(()=>{if(cfg.apiKey&&cfg.sheetId)syncToSheet();},2000);
+    window._noteTimer=setTimeout(()=>{syncToSheet();},2000);
   }
   // send email when note changes (debounced 3s so it fires once after typing stops)
   clearTimeout(window._noteEmailTimer);
@@ -429,7 +429,7 @@ function cycleOwner(e,id){
   if(!state[id]) state[id]={status:"not-started",notes:""};
   state[id].owner=next;
   save();
-  if(cfg.apiKey&&cfg.sheetId)syncToSheet();
+  syncToSheet();
   renderAll();
 }
 function showAddForm(tk, pd){
@@ -473,7 +473,7 @@ function saveTask(tk, pd){
   TRACKS[tk].goals.push({id,text,period:pd,owner});
   state[id]={status:'not-started',notes:''};
   save();
-  if(cfg.apiKey&&cfg.sheetId)syncToSheet();
+  syncToSheet();
   renderAll();
 }
 
@@ -525,9 +525,7 @@ function saveCfg(){ localStorage.setItem('ll_cfg', JSON.stringify(cfg)); }
 
 function openSettings(){
   loadCfg();
-  document.getElementById('cfg-apikey').value = cfg.apiKey||'';
-  document.getElementById('cfg-sheetid').value = cfg.sheetId||'';
-  document.getElementById('cfg-sheetname').value = cfg.sheetName||'Goals';
+  document.getElementById('cfg-scripturl').value = cfg.scriptUrl||'https://script.google.com/macros/s/AKfycbzhL37B-KtBFCEOuLjlQR9uUP5eVDywJv871KfXLdrcp2c0X-I72bQSVg34PM2pzGKkzQ/exec';
   document.getElementById('cfg-ejskey').value = cfg.ejsKey||'';
   document.getElementById('cfg-ejsservice').value = cfg.ejsService||'';
   document.getElementById('cfg-ejstemplate').value = cfg.ejsTemplate||'';
@@ -536,16 +534,14 @@ function openSettings(){
 function closeSettings(){ document.getElementById('settings-modal').classList.add('hidden'); }
 
 function saveSettings(){
-  cfg.apiKey      = document.getElementById('cfg-apikey').value.trim();
-  cfg.sheetId     = document.getElementById('cfg-sheetid').value.trim();
-  cfg.sheetName   = document.getElementById('cfg-sheetname').value.trim()||'Goals';
+  cfg.scriptUrl   = document.getElementById('cfg-scripturl').value.trim();
   cfg.ejsKey      = document.getElementById('cfg-ejskey').value.trim();
   cfg.ejsService  = document.getElementById('cfg-ejsservice').value.trim();
   cfg.ejsTemplate = document.getElementById('cfg-ejstemplate').value.trim();
   saveCfg();
   if(cfg.ejsKey) initEJS(cfg.ejsKey);
   closeSettings();
-  if(cfg.apiKey && cfg.sheetId) syncFromSheet();
+  if(cfg.scriptUrl) syncFromSheet();
 }
 
 function setSyncStatus(status, label){
@@ -559,69 +555,63 @@ function setSyncStatus(status, label){
 const SHEET_COLS = ['id','track','text','period','owner','status','notes'];
 
 async function syncToSheet(){
-  if(!cfg.apiKey||!cfg.sheetId) return;
   setSyncStatus('syncing','Saving…');
   try {
-    // Build rows from current state + TRACKS
-    const rows = [SHEET_COLS];
+    const rows = [['id','track','text','period','owner','status','notes']];
     Object.entries(TRACKS).forEach(([tk,t])=>{
       t.goals.forEach(g=>{
-        const s = gs(g.id);
-        rows.push([g.id, tk, g.text, g.period, g.owner, s.status, (s.notes||'').replace(/\n/g,' ')]);
+        const s=gs(g.id);
+        rows.push([g.id,tk,g.text,g.period,g.owner,s.status,(s.notes||'').replace(/\n/g,' ')]);
       });
     });
-    const range = encodeURIComponent(cfg.sheetName+'!A1');
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}/values/${range}?valueInputOption=RAW&key=${cfg.apiKey}`;
-    const res = await fetch(url, {
-      method:'PUT',
+    const res = await fetch('https://script.google.com/macros/s/AKfycbzhL37B-KtBFCEOuLjlQR9uUP5eVDywJv871KfXLdrcp2c0X-I72bQSVg34PM2pzGKkzQ/exec', {
+      method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ values: rows })
+      body: JSON.stringify({action:'write', rows})
     });
-    if(!res.ok) throw new Error(await res.text());
-    setSyncStatus('synced', 'Synced ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}));
+    const result = await res.json();
+    if(!result.success) throw new Error(result.error);
+    setSyncStatus('synced','Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
   } catch(e){
-    console.error('Sheets sync error:', e);
+    console.error('Sync error:',e);
     setSyncStatus('error','Sync failed');
   }
 }
 
 async function syncFromSheet(){
-  if(!cfg.apiKey||!cfg.sheetId){ setSyncStatus('','Local only'); return; }
   setSyncStatus('syncing','Loading…');
   try {
-    const range = encodeURIComponent(cfg.sheetName+'!A:G');
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}/values/${range}?key=${cfg.apiKey}`;
-    const res = await fetch(url);
-    if(!res.ok) throw new Error(await res.text());
-    const data = await res.json();
-    const rows = (data.values||[]).slice(1); // skip header
+    const res = await fetch('https://script.google.com/macros/s/AKfycbzhL37B-KtBFCEOuLjlQR9uUP5eVDywJv871KfXLdrcp2c0X-I72bQSVg34PM2pzGKkzQ/exec');
+    const result = await res.json();
+    if(!result.success) throw new Error(result.error);
+    const rows = (result.values||[]).slice(1);
     rows.forEach(r=>{
-      const [id,tk,text,period,owner,status,notes] = r;
+      const [id,tk,text,period,owner,status,notes]=r;
       if(!id) return;
-      if(!state[id]) state[id]={status:'not-started',notes:''};
-      state[id].status = status||'not-started';
-      state[id].notes  = notes||'';
-      state[id].owner  = owner||'S';
-      state[id].text   = text||'';
-      const track = TRACKS[tk];
+      if(!state[id]) state[id]={status:'not-started',notes:'',owner:owner||'S',text:text||''};
+      state[id].status=status||'not-started';
+      state[id].notes=notes||'';
+      state[id].owner=owner||'S';
+      state[id].text=text||'';
+      const track=TRACKS[tk];
       if(track && !track.goals.find(g=>g.id===id)){
         track.goals.push({id,text,period,owner:owner||'S'});
       } else if(track){
-        const g = track.goals.find(g=>g.id===id);
-        if(g){ g.text=text||g.text; g.owner=owner||g.owner; }
+        const g=track.goals.find(g=>g.id===id);
+        if(g){g.text=text||g.text;g.owner=owner||g.owner;}
       }
     });
     save();
-    setSyncStatus('synced','Synced ' + new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
+    setSyncStatus('synced','Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
     renderAll();
   } catch(e){
-    console.error('Sheets read error:', e);
+    console.error('Sync error:',e);
     setSyncStatus('error','Sync failed');
   }
 }
 
 // Auto-sync every 30s if configured
-setInterval(()=>{ if(cfg.apiKey&&cfg.sheetId) syncFromSheet(); }, 15000);
+setInterval(()=>{ syncFromSheet(); }, 15000);
 
 // ── INLINE TASK EDITING ──────────────────────────────────────────────────────
 function startEdit(e, goalId){
@@ -684,7 +674,7 @@ function commitEdit(goalId, tk){
   state[goalId].owner=g.owner;
   state[goalId].text=g.text;
   save();
-  if(cfg.apiKey&&cfg.sheetId) syncToSheet();
+  syncToSheet();
   renderAll();
 }
 
@@ -693,33 +683,26 @@ function deleteTask(goalId, tk){
   TRACKS[tk].goals = TRACKS[tk].goals.filter(g=>g.id!==goalId);
   delete state[goalId];
   save();
-  if(cfg.apiKey&&cfg.sheetId) syncToSheet();
+  syncToSheet();
   renderAll();
 }
 
 // ── INIT (also load cfg) ─────
 loadCfg();
 if(cfg.ejsKey) initEJS(cfg.ejsKey);
-if(cfg.apiKey&&cfg.sheetId){
-  setSyncStatus("syncing","Connecting…");
-  // Always pull from sheet on load so both users see latest data
-  syncFromSheet();
-}else{
-  setSyncStatus("","Local only — connect Google Sheets in Settings to sync with Mike");
-}
+// Always sync from Apps Script on load
+cfg.scriptUrl = cfg.scriptUrl || 'https://script.google.com/macros/s/AKfycbzhL37B-KtBFCEOuLjlQR9uUP5eVDywJv871KfXLdrcp2c0X-I72bQSVg34PM2pzGKkzQ/exec';
+setSyncStatus("syncing","Connecting…");
+syncFromSheet();
 </script>
 
 <!-- SETTINGS MODAL -->
 <div class="modal-bg hidden" id="settings-modal">
   <div class="modal">
     <div class="modal-title">Google Sheets sync</div>
-    <div class="modal-sub">Connect a Google Sheet to sync goal statuses and notes between Sean and Mike in real time. Both of you will see updates instantly.</div>
-    <div class="field-label">Google Sheets API Key</div>
-    <input class="field-input" id="cfg-apikey" placeholder="AIzaSy…" type="password">
-    <div class="field-label">Spreadsheet ID</div>
-    <input class="field-input" id="cfg-sheetid" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
-    <div class="field-label">Sheet name (tab)</div>
-    <input class="field-input" id="cfg-sheetname" placeholder="Goals">
+    <div class="modal-sub">Connected via Google Apps Script. Both Sean and Mike will see updates within 15 seconds of any change.</div>
+    <div class="field-label">Apps Script URL</div>
+    <input class="field-input" id="cfg-scripturl" placeholder="https://script.google.com/macros/s/…/exec" value="https://script.google.com/macros/s/AKfycbzhL37B-KtBFCEOuLjlQR9uUP5eVDywJv871KfXLdrcp2c0X-I72bQSVg34PM2pzGKkzQ/exec">
     <hr class="modal-divider">
     <div class="field-label">Email notifications</div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">Uses <a href="https://www.emailjs.com" target="_blank" style="color:var(--yellow)">EmailJS</a> (free). Create an account, add an Email Service, create a template, and paste your Public Key below.</div>
