@@ -525,7 +525,7 @@ function saveCfg(){ localStorage.setItem('ll_cfg', JSON.stringify(cfg)); }
 
 function openSettings(){
   loadCfg();
-  document.getElementById('cfg-scripturl').value = cfg.scriptUrl||'https://script.google.com/macros/s/AKfycbxb1-wrruqg9UH1q2vdE5ruGKrGG5ipqdhm3MN8NE5s9fErJFLouRbR4lwBLthPOkwPJw/exec';
+  document.getElementById('cfg-scripturl').value = cfg.scriptUrl||'https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec';
   document.getElementById('cfg-ejskey').value = cfg.ejsKey||'';
   document.getElementById('cfg-ejsservice').value = cfg.ejsService||'';
   document.getElementById('cfg-ejstemplate').value = cfg.ejsTemplate||'';
@@ -564,16 +564,13 @@ async function syncToSheet(){
         rows.push([g.id,tk,g.text,g.period,g.owner,s.status,(s.notes||'').replace(/\n/g,' ')]);
       });
     });
-    const res = await fetch('https://script.google.com/macros/s/AKfycbxb1-wrruqg9UH1q2vdE5ruGKrGG5ipqdhm3MN8NE5s9fErJFLouRbR4lwBLthPOkwPJw/exec', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'write', rows})
-    });
+    const payload = encodeURIComponent(JSON.stringify({action:'write',rows}));
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec?action=write&data='+payload);
     const result = await res.json();
-    if(!result.success) throw new Error(result.error);
+    if(!result.success) throw new Error(result.error||'Write failed');
     setSyncStatus('synced','Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
   } catch(e){
-    console.error('Sync error:',e);
+    console.error('Sync write error:',e);
     setSyncStatus('error','Sync failed');
   }
 }
@@ -581,7 +578,7 @@ async function syncToSheet(){
 async function syncFromSheet(){
   setSyncStatus('syncing','Loading…');
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbxb1-wrruqg9UH1q2vdE5ruGKrGG5ipqdhm3MN8NE5s9fErJFLouRbR4lwBLthPOkwPJw/exec');
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec');
     const result = await res.json();
     if(!result.success) throw new Error(result.error);
     const rows = (result.values||[]).slice(1);
@@ -691,7 +688,7 @@ function deleteTask(goalId, tk){
 loadCfg();
 if(cfg.ejsKey) initEJS(cfg.ejsKey);
 // Always sync from Apps Script on load
-cfg.scriptUrl = cfg.scriptUrl || 'https://script.google.com/macros/s/AKfycbxb1-wrruqg9UH1q2vdE5ruGKrGG5ipqdhm3MN8NE5s9fErJFLouRbR4lwBLthPOkwPJw/exec';
+cfg.scriptUrl = cfg.scriptUrl || 'https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec';
 setSyncStatus("syncing","Connecting…");
 syncFromSheet();
 </script>
@@ -702,7 +699,7 @@ syncFromSheet();
     <div class="modal-title">Google Sheets sync</div>
     <div class="modal-sub">Connected via Google Apps Script. Both Sean and Mike will see updates within 15 seconds of any change.</div>
     <div class="field-label">Apps Script URL</div>
-    <input class="field-input" id="cfg-scripturl" placeholder="https://script.google.com/macros/s/…/exec" value="https://script.google.com/macros/s/AKfycbxb1-wrruqg9UH1q2vdE5ruGKrGG5ipqdhm3MN8NE5s9fErJFLouRbR4lwBLthPOkwPJw/exec">
+    <input class="field-input" id="cfg-scripturl" placeholder="https://script.google.com/macros/s/…/exec" value="https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec">
     <hr class="modal-divider">
     <div class="field-label">Email notifications</div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">Uses <a href="https://www.emailjs.com" target="_blank" style="color:var(--yellow)">EmailJS</a> (free). Create an account, add an Email Service, create a template, and paste your Public Key below.</div>
