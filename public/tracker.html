@@ -146,6 +146,23 @@ body{background:var(--ink);color:var(--text);font-family:'Bricolage Grotesque',s
 .gc-actions{display:flex;gap:4px;flex-shrink:0;margin-top:1px}
 .gc-edit-btn{width:22px;height:22px;border-radius:4px;border:none;background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;padding:0}
 .gc-edit-btn:hover{background:var(--grey-dim);color:var(--text2)}
+
+/* COMMENT THREAD */
+.comments-wrap { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--grey-border); }
+.comments-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.comment-item { display: flex; gap: 8px; align-items: flex-start; }
+.comment-body { flex: 1; background: var(--ink); border-radius: var(--r-sm); padding: 8px 10px; border: 1px solid var(--grey-border); }
+.comment-header { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.comment-author { font-size: 11px; font-weight: 600; color: var(--text); }
+.comment-time { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); }
+.comment-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.comment-input-row { display: flex; gap: 7px; align-items: flex-end; }
+.comment-input { flex: 1; background: var(--ink); border: 1px solid var(--grey-border); border-radius: var(--r-sm); color: var(--text); font-family: inherit; font-size: 12px; font-weight: 300; padding: 7px 10px; resize: none; min-height: 36px; max-height: 100px; line-height: 1.5; transition: border-color .12s; }
+.comment-input:focus { outline: none; border-color: var(--yellow-border); }
+.comment-input::placeholder { color: var(--text3); }
+.comment-send { padding: 7px 12px; border-radius: var(--r-sm); background: var(--yellow); color: var(--ink); border: none; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; transition: background .12s; flex-shrink: 0; height: 36px; }
+.comment-send:hover { background: #ffcf88; }
+.no-comments { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: .04em; }
 .col-empty{padding:18px;text-align:center;font-size:11px;color:var(--text3);border:1px dashed var(--grey-border);border-radius:var(--r);font-family:'DM Mono',monospace;letter-spacing:.04em}
 .rl{grid-area:rl;border-left:1px solid var(--grey-border);background:var(--surface);display:flex;flex-direction:column;overflow:hidden}
 .rl-hd{padding:14px 18px;border-bottom:1px solid var(--grey-border);display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -321,7 +338,7 @@ function renderBoard(){
       const{status,notes}=gs(g.id),sm=SM[status];
       const avCls=g.owner==="S"?"av-s":g.owner==="M"?"av-m":"av-b";
       const avTxt=g.owner==="B"?"B":g.owner,title=g.owner==="B"?"Both":g.owner==="S"?"Sean":"Mike";
-      return `<div class="gc${!owned?" dimmed":""}" id="gc-${g.id}"><div class="gc-top" onclick="toggleGC('${g.id}')"><div class="av av-md ${avCls}" title="Click to reassign" style="cursor:pointer;flex-shrink:0" onclick="cycleOwner(event,'${g.id}')">${avTxt}</div><div style="flex:1"><div class="gc-text">${g.text}</div><div class="gc-meta"><span class="sp ${sm.cls}" onclick="openPop(event,'${g.id}')">${sm.label}</span></div></div><div class="gc-actions"><button class="gc-edit-btn" onclick="startEdit(event,'${g.id}')" title="Edit task"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M7.5 1.5l2 2L3 10H1V8L7.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button></div></div><div class="gc-notes"><div class="notes-lbl">Notes</div><textarea class="notes-ta" placeholder="Context, blockers, next steps…" oninput="saveNote('${g.id}',this.value)">${notes||""}</textarea></div></div>`;
+      return `<div class="gc${!owned?" dimmed":""}" id="gc-${g.id}"><div class="gc-top" onclick="toggleGC('${g.id}')"><div class="av av-md ${avCls}" title="Click to reassign" style="cursor:pointer;flex-shrink:0" onclick="cycleOwner(event,'${g.id}')">${avTxt}</div><div style="flex:1"><div class="gc-text">${g.text}</div><div class="gc-meta"><span class="sp ${sm.cls}" onclick="openPop(event,'${g.id}')">${sm.label}</span></div></div><div class="gc-actions"><button class="gc-edit-btn" onclick="startEdit(event,'${g.id}')" title="Edit task"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M7.5 1.5l2 2L3 10H1V8L7.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button></div></div><div class="gc-notes" onclick="event.stopPropagation()">${renderComments(g.id)}</div></div>`;
     }).join("");
     html+=`<div><div class="col-hd"><div class="col-dot" style="background:${track.color}"></div><span class="col-title">${track.label}</span><span class="col-pct">${done}/${tGoals.length}</span></div><div class="mini-bar"><div class="mini-fill ${fc}" style="width:${pct}%"></div></div>${cards}<div class="add-task-row" id="add-row-${tk}-${period.split(' ').join('_')}"><button class="add-task-btn" onclick="showAddForm('${tk}','${period}')"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Add task</button></div></div>`;
   });
@@ -329,28 +346,7 @@ function renderBoard(){
   brd.innerHTML=html;
 }
 function toggleGC(id){const el=document.getElementById("gc-"+id);if(el)el.classList.toggle("expanded");}
-function saveNote(id, val){
-  if(!state[id]) state[id]={status:"not-started",notes:""};
-  const prevNote = state[id].notes || "";
-  state[id].notes = val;
-  // snapshot owner + text
-  Object.values(TRACKS).forEach(t=>{
-    const g=t.goals.find(g=>g.id===id);
-    if(g){state[id].owner=g.owner; state[id].text=g.text;}
-  });
-  save();
-  // debounce sheet sync
-  if(cfg.apiKey&&cfg.sheetId){
-    clearTimeout(window._noteTimer);
-    window._noteTimer=setTimeout(()=>{syncToSheet();},2000);
-  }
-  // send email when note changes (debounced 3s so it fires once after typing stops)
-  clearTimeout(window._noteEmailTimer);
-  window._noteEmailTimer = setTimeout(()=>{
-    const newNote = (state[id].notes||"").trim();
-    if(newNote && newNote !== prevNote.trim()) sendNoteNotification(id, newNote);
-  }, 3000);
-}
+function saveNote(id,val){ /* replaced by addComment */ }
 
 function sendNoteNotification(goalId, noteText){
   if(!cfg.ejsKey || !cfg.ejsService || !cfg.ejsTemplate) return;
@@ -513,6 +509,117 @@ function sendNotification(goalId, newStatus){
     reply_to:    EMAILS[changedBy],
   }).catch(err => console.error('EmailJS error:', err));
 }
+
+// ── COMMENT THREADING ────────────────────────────────────────────────────────
+function getComments(id){
+  return (state[id] && state[id].comments) ? state[id].comments : [];
+}
+
+function timeAgo(ts){
+  const diff = Math.floor((Date.now() - ts) / 1000);
+  if(diff < 60) return 'just now';
+  if(diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if(diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
+}
+
+function renderComments(goalId){
+  const comments = getComments(goalId);
+  const authorName = partner === 'S' ? 'Sean' : 'Mike';
+  const avCls = partner === 'S' ? 'av-s' : 'av-m';
+
+  let threadHtml = '<div class="comments-wrap">';
+
+  if(comments.length === 0){
+    threadHtml += '<div class="comments-list"><div class="no-comments">No comments yet</div></div>';
+  } else {
+    threadHtml += '<div class="comments-list">';
+    comments.forEach(c => {
+      const cAvCls = c.author === 'Sean' ? 'av-s' : 'av-m';
+      threadHtml += `
+        <div class="comment-item">
+          <div class="av av-md ${cAvCls}" style="flex-shrink:0;margin-top:2px">${c.author[0]}</div>
+          <div class="comment-body">
+            <div class="comment-header">
+              <span class="comment-author">${c.author}</span>
+              <span class="comment-time">${timeAgo(c.ts)}</span>
+            </div>
+            <div class="comment-text">${c.text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+          </div>
+        </div>`;
+    });
+    threadHtml += '</div>';
+  }
+
+  threadHtml += `
+    <div class="comment-input-row">
+      <div class="av av-md ${avCls}" style="flex-shrink:0;margin-bottom:1px">${authorName[0]}</div>
+      <textarea class="comment-input" id="ci-${goalId}" placeholder="Add a comment…" rows="1"
+        onkeydown="handleCommentKey(event,'${goalId}')"
+        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="comment-send" onclick="addComment('${goalId}')">Post</button>
+    </div>
+  </div>`;
+
+  return threadHtml;
+}
+
+function handleCommentKey(e, goalId){
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    addComment(goalId);
+  }
+}
+
+function addComment(goalId){
+  const input = document.getElementById('ci-' + goalId);
+  if(!input) return;
+  const text = input.value.trim();
+  if(!text) return;
+
+  const authorName = partner === 'S' ? 'Sean' : 'Mike';
+  const comment = { author: authorName, text, ts: Date.now() };
+
+  if(!state[goalId]) state[goalId] = {status:'not-started', notes:'', comments:[]};
+  if(!state[goalId].comments) state[goalId].comments = [];
+  state[goalId].comments.push(comment);
+
+  // also update notes field to latest comment for sheet sync
+  state[goalId].notes = state[goalId].comments.map(c => `[${c.author}] ${c.text}`).join(' | ');
+
+  save();
+  syncToSheet();
+
+  // send email notification
+  sendCommentNotification(goalId, text, authorName);
+
+  // re-render just this card's notes section
+  const notesEl = document.querySelector(`#gc-${goalId} .gc-notes`);
+  if(notesEl) notesEl.innerHTML = renderComments(goalId);
+}
+
+function sendCommentNotification(goalId, commentText, authorName){
+  if(!cfg.ejsKey || !cfg.ejsService || !cfg.ejsTemplate) return;
+  if(!window._ejsReady) initEJS(cfg.ejsKey);
+  let goalText='', trackLabel='';
+  Object.entries(TRACKS).forEach(([,t])=>{
+    const g=t.goals.find(g=>g.id===goalId);
+    if(g){goalText=g.text; trackLabel=t.label;}
+  });
+  const notifyWho   = partner==='S' ? 'M' : 'S';
+  const notifyName  = notifyWho==='S' ? 'Sean' : 'Mike';
+  const toEmail     = EMAILS[notifyWho];
+  emailjs.send(cfg.ejsService, cfg.ejsTemplate, {
+    to_email:   toEmail,
+    to_name:    notifyName,
+    from_name:  authorName,
+    track:      trackLabel,
+    task:       goalText,
+    new_status: 'New comment',
+    note:       commentText,
+    reply_to:   EMAILS[partner],
+  }).catch(err => console.error('EmailJS comment error:', err));
+}
 function renderAll(){renderTimelineBadges();renderBoard();renderRail();}
 initState();renderAll();
 
@@ -590,9 +697,20 @@ async function syncFromSheet(){
       if(!id) return;
       if(!state[id]) state[id]={status:'not-started',notes:'',owner:owner||'S',text:text||''};
       state[id].status=status||'not-started';
-      state[id].notes=notes||'';
       state[id].owner=owner||'S';
       state[id].text=text||'';
+      // restore comments from pipe-delimited notes field
+      if(notes && notes.includes('[Sean]') || notes && notes.includes('[Mike]')){
+        // parse back comment thread
+        const parts = notes.split(' | ').filter(Boolean);
+        const parsed = parts.map(p => {
+          const m = p.match(/^\[(Sean|Mike)\] (.+)$/);
+          return m ? {author:m[1], text:m[2], ts: state[id].comments ? (state[id].comments.find(c=>c.text===m[2])||{ts:Date.now()}).ts : Date.now()} : null;
+        }).filter(Boolean);
+        if(parsed.length > 0) state[id].comments = parsed;
+      } else {
+        state[id].notes = notes||'';
+      }
       const track=TRACKS[tk];
       if(track && !track.goals.find(g=>g.id===id)){
         track.goals.push({id,text,period,owner:owner||'S'});
