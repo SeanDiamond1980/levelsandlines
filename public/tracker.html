@@ -564,10 +564,13 @@ async function syncToSheet(){
         rows.push([g.id,tk,g.text,g.period,g.owner,s.status,(s.notes||'').replace(/\n/g,' ')]);
       });
     });
-    const payload = encodeURIComponent(JSON.stringify({action:'write',rows}));
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec?action=write&data='+payload);
-    const result = await res.json();
-    if(!result.success) throw new Error(result.error||'Write failed');
+    // Use no-cors fetch so browser doesn't block cross-origin POST
+    await fetch('https://script.google.com/macros/s/AKfycbyRKbnRVB8gRs8biwA_9TJWSwB45ebtU24k7lp90X57bWll_8tr1hbb9_vx-igIsUZBKA/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'text/plain'},
+      body: JSON.stringify({action:'write',rows})
+    });
     setSyncStatus('synced','Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
   } catch(e){
     console.error('Sync write error:',e);
