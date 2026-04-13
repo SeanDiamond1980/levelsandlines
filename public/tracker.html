@@ -598,18 +598,17 @@ async function syncFromSheet(){
     rows.forEach(r=>{
       const [id,tk,text,period,owner,status,notes] = r;
       if(!id) return;
-      // Update state
       if(!state[id]) state[id]={status:'not-started',notes:''};
       state[id].status = status||'not-started';
       state[id].notes  = notes||'';
-      // Add custom tasks not in TRACKS
+      state[id].owner  = owner||'S';
+      state[id].text   = text||'';
       const track = TRACKS[tk];
       if(track && !track.goals.find(g=>g.id===id)){
         track.goals.push({id,text,period,owner:owner||'S'});
       } else if(track){
-        // sync owner/text edits
         const g = track.goals.find(g=>g.id===id);
-        if(g){ g.text=text; g.owner=owner||g.owner; }
+        if(g){ g.text=text||g.text; g.owner=owner||g.owner; }
       }
     });
     save();
@@ -622,7 +621,7 @@ async function syncFromSheet(){
 }
 
 // Auto-sync every 30s if configured
-setInterval(()=>{ if(cfg.apiKey&&cfg.sheetId) syncFromSheet(); }, 30000);
+setInterval(()=>{ if(cfg.apiKey&&cfg.sheetId) syncFromSheet(); }, 15000);
 
 // ── INLINE TASK EDITING ──────────────────────────────────────────────────────
 function startEdit(e, goalId){
@@ -701,7 +700,13 @@ function deleteTask(goalId, tk){
 // ── INIT (also load cfg) ─────
 loadCfg();
 if(cfg.ejsKey) initEJS(cfg.ejsKey);
-if(cfg.apiKey&&cfg.sheetId){setSyncStatus("syncing","Connecting…");syncFromSheet();}else{setSyncStatus("","Local only");}
+if(cfg.apiKey&&cfg.sheetId){
+  setSyncStatus("syncing","Connecting…");
+  // Always pull from sheet on load so both users see latest data
+  syncFromSheet();
+}else{
+  setSyncStatus("","Local only — connect Google Sheets in Settings to sync with Mike");
+}
 </script>
 
 <!-- SETTINGS MODAL -->
