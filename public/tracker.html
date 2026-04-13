@@ -350,7 +350,6 @@ function askClaude(){
 }
 function cycleOwner(e,id){
   e.stopPropagation();
-  // find which track+goal this is
   let found=null;
   Object.entries(TRACKS).forEach(([tk,t])=>{
     const g=t.goals.find(g=>g.id===id);
@@ -361,6 +360,11 @@ function cycleOwner(e,id){
   const cur=found.g.owner;
   const next=order[(order.indexOf(cur)+1)%3];
   found.g.owner=next;
+  // persist owner into state
+  if(!state[id]) state[id]={status:"not-started",notes:""};
+  state[id].owner=next;
+  save();
+  if(cfg.apiKey&&cfg.sheetId)syncToSheet();
   renderAll();
 }
 function showAddForm(tk, pd){
@@ -611,6 +615,10 @@ function commitEdit(goalId, tk){
   if(!g) return;
   g.text=text;
   g.owner=(window._editOwner||{})[goalId]||g.owner;
+  // persist both text and owner
+  if(!state[goalId]) state[goalId]={status:"not-started",notes:""};
+  state[goalId].owner=g.owner;
+  state[goalId].text=g.text;
   save();
   if(cfg.apiKey&&cfg.sheetId) syncToSheet();
   renderAll();
