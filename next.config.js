@@ -10,6 +10,10 @@ const nextConfig = {
         source: '/booking/:path*',
         destination: 'https://v0-booking-page-design-zeta.vercel.app/booking/:path*',
       },
+      {
+        source: '/tracker',
+        destination: '/tracker.html',
+      },
     ]
   },
 }
