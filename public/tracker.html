@@ -329,17 +329,53 @@ function renderBoard(){
   brd.innerHTML=html;
 }
 function toggleGC(id){const el=document.getElementById("gc-"+id);if(el)el.classList.toggle("expanded");}
-function saveNote(id,val){
+function saveNote(id, val){
   if(!state[id]) state[id]={status:"not-started",notes:""};
-  state[id].notes=val;
-  // also snapshot current owner+text so they survive refresh
+  const prevNote = state[id].notes || "";
+  state[id].notes = val;
+  // snapshot owner + text
   Object.values(TRACKS).forEach(t=>{
     const g=t.goals.find(g=>g.id===id);
-    if(g){state[id].owner=g.owner;state[id].text=g.text;}
+    if(g){state[id].owner=g.owner; state[id].text=g.text;}
   });
   save();
-  if(cfg.apiKey&&cfg.sheetId){clearTimeout(window._noteTimer);window._noteTimer=setTimeout(()=>{if(cfg.apiKey&&cfg.sheetId)syncToSheet();},2000);}
+  // debounce sheet sync
+  if(cfg.apiKey&&cfg.sheetId){
+    clearTimeout(window._noteTimer);
+    window._noteTimer=setTimeout(()=>{if(cfg.apiKey&&cfg.sheetId)syncToSheet();},2000);
+  }
+  // send email when note changes (debounced 3s so it fires once after typing stops)
+  clearTimeout(window._noteEmailTimer);
+  window._noteEmailTimer = setTimeout(()=>{
+    const newNote = (state[id].notes||"").trim();
+    if(newNote && newNote !== prevNote.trim()) sendNoteNotification(id, newNote);
+  }, 3000);
 }
+
+function sendNoteNotification(goalId, noteText){
+  if(!cfg.ejsKey || !cfg.ejsService || !cfg.ejsTemplate) return;
+  if(!window._ejsReady) initEJS(cfg.ejsKey);
+  let goalText="", trackLabel="";
+  Object.entries(TRACKS).forEach(([,t])=>{
+    const g=t.goals.find(g=>g.id===goalId);
+    if(g){goalText=g.text; trackLabel=t.label;}
+  });
+  const changedByName = partner==="S" ? "Sean" : "Mike";
+  const notifyWho     = partner==="S" ? "M" : "S";
+  const notifyName    = notifyWho==="S" ? "Sean" : "Mike";
+  const toEmail       = EMAILS[notifyWho];
+  emailjs.send(cfg.ejsService, cfg.ejsTemplate, {
+    to_email:   toEmail,
+    to_name:    notifyName,
+    from_name:  changedByName,
+    track:      trackLabel,
+    task:       goalText,
+    new_status: "Note added",
+    note:       noteText,
+    reply_to:   EMAILS[partner],
+  }).catch(err=>console.error("EmailJS note error:", err));
+}
+
 function renderTimelineBadges(){
   [["1 month","1m"],["3 months","3m"],["6 months","6m"]].forEach(([p,sid])=>{
     const pg=all().filter(g=>g.period===p);
