@@ -252,7 +252,21 @@ function setPartner(p){partner=p;document.getElementById("btn-s").classList.togg
 function setPeriod(p,el){period=p;document.querySelectorAll(".tn").forEach(n=>n.classList.remove("active"));el.classList.add("active");renderBoard();}
 function openPop(e,id){e.stopPropagation();popTarget=id;const pop=document.getElementById("spop");const r=e.target.getBoundingClientRect();let left=r.left,top=r.bottom+4;if(left+145>window.innerWidth)left=window.innerWidth-149;pop.style.top=top+"px";pop.style.left=left+"px";pop.classList.add("open");}
 function closePop(){document.getElementById("spop").classList.remove("open");popTarget=null;}
-function applyStatus(s){if(!popTarget)return;state[popTarget].status=s;save();if(cfg.apiKey&&cfg.sheetId)syncToSheet();sendNotification(popTarget,s);closePop();renderAll();}
+function applyStatus(s){
+  if(!popTarget) return;
+  if(!state[popTarget]) state[popTarget]={status:"not-started",notes:""};
+  state[popTarget].status=s;
+  // snapshot owner+text
+  Object.values(TRACKS).forEach(t=>{
+    const g=t.goals.find(g=>g.id===popTarget);
+    if(g){state[popTarget].owner=g.owner;state[popTarget].text=g.text;}
+  });
+  save();
+  if(cfg.apiKey&&cfg.sheetId) syncToSheet();
+  sendNotification(popTarget,s);
+  closePop();
+  renderAll();
+}
 document.addEventListener("click",e=>{if(!e.target.closest("#spop")&&!e.target.closest(".sp"))closePop();});
 let activeTrack=null; // null = show all
 
@@ -308,7 +322,17 @@ function renderBoard(){
   brd.innerHTML=html;
 }
 function toggleGC(id){const el=document.getElementById("gc-"+id);if(el)el.classList.toggle("expanded");}
-function saveNote(id,val){state[id].notes=val;save();if(cfg.apiKey&&cfg.sheetId)clearTimeout(window._noteTimer);window._noteTimer=setTimeout(()=>{if(cfg.apiKey&&cfg.sheetId)syncToSheet();},2000);}
+function saveNote(id,val){
+  if(!state[id]) state[id]={status:"not-started",notes:""};
+  state[id].notes=val;
+  // also snapshot current owner+text so they survive refresh
+  Object.values(TRACKS).forEach(t=>{
+    const g=t.goals.find(g=>g.id===id);
+    if(g){state[id].owner=g.owner;state[id].text=g.text;}
+  });
+  save();
+  if(cfg.apiKey&&cfg.sheetId){clearTimeout(window._noteTimer);window._noteTimer=setTimeout(()=>{if(cfg.apiKey&&cfg.sheetId)syncToSheet();},2000);}
+}
 function renderTimelineBadges(){
   [["1 month","1m"],["3 months","3m"],["6 months","6m"]].forEach(([p,sid])=>{
     const pg=all().filter(g=>g.period===p);
@@ -357,10 +381,8 @@ function cycleOwner(e,id){
   });
   if(!found) return;
   const order=["S","M","B"];
-  const cur=found.g.owner;
-  const next=order[(order.indexOf(cur)+1)%3];
+  const next=order[(order.indexOf(found.g.owner)+1)%3];
   found.g.owner=next;
-  // persist owner into state
   if(!state[id]) state[id]={status:"not-started",notes:""};
   state[id].owner=next;
   save();
