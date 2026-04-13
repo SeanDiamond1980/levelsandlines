@@ -180,6 +180,14 @@ body{background:var(--ink);color:var(--text);font-family:'Bricolage Grotesque',s
   .logo-word{display:none}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // EmailJS init — user pastes their public key in settings
+  window._ejsReady = false;
+  function initEJS(key) {
+    if(key) { emailjs.init(key); window._ejsReady = true; }
+  }
+</script>
 </head>
 <body>
 <div class="shell">
@@ -244,7 +252,7 @@ function setPartner(p){partner=p;document.getElementById("btn-s").classList.togg
 function setPeriod(p,el){period=p;document.querySelectorAll(".tn").forEach(n=>n.classList.remove("active"));el.classList.add("active");renderBoard();}
 function openPop(e,id){e.stopPropagation();popTarget=id;const pop=document.getElementById("spop");const r=e.target.getBoundingClientRect();let left=r.left,top=r.bottom+4;if(left+145>window.innerWidth)left=window.innerWidth-149;pop.style.top=top+"px";pop.style.left=left+"px";pop.classList.add("open");}
 function closePop(){document.getElementById("spop").classList.remove("open");popTarget=null;}
-function applyStatus(s){if(!popTarget)return;state[popTarget].status=s;save();if(cfg.apiKey&&cfg.sheetId)syncToSheet();closePop();renderAll();}
+function applyStatus(s){if(!popTarget)return;state[popTarget].status=s;save();if(cfg.apiKey&&cfg.sheetId)syncToSheet();sendNotification(popTarget,s);closePop();renderAll();}
 document.addEventListener("click",e=>{if(!e.target.closest("#spop")&&!e.target.closest(".sp"))closePop();});
 let activeTrack=null; // null = show all
 
@@ -400,6 +408,42 @@ function saveTask(tk, pd){
   renderAll();
 }
 
+
+// ── EMAIL NOTIFICATIONS ──────────────────────────────────────────────────────
+const EMAILS = { S: 'sean@levelsandlines.com', M: 'msmith@levelsandlines.com' };
+
+function sendNotification(goalId, newStatus){
+  if(!cfg.ejsKey || !cfg.ejsService || !cfg.ejsTemplate) return;
+  if(!window._ejsReady) initEJS(cfg.ejsKey);
+
+  // Find goal details
+  let goalText='', trackLabel='', goalOwner='B';
+  Object.entries(TRACKS).forEach(([,t])=>{
+    const g = t.goals.find(g=>g.id===goalId);
+    if(g){ goalText=g.text; trackLabel=t.label; goalOwner=g.owner; }
+  });
+
+  const changedBy     = partner;
+  const changedByName = partner==='S' ? 'Sean' : 'Mike';
+  const notifyWho     = partner==='S' ? 'M' : 'S';
+  const notifyName    = notifyWho==='S' ? 'Sean' : 'Mike';
+  const toEmail       = EMAILS[notifyWho];
+
+  const STATUS_LABELS = {
+    'not-started':'Not started','on-track':'On track',
+    'at-risk':'At risk','behind':'Behind','completed':'Completed'
+  };
+
+  emailjs.send(cfg.ejsService, cfg.ejsTemplate, {
+    to_email:    toEmail,
+    to_name:     notifyName,
+    from_name:   changedByName,
+    track:       trackLabel,
+    task:        goalText,
+    new_status:  STATUS_LABELS[newStatus] || newStatus,
+    reply_to:    EMAILS[changedBy],
+  }).catch(err => console.error('EmailJS error:', err));
+}
 function renderAll(){renderTimelineBadges();renderBoard();renderRail();}
 initState();renderAll();
 
@@ -415,15 +459,22 @@ function openSettings(){
   document.getElementById('cfg-apikey').value = cfg.apiKey||'';
   document.getElementById('cfg-sheetid').value = cfg.sheetId||'';
   document.getElementById('cfg-sheetname').value = cfg.sheetName||'Goals';
+  document.getElementById('cfg-ejskey').value = cfg.ejsKey||'';
+  document.getElementById('cfg-ejsservice').value = cfg.ejsService||'';
+  document.getElementById('cfg-ejstemplate').value = cfg.ejsTemplate||'';
   document.getElementById('settings-modal').classList.remove('hidden');
 }
 function closeSettings(){ document.getElementById('settings-modal').classList.add('hidden'); }
 
 function saveSettings(){
-  cfg.apiKey   = document.getElementById('cfg-apikey').value.trim();
-  cfg.sheetId  = document.getElementById('cfg-sheetid').value.trim();
-  cfg.sheetName= document.getElementById('cfg-sheetname').value.trim()||'Goals';
+  cfg.apiKey      = document.getElementById('cfg-apikey').value.trim();
+  cfg.sheetId     = document.getElementById('cfg-sheetid').value.trim();
+  cfg.sheetName   = document.getElementById('cfg-sheetname').value.trim()||'Goals';
+  cfg.ejsKey      = document.getElementById('cfg-ejskey').value.trim();
+  cfg.ejsService  = document.getElementById('cfg-ejsservice').value.trim();
+  cfg.ejsTemplate = document.getElementById('cfg-ejstemplate').value.trim();
   saveCfg();
+  if(cfg.ejsKey) initEJS(cfg.ejsKey);
   closeSettings();
   if(cfg.apiKey && cfg.sheetId) syncFromSheet();
 }
@@ -576,6 +627,7 @@ function deleteTask(goalId, tk){
 
 // ── INIT (also load cfg) ─────
 loadCfg();
+if(cfg.ejsKey) initEJS(cfg.ejsKey);
 if(cfg.apiKey&&cfg.sheetId){setSyncStatus("syncing","Connecting…");syncFromSheet();}else{setSyncStatus("","Local only");}
 </script>
 
@@ -590,6 +642,15 @@ if(cfg.apiKey&&cfg.sheetId){setSyncStatus("syncing","Connecting…");syncFromShe
     <input class="field-input" id="cfg-sheetid" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
     <div class="field-label">Sheet name (tab)</div>
     <input class="field-input" id="cfg-sheetname" placeholder="Goals">
+    <hr class="modal-divider">
+    <div class="field-label">Email notifications</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">Uses <a href="https://www.emailjs.com" target="_blank" style="color:var(--yellow)">EmailJS</a> (free). Create an account, add an Email Service, create a template, and paste your Public Key below.</div>
+    <div class="field-label">EmailJS Public Key</div>
+    <input class="field-input" id="cfg-ejskey" placeholder="user_xxxxxxxxxxxxxx">
+    <div class="field-label">EmailJS Service ID</div>
+    <input class="field-input" id="cfg-ejsservice" placeholder="service_xxxxxxx">
+    <div class="field-label">EmailJS Template ID</div>
+    <input class="field-input" id="cfg-ejstemplate" placeholder="template_xxxxxxx">
     <div class="modal-actions">
       <button class="modal-cancel" onclick="closeSettings()">Cancel</button>
       <button class="modal-save" onclick="saveSettings()">Save &amp; connect</button>
