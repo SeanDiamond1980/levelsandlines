@@ -282,7 +282,12 @@ function renderBoard(){
     const pct=tGoals.length?Math.round(done/tGoals.length*100):0;
     const hasBh=tGoals.some(g=>gs(g.id).status==="behind"),hasAr=tGoals.some(g=>gs(g.id).status==="at-risk");
     const fc=hasBh?"mf-r":hasAr?"mf-a":"mf-g";
-    const cards=tGoals.length===0?'<div class="col-empty">No goals this period</div>':tGoals.map(g=>{
+    // Sort: active partner's tasks first, then both, then other
+    const sorted = [...tGoals].sort((a, b) => {
+      const rank = o => o === partner ? 0 : o === 'B' ? 1 : 2;
+      return rank(a.owner) - rank(b.owner);
+    });
+    const cards=tGoals.length===0?'<div class="col-empty">No goals this period</div>':sorted.map(g=>{
       const owned=partner==="S"?(g.owner==="S"||g.owner==="B"):(g.owner==="M"||g.owner==="B");
       const{status,notes}=gs(g.id),sm=SM[status];
       const avCls=g.owner==="S"?"av-s":g.owner==="M"?"av-m":"av-b";
