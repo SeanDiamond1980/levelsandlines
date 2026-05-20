@@ -6,383 +6,160 @@
 <title>Pipeline Refresh — Levels + Lines</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
-  :root { --ink:#000;--white:#fff;--yellow:#FEC780;--marine:#BED2D3;--grey:#ACB2B5;--grey-mid:#E8E8E8;--grey-light:#F4F4F4; }
+  :root{--ink:#000;--white:#fff;--yellow:#FEC780;--marine:#BED2D3;--grey:#ACB2B5;--grey-mid:#E8E8E8;--grey-light:#F4F4F4;}
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'DM Sans',sans-serif;background:#F7F7F5;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;}
-  .card{background:var(--white);border:1px solid var(--grey-mid);width:100%;max-width:580px;}
+  .card{background:var(--white);border:1px solid var(--grey-mid);width:100%;max-width:560px;}
   .card-header{background:var(--ink);padding:24px 28px;}
   .logo{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--yellow);text-transform:uppercase;margin-bottom:6px;}
   .title{font-size:18px;font-weight:600;color:var(--white);}
   .sub{font-size:12px;color:var(--grey);margin-top:3px;font-family:'DM Mono',monospace;}
   .card-body{padding:28px;}
-  .field{margin-bottom:16px;}
+  .field{margin-bottom:18px;}
   .field label{display:block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;}
   .field input{width:100%;border:1px solid var(--grey-mid);padding:9px 12px;font-family:'DM Mono',monospace;font-size:12px;outline:none;transition:border-color 0.15s;background:var(--white);}
   .field input:focus{border-color:var(--ink);}
   .field input::placeholder{color:#ccc;}
-  .setup-box{background:#FFF8EC;border-left:3px solid var(--yellow);padding:12px 14px;margin-bottom:20px;font-size:12px;color:#8B6914;line-height:1.7;}
-  .setup-box strong{color:#6B4E00;}
-  .setup-box ol{margin-left:16px;margin-top:6px;}
-  .setup-box li{margin-bottom:3px;}
   .info-box{background:var(--grey-light);border-left:3px solid var(--marine);padding:12px 14px;margin-bottom:20px;font-size:12px;color:#555;line-height:1.6;}
-  .run-btn{width:100%;background:var(--yellow);color:var(--ink);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.04em;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .info-box strong{color:var(--ink);}
+  .auto-box{background:#E8F8F0;border-left:3px solid #27AE60;padding:12px 14px;margin-bottom:20px;font-size:12px;color:#1a5c35;line-height:1.6;}
+  .run-btn{width:100%;background:var(--yellow);color:var(--ink);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.04em;transition:opacity 0.2s;}
   .run-btn:hover{opacity:0.85;}
   .run-btn:disabled{opacity:0.4;cursor:not-allowed;}
-  .progress{margin-top:20px;display:none;}
-  .progress.show{display:block;}
+  .steps{margin-top:20px;display:none;}
+  .steps.show{display:block;}
   .step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--grey-mid);}
   .step:last-child{border-bottom:none;}
-  .step-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px;}
+  .si{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px;}
   .sp{background:var(--grey-light);color:var(--grey);}
-  .sr2{background:#EEF2FF;color:#4F46E5;animation:blink 1.2s infinite;}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+  .sr{background:#EEF2FF;color:#4F46E5;animation:blink 1.2s infinite;}
   .sd{background:#E8F8F0;color:#27AE60;}
   .se{background:#FFE8E8;color:#C0392B;}
-  .step-label{flex:1;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+  .step-info{flex:1;}
   .step-main{font-size:13px;font-weight:500;}
   .step-detail{font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-top:2px;}
-  .result-box{margin-top:20px;display:none;}
-  .result-box.show{display:block;}
-  .result-success{background:#E8F8F0;border-left:3px solid #27AE60;padding:14px 16px;}
-  .result-error{background:#FFE8E8;border-left:3px solid #C0392B;padding:14px 16px;}
+  .result{margin-top:20px;display:none;padding:14px 16px;}
+  .result.show{display:block;}
+  .result.success{background:#E8F8F0;border-left:3px solid #27AE60;}
+  .result.error{background:#FFE8E8;border-left:3px solid #C0392B;}
   .result-title{font-weight:600;font-size:14px;margin-bottom:4px;}
   .result-sub{font-size:12px;color:#555;line-height:1.5;}
-  .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;}
-  .stat-box{background:var(--white);border:1px solid var(--grey-mid);padding:10px;text-align:center;}
-  .stat-num{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;}
-  .stat-lbl{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
-  .action-row{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .action-row{margin-top:12px;display:flex;gap:8px;}
   .action-btn{background:var(--ink);color:var(--white);border:none;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
-  .action-btn.outline{background:none;color:var(--ink);border:1px solid var(--grey-mid);}
-  .log-toggle{font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);cursor:pointer;margin-top:12px;display:inline-block;text-decoration:underline;}
-  .log-box{background:#1a1a1a;color:#aaa;font-family:'DM Mono',monospace;font-size:11px;padding:12px;margin-top:8px;max-height:180px;overflow-y:auto;display:none;line-height:1.6;}
+  .log-toggle{font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);cursor:pointer;margin-top:10px;display:inline-block;text-decoration:underline;}
+  .log-box{background:#1a1a1a;color:#aaa;font-family:'DM Mono',monospace;font-size:11px;padding:12px;margin-top:8px;max-height:160px;overflow-y:auto;display:none;line-height:1.6;}
   .log-box.show{display:block;}
-  .fallback-box{margin-top:16px;display:none;}
-  .fallback-box.show{display:block;}
 </style>
 </head>
 <body>
-
 <div class="card">
   <div class="card-header">
     <div class="logo">Levels + Lines</div>
     <div class="title">Pipeline Auto-Refresh</div>
-    <div class="sub">Reads Mike's Gmail · Writes to Google Sheet · One click</div>
+    <div class="sub">Reads Mike's Gmail · Writes to Google Sheet · Fully automated</div>
   </div>
   <div class="card-body">
 
-    <div class="setup-box" id="setupBox">
-      <strong>First-time setup required</strong> — paste your Apps Script Web App URL below to enable direct Sheet writing. No URL yet? Follow these steps:
-      <ol>
-        <li>Open the Property Lab Pipeline Google Sheet</li>
-        <li>Click <strong>Extensions → Apps Script</strong></li>
-        <li>Paste the script from <strong>pipeline_apps_script.gs</strong></li>
-        <li>Click <strong>Deploy → New deployment → Web app</strong></li>
-        <li>Set Execute as: <strong>Me</strong> · Who has access: <strong>Anyone</strong></li>
-        <li>Copy the Web App URL and paste it below</li>
-      </ol>
+    <div class="auto-box">
+      ✓ <strong>Fully automated.</strong> This script reads msmith@levelsandlines.com Gmail directly and updates the pipeline sheet automatically every Sunday at 11pm. Use this button to trigger a manual refresh anytime.
     </div>
 
     <div class="field">
       <label>Apps Script Web App URL</label>
-      <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveConfig()" />
-    </div>
-
-    <div class="field">
-      <label>Anthropic API Key</label>
-      <input type="password" id="apiKey" placeholder="sk-ant-..." oninput="saveConfig()" />
+      <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveConfig()"/>
     </div>
 
     <div class="info-box">
-      Reads <strong>msmith@levelsandlines.com</strong> Gmail for Property Lab outreach threads and writes directly to the <strong>Property Lab Pipeline</strong> Google Sheet. Run weekly to keep the tracker current.
+      Reads all Property Lab outreach threads from Mike's Gmail and writes structured contact data — names, dates, response counts, conversation history — directly to the <strong>Property Lab Pipeline</strong> Google Sheet.
     </div>
 
-    <button class="run-btn" id="runBtn" onclick="runRefresh()">
-      ↻ Run Pipeline Refresh
-    </button>
+    <button class="run-btn" id="runBtn" onclick="runRefresh()">↻ Run Pipeline Refresh</button>
 
-    <div class="progress" id="progress">
-      <div class="step">
-        <div class="step-icon sp" id="s1i">1</div>
-        <div class="step-label">
-          <div class="step-main">Reading Mike's Gmail</div>
-          <div class="step-detail" id="s1d">Searching Property Lab outreach — last 180 days</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-icon sp" id="s2i">2</div>
-        <div class="step-label">
-          <div class="step-main">Extracting contact data</div>
-          <div class="step-detail" id="s2d">Names, dates, response counts, conversation history</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-icon sp" id="s3i">3</div>
-        <div class="step-label">
-          <div class="step-main">Writing to Google Sheet</div>
-          <div class="step-detail" id="s3d">Sending data to Apps Script endpoint</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-icon sp" id="s4i">4</div>
-        <div class="step-label">
-          <div class="step-main">Complete</div>
-          <div class="step-detail" id="s4d">Tracker ready to load</div>
-        </div>
+    <div class="steps" id="steps">
+      <div class="step"><div class="si sp" id="s1">1</div><div class="step-info"><div class="step-main">Triggering Apps Script</div><div class="step-detail" id="s1d">Connecting to Google Apps Script...</div></div></div>
+      <div class="step"><div class="si sp" id="s2">2</div><div class="step-info"><div class="step-main">Reading Mike's Gmail</div><div class="step-detail" id="s2d">Searching Property Lab threads in last 180 days</div></div></div>
+      <div class="step"><div class="si sp" id="s3">3</div><div class="step-info"><div class="step-main">Writing to Google Sheet</div><div class="step-detail" id="s3d">Updating Property Lab Pipeline</div></div></div>
+      <div class="step"><div class="si sp" id="s4">4</div><div class="step-info"><div class="step-main">Complete</div><div class="step-detail" id="s4d">Tracker ready to load</div></div></div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="result-title" id="resultTitle">—</div>
+      <div class="result-sub" id="resultSub">—</div>
+      <div class="action-row" id="actionRow" style="display:none">
+        <a href="/pipeline.html" class="action-btn">Open Tracker →</a>
       </div>
     </div>
 
-    <div class="result-box" id="resultBox">
-      <div id="resultContent"></div>
-      <div class="fallback-box" id="fallbackBox">
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">CSV Output — Copy and paste into Google Sheet row 2 if direct write failed</div>
-        <textarea id="csvOutput" style="width:100%;height:100px;font-family:'DM Mono',monospace;font-size:10px;border:1px solid var(--grey-mid);padding:8px;outline:none;resize:vertical;"></textarea>
-        <button onclick="copyCsv()" style="margin-top:6px;background:var(--ink);color:white;border:none;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">Copy CSV</button>
-      </div>
-      <span class="log-toggle" onclick="toggleLog()">Show log</span>
-      <div class="log-box" id="logBox"></div>
-    </div>
+    <span class="log-toggle" onclick="toggleLog()">Show log</span>
+    <div class="log-box" id="logBox"></div>
 
   </div>
 </div>
 
 <script>
-const GMAIL_MCP = 'https://gmailmcp.googleapis.com/mcp/v1';
-let logLines = [];
-let lastCsv = '';
+let logs = [];
+function log(msg){ logs.push(new Date().toLocaleTimeString()+' · '+msg); document.getElementById('logBox').innerHTML=logs.join('<br>'); document.getElementById('logBox').scrollTop=9999; }
+function ss(n,state,detail){ const el=document.getElementById('s'+n); const map={sp:'sp',running:'sr',done:'sd',error:'se'}; el.className='si '+(map[state]||'sp'); el.textContent=state==='done'?'✓':state==='error'?'✗':state==='running'?'…':n; if(detail)document.getElementById('s'+n+'d').textContent=detail; }
+function toggleLog(){ document.getElementById('logBox').classList.toggle('show'); }
 
-// Load saved config
 window.onload = () => {
-  const cfg = JSON.parse(localStorage.getItem('pl_refresh_cfg') || '{}');
-  if (cfg.scriptUrl) { document.getElementById('scriptUrl').value = cfg.scriptUrl; document.getElementById('setupBox').style.display = 'none'; }
-  if (cfg.apiKey) document.getElementById('apiKey').value = cfg.apiKey;
+  const cfg = JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}');
+  if(cfg.scriptUrl) document.getElementById('scriptUrl').value=cfg.scriptUrl;
 };
 
-function saveConfig() {
-  localStorage.setItem('pl_refresh_cfg', JSON.stringify({
-    scriptUrl: document.getElementById('scriptUrl').value.trim(),
-    apiKey: document.getElementById('apiKey').value.trim()
-  }));
-  if (document.getElementById('scriptUrl').value.trim()) {
-    document.getElementById('setupBox').style.display = 'none';
-  }
+function saveConfig(){
+  const url = document.getElementById('scriptUrl').value.trim();
+  localStorage.setItem('pl_refresh_cfg', JSON.stringify({scriptUrl:url}));
 }
 
-function log(msg) {
-  logLines.push(new Date().toLocaleTimeString() + ' · ' + msg);
-  document.getElementById('logBox').innerHTML = logLines.join('<br>');
-  document.getElementById('logBox').scrollTop = 9999;
-}
-
-function setStep(n, state, detail) {
-  const icon = document.getElementById('s' + n + 'i');
-  const map = { pending: 'sp', running: 'sr2', done: 'sd', error: 'se' };
-  icon.className = 'step-icon ' + (map[state] || 'sp');
-  icon.textContent = state === 'done' ? '✓' : state === 'error' ? '✗' : state === 'running' ? '…' : n;
-  if (detail) document.getElementById('s' + n + 'd').textContent = detail;
-}
-
-async function runRefresh() {
-  const apiKey = document.getElementById('apiKey').value.trim();
+async function runRefresh(){
   const scriptUrl = document.getElementById('scriptUrl').value.trim();
-
-  if (!apiKey) { alert('Please enter your Anthropic API key.'); return; }
-  if (!apiKey.startsWith('sk-ant-')) { alert('API key should start with sk-ant-'); return; }
+  if(!scriptUrl){ alert('Please enter your Apps Script Web App URL.'); return; }
 
   const btn = document.getElementById('runBtn');
-  btn.disabled = true;
-  btn.textContent = 'Running...';
-  document.getElementById('progress').classList.add('show');
-  document.getElementById('resultBox').classList.remove('show');
-  document.getElementById('fallbackBox').classList.remove('show');
-  logLines = [];
+  btn.disabled=true; btn.textContent='Running...';
+  document.getElementById('steps').classList.add('show');
+  document.getElementById('result').classList.remove('show','success','error');
+  logs=[];
+
+  ss(1,'running','Connecting to Apps Script...');
+  log('Triggering Apps Script refresh...');
 
   try {
-    // STEP 1 + 2 — Call Claude API with Gmail MCP
-    setStep(1, 'running', 'Connecting to msmith@levelsandlines.com...');
-    log('Calling Claude API with Gmail MCP');
+    // Trigger the Apps Script to run refreshPipeline()
+    const url = scriptUrl + '?action=run';
+    log('GET '+url.substring(0,80)+'...');
 
-    const prompt = `Search msmith@levelsandlines.com sent emails in the last 180 days for Property Lab outreach to real estate agents and brokerages only. Exclude architects, designers, and non-real estate contacts. For every thread found, extract the following data and return it as a CSV with these exact column headers:
+    ss(2,'running','Reading Gmail and extracting contacts...');
 
-First Name,Last Name,Email,Brokerage,First Email Date,Last Emailed Date,Last Reply Date,Days Since Last Contact,Times Emailed,Total Responses,Replied,Status,Notes,Thread ID,Conversation History
+    const res = await fetch(url);
+    const data = await res.json();
 
-Rules:
-- First Email Date / Last Emailed Date / Last Reply Date: YYYY-MM-DD format
-- Days Since Last Contact: days between today and Last Emailed Date
-- Times Emailed: count of emails Mike sent to this person
-- Total Responses: count of replies received from this person
-- Replied: Yes or No
-- Status: exactly one of — Cold — Not Contacted / Emailed — No Response / Engaged — Replied / Meeting Booked / Not Interested / Nurture — Come Back Later
-- Notes: one sentence summary of current status
-- Thread ID: Gmail thread ID
-- Conversation History: JSON array of {direction, from, date, body} objects on one line, no line breaks
+    log('Response: '+JSON.stringify(data));
 
-Return ONLY the CSV. No preamble, no explanation, no markdown fences.`;
-
-    // Call via server-side proxy to avoid CORS
-    const response = await fetch('/api/anthropic-proxy', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        apiKey,
-        messages: [{ role: 'user', content: prompt }],
-        mcp_servers: [{ type: 'url', url: GMAIL_MCP, name: 'gmail-mcp' }]
-      })
-    });
-
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error('API error: ' + (err.error || response.status));
-    }
-
-    const data = await response.json();
-    log('Response received. Extracting CSV...');
-
-    let csvText = data.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('')
-      .trim()
-      .replace(/```csv\n?/g, '')
-      .replace(/```\n?/g, '')
-      .trim();
-
-    lastCsv = csvText;
-    document.getElementById('csvOutput').value = csvText;
-
-    const lines = csvText.trim().split('\n').filter(l => l.trim());
-    const contactCount = Math.max(0, lines.length - 1);
-    log('Extracted ' + contactCount + ' contacts');
-
-    setStep(1, 'done', 'Gmail read complete');
-    setStep(2, 'done', contactCount + ' contacts extracted');
-
-    // STEP 3 — Write to Sheet via chunked GET requests
-    setStep(3, 'running', 'Sending to Google Sheet...');
-
-    let sheetSuccess = false;
-    let sheetMsg = '';
-
-    if (scriptUrl) {
-      try {
-        const csvLines2 = csvText.trim().split('\n').filter(l => l.trim());
-        const headerRow2 = csvLines2[0];
-        const dataLines2 = csvLines2.slice(1);
-        const CHUNK = 10;
-
-        function parseCSVLine2(line) {
-          const result = []; let cur = ''; let q = false;
-          for (let i = 0; i < line.length; i++) {
-            const ch = line[i];
-            if (ch === '"') { if (q && line[i+1]==='"'){cur+='"';i++;} else{q=!q;} }
-            else if (ch === ',' && !q) { result.push(cur); cur = ''; }
-            else { cur += ch; }
-          }
-          result.push(cur); return result;
-        }
-
-        log('Chunked GET strategy: ' + dataLines2.length + ' rows in chunks of ' + CHUNK);
-
-        // Send headers
-        const headerArr2 = parseCSVLine2(headerRow2);
-        const hUrl = scriptUrl + '?action=headers&data=' + encodeURIComponent(JSON.stringify(headerArr2));
-        const hRes = await fetch(hUrl);
-        const hData = await hRes.json();
-        if (!hData.success) throw new Error('Header write failed: ' + (hData.error||'unknown'));
-        log('Headers written: ' + hData.count + ' columns');
-
-        // Send data chunks
-        for (let i = 0; i < dataLines2.length; i += CHUNK) {
-          const chunk2 = dataLines2.slice(i, i + CHUNK).map(l => parseCSVLine2(l));
-          const chUrl = scriptUrl + '?action=chunk&data=' + encodeURIComponent(JSON.stringify(chunk2));
-          const cRes = await fetch(chUrl);
-          const cData = await cRes.json();
-          if (!cData.success) throw new Error('Chunk failed at row ' + i + ': ' + (cData.error||'unknown'));
-          log('Chunk written: rows ' + (i+2) + '–' + Math.min(i+CHUNK+1, dataLines2.length+1));
-          setStep(3, 'running', 'Writing ' + Math.min(i+CHUNK, dataLines2.length) + ' of ' + dataLines2.length + ' rows...');
-        }
-
-        // Finalize
-        const fUrl = scriptUrl + '?action=finalize';
-        const fRes = await fetch(fUrl);
-        const fData = await fRes.json();
-        if (!fData.success) throw new Error('Finalize failed: ' + (fData.error||'unknown'));
-
-        sheetSuccess = true;
-        sheetMsg = fData.totalRows + ' rows written at ' + new Date(fData.updatedAt).toLocaleTimeString();
-        log('Sheet write complete: ' + sheetMsg);
-        setStep(3, 'done', sheetMsg);
-
-      } catch (sheetErr) {
-        log('Sheet write failed: ' + sheetErr.message);
-        log('Falling back to manual CSV copy');
-        setStep(3, 'error', 'Direct write failed — use CSV copy below');
-        document.getElementById('fallbackBox').classList.add('show');
-      }
+    if(data.success){
+      ss(1,'done'); ss(2,'done','Gmail read complete'); ss(3,'done','Sheet updated'); ss(4,'done','Tracker ready');
+      const resultEl = document.getElementById('result');
+      resultEl.classList.add('show','success');
+      document.getElementById('resultTitle').textContent = '✓ Pipeline refreshed successfully';
+      document.getElementById('resultSub').textContent = 'Mike\'s Gmail has been read and the Google Sheet updated. Open the tracker to see the latest data.';
+      document.getElementById('actionRow').style.display='flex';
+      log('Refresh complete!');
     } else {
-      log('No Apps Script URL — showing CSV for manual paste');
-      setStep(3, 'error', 'No Apps Script URL set — use CSV copy below');
-      document.getElementById('fallbackBox').classList.add('show');
+      throw new Error(data.error || data.message || 'Script returned failure');
     }
 
-    setStep(4, 'done', 'Refresh complete');
-
-    const repliedCount = lines.slice(1).filter(l => l.includes(',Yes,')).length;
-    const meetingCount = lines.slice(1).filter(l => l.includes('Meeting Booked')).length;
-    const followupCount = lines.slice(1).filter(l => {
-      const parts = l.split(',');
-      const days = parseInt(parts[7]) || 0;
-      return days >= 5 && l.includes('Emailed — No Response');
-    }).length;
-
-    document.getElementById('resultContent').innerHTML = sheetSuccess ? `
-      <div class="result-success">
-        <div class="result-title">✓ Pipeline refreshed successfully</div>
-        <div class="result-sub">Mike's Gmail read, ${contactCount} contacts updated in Google Sheet. Open the tracker to see the latest data.</div>
-        <div class="stats-grid">
-          <div class="stat-box"><div class="stat-num">${contactCount}</div><div class="stat-lbl">Contacts</div></div>
-          <div class="stat-box"><div class="stat-num">${repliedCount}</div><div class="stat-lbl">Replied</div></div>
-          <div class="stat-box"><div class="stat-num">${followupCount}</div><div class="stat-lbl">Need Follow-Up</div></div>
-        </div>
-        <div class="action-row">
-          <a href="/pipeline.html" class="action-btn">Open Tracker →</a>
-          <a href="https://docs.google.com/spreadsheets/d/1VuuyuakkC4cyUwji4qq5KieEbmBLdi5NA28JL097zaU/edit" target="_blank" class="action-btn outline">Open Sheet</a>
-        </div>
-      </div>
-    ` : `
-      <div class="result-error">
-        <div class="result-title">Data extracted but Sheet write failed</div>
-        <div class="result-sub">Copy the CSV below and paste it into the Google Sheet starting at row 2.</div>
-      </div>
-    `;
-
-  } catch (err) {
-    log('FATAL ERROR: ' + err.message);
-    [1,2,3,4].forEach(n => setStep(n, 'error'));
-    document.getElementById('resultContent').innerHTML = `
-      <div class="result-error">
-        <div class="result-title">Refresh failed</div>
-        <div class="result-sub">${err.message}</div>
-      </div>
-    `;
-    document.getElementById('fallbackBox').classList.add('show');
+  } catch(err){
+    log('ERROR: '+err.message);
+    ss(1,'error'); ss(2,'error'); ss(3,'error'); ss(4,'error');
+    const resultEl = document.getElementById('result');
+    resultEl.classList.add('show','error');
+    document.getElementById('resultTitle').textContent = 'Refresh failed';
+    document.getElementById('resultSub').textContent = err.message;
   }
 
-  document.getElementById('resultBox').classList.add('show');
-  btn.disabled = false;
-  btn.textContent = '↻ Run Pipeline Refresh';
-}
-
-function copyCsv() {
-  const ta = document.getElementById('csvOutput');
-  ta.select();
-  document.execCommand('copy');
-  event.target.textContent = 'Copied ✓';
-  setTimeout(() => event.target.textContent = 'Copy CSV', 2000);
-}
-
-function toggleLog() {
-  document.getElementById('logBox').classList.toggle('show');
+  btn.disabled=false; btn.textContent='↻ Run Pipeline Refresh';
 }
 </script>
 </body>
