@@ -50,6 +50,8 @@
   th.ns{cursor:default;}th.ns:hover{background:var(--ink);}
   td{padding:12px 12px;font-size:13px;border-bottom:1px solid var(--grey-mid);vertical-align:middle;white-space:nowrap;}
   tr:hover td{background:#FAFAFA;}
+  .grp-row{cursor:pointer;}
+  .grp-row:hover td{background:#E8E8E4!important;}
   tr:last-child td{border-bottom:none;}
   .nc{font-weight:600;cursor:pointer;}
   .nc:hover{text-decoration:underline;}
@@ -378,7 +380,89 @@ function sf(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classLi
 function sb(k){if(sk===k)sa=!sa;else{sk=k;sa=true;}fil.sort((a,b)=>{let av=a[k]||'',bv=b[k]||'';if(['daysSinceContact','timesEmailed','totalResponses'].includes(k)){av=Number(av);bv=Number(bv);}return sa?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);});rt();}
 function dc(d){return d>=14?'du':d>=7?'dw':'do';}
 function sc2(s){const m={'Cold — Not Contacted':'sc','Emailed — No Response':'se','Engaged — Replied':'sg','Meeting Booked':'sm','Not Interested':'sni','Nurture — Come Back Later':'sn'};return m[s]||'sc';}
-function rt(){const tb=document.getElementById('tb');if(!fil.length){tb.innerHTML=`<tr><td colspan="11"><div class="es">No contacts match</div></td></tr>`;return;}tb.innerHTML=fil.map(c=>{const idx=all.indexOf(c);const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';return`<tr><td class="nc" onclick="ov2(${idx})">${fl?'<span class="fi"></span>':''}${c.firstName} ${c.lastName}</td><td class="bc" title="${c.brokerage}">${c.brokerage}</td><td class="dc">${c.firstEmailDate||'—'}</td><td class="dc">${c.lastEmailedDate||'—'}</td><td class="dc">${c.lastReplyDate||'—'}</td><td class="dc"><span class="${dc(c.daysSinceContact)}">${c.daysSinceContact}d</span></td><td class="mc">${c.timesEmailed||0}</td><td class="mc">${c.totalResponses||0}</td><td><span class="rb ${c.replied==='Yes'?'ry':'rn'}">${c.replied==='Yes'?'✓ Yes':'— No'}</span></td><td><span class="sb ${sc2(c.status)}">${c.status}</span></td><td><div class="ac"><button class="ab" onclick="ov2(${idx})">View</button><button class="ab" onclick="oef(${idx})">Edit</button><button class="ab del" onclick="cd(${idx})">Delete</button></div></td></tr>`;}).join('');}
+
+// Status priority for brokerage rollup
+const SP=['Meeting Booked','Engaged — Replied','Nurture — Come Back Later','Emailed — No Response','Cold — Not Contacted','Not Interested'];
+function topStatus(contacts){for(const s of SP){if(contacts.find(c=>c.status===s))return s;}return contacts[0].status;}
+function groupByBrokerage(contacts){
+  const map={};
+  contacts.forEach(c=>{
+    const k=c.brokerage||'Unknown';
+    if(!map[k])map[k]=[];
+    map[k].push(c);
+  });
+  return Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0]));
+}
+
+let collapsed={};// track which brokerages are collapsed
+
+function toggleGroup(brok){
+  collapsed[brok]=!collapsed[brok];
+  rt();
+}
+
+function rt(){
+  const tb=document.getElementById('tb');
+  if(!fil.length){tb.innerHTML=`<tr><td colspan="11"><div class="es">No contacts match</div></td></tr>`;return;}
+  const groups=groupByBrokerage(fil);
+  let html='';
+  groups.forEach(([brok,contacts])=>{
+    const isCollapsed=collapsed[brok];
+    const totalEmailed=contacts.reduce((s,c)=>s+(c.timesEmailed||0),0);
+    const totalResponses=contacts.reduce((s,c)=>s+(c.totalResponses||0),0);
+    const anyReplied=contacts.some(c=>c.replied==='Yes');
+    const latestEmailed=contacts.map(c=>c.lastEmailedDate||'').sort().reverse()[0]||'—';
+    const latestReply=contacts.map(c=>c.lastReplyDate||'').filter(Boolean).sort().reverse()[0]||'—';
+    const minDays=Math.min(...contacts.map(c=>c.daysSinceContact||999));
+    const maxDays=Math.max(...contacts.map(c=>c.daysSinceContact||0));
+    const anyFlag=contacts.some(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');
+    const status=topStatus(contacts);
+    const single=contacts.length===1;
+    // Brokerage header row
+    html+=`<tr class="grp-row" onclick="toggleGroup('${brok.replace(/'/g,"\\'")}')">
+      <td class="nc" colspan="2" style="background:#F0F0EE;padding-left:14px;">
+        <span style="font-family:'DM Mono',monospace;font-size:13px;margin-right:8px;color:#999;">${isCollapsed?'▶':'▼'}</span>
+        ${anyFlag?'<span class="fi"></span>':''}
+        <strong>${brok}</strong>
+        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contact${contacts.length>1?'s':''}</span>
+      </td>
+      <td class="dc" style="background:#F0F0EE;">${contacts.map(c=>c.firstEmailDate||'').sort()[0]||'—'}</td>
+      <td class="dc" style="background:#F0F0EE;">${latestEmailed}</td>
+      <td class="dc" style="background:#F0F0EE;">${latestReply}</td>
+      <td class="dc" style="background:#F0F0EE;"><span class="${dc(minDays)}">${minDays===maxDays?minDays+'d':minDays+'–'+maxDays+'d'}</span></td>
+      <td class="mc" style="background:#F0F0EE;">${totalEmailed}</td>
+      <td class="mc" style="background:#F0F0EE;">${totalResponses}</td>
+      <td style="background:#F0F0EE;"><span class="rb ${anyReplied?'ry':'rn'}">${anyReplied?'✓ Yes':'— No'}</span></td>
+      <td style="background:#F0F0EE;"><span class="sb ${sc2(status)}">${status}</span></td>
+      <td style="background:#F0F0EE;"></td>
+    </tr>`;
+    // Individual contact rows — hidden if collapsed
+    if(!isCollapsed){
+      contacts.forEach(c=>{
+        const idx=all.indexOf(c);
+        const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
+        html+=`<tr style="background:#FAFAFA;">
+          <td class="nc" onclick="ov2(${idx})" style="padding-left:36px;">${fl?'<span class="fi"></span>':''}${c.firstName} ${c.lastName}</td>
+          <td class="bc" title="${c.brokerage}" style="color:#999;font-size:11px;">↳ ${c.email}</td>
+          <td class="dc">${c.firstEmailDate||'—'}</td>
+          <td class="dc">${c.lastEmailedDate||'—'}</td>
+          <td class="dc">${c.lastReplyDate||'—'}</td>
+          <td class="dc"><span class="${dc(c.daysSinceContact)}">${c.daysSinceContact}d</span></td>
+          <td class="mc">${c.timesEmailed||0}</td>
+          <td class="mc">${c.totalResponses||0}</td>
+          <td><span class="rb ${c.replied==='Yes'?'ry':'rn'}">${c.replied==='Yes'?'✓ Yes':'— No'}</span></td>
+          <td><span class="sb ${sc2(c.status)}">${c.status}</span></td>
+          <td><div class="ac">
+            <button class="ab" onclick="ov2(${idx})">View</button>
+            <button class="ab" onclick="oef(${idx})">Edit</button>
+            <button class="ab del" onclick="cd(${idx})">Delete</button>
+          </div></td>
+        </tr>`;
+      });
+    }
+  });
+  tb.innerHTML=html;
+}
 function us(){document.getElementById('sT').textContent=all.length;document.getElementById('sE').textContent=all.filter(c=>c.status==='Engaged — Replied').length;document.getElementById('sM').textContent=all.filter(c=>c.status==='Meeting Booked').length;document.getElementById('sF').textContent=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response').length;document.getElementById('sR').textContent=all.filter(c=>c.replied==='Yes').length;document.getElementById('sEM').textContent=all.reduce((s,c)=>s+(c.timesEmailed||0),0);}
 function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');const b=document.getElementById('fb');if(fl.length){b.style.display='flex';document.getElementById('fn').textContent=fl.slice(0,5).map(c=>c.firstName+' '+c.lastName.charAt(0)+'.').join(', ')+(fl.length>5?` +${fl.length-5} more`:'');}else{b.style.display='none';}}
 function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
