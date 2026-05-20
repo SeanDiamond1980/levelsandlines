@@ -313,8 +313,6 @@ Return ONLY the CSV. No preamble, no explanation, no markdown fences.`;
         log('Sheet write complete: ' + sheetMsg);
         setStep(3, 'done', sheetMsg);
 
-      } catch(sheetErr) {
-        // keep existing error handling
       } catch (sheetErr) {
         log('Sheet write failed: ' + sheetErr.message);
         log('Falling back to manual CSV copy');
