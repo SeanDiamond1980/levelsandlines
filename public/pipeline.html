@@ -127,6 +127,7 @@
   .ca{display:flex;gap:8px;justify-content:flex-end;}
   .es{padding:48px;text-align:center;color:var(--grey);font-family:'DM Mono',monospace;font-size:13px;}
   .bl-select{border:1px solid var(--grey-mid);padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:var(--white);max-width:160px;}
+  .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
 </style>
 </head>
 <body>
@@ -439,9 +440,10 @@ function toggleGroup(brok){
   rt();
 }
 
+let dragIdx=null;
 function rt(){
   const tb=document.getElementById('tb');
-  if(!fil.length){tb.innerHTML=`<tr><td colspan="11"><div class="es">No contacts match</div></td></tr>`;return;}
+  if(!fil.length){tb.innerHTML=`<tr><td colspan="12"><div class="es">No contacts match</div></td></tr>`;return;}
   const groups=groupByBrokerage(fil);
   let html='';
   groups.forEach(([brok,contacts])=>{
@@ -456,31 +458,44 @@ function rt(){
     const anyFlag=contacts.some(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');
     const status=topStatus(contacts);
     const single=contacts.length===1;
-    // Brokerage header row
-    html+=`<tr class="grp-row" onclick="toggleGroup('${brok.replace(/'/g,"\\'")}')">
-      <td class="nc" colspan="2" style="background:#F0F0EE;padding-left:14px;">
-        <span style="font-family:'DM Mono',monospace;font-size:13px;margin-right:8px;color:#999;">${isCollapsed?'▶':'▼'}</span>
-        ${anyFlag?'<span class="fi"></span>':''}
-        <strong>${brok}</strong>
-        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contact${contacts.length>1?'s':''}</span>
-      </td>
-      <td class="dc" style="background:#F0F0EE;">${contacts.map(c=>c.firstEmailDate||'').sort()[0]||'—'}</td>
-      <td class="dc" style="background:#F0F0EE;">${latestEmailed}</td>
-      <td class="dc" style="background:#F0F0EE;">${latestReply}</td>
-      <td class="dc" style="background:#F0F0EE;"><span class="${dc(minDays)}">${minDays===maxDays?minDays+'d':minDays+'–'+maxDays+'d'}</span></td>
-      <td class="mc" style="background:#F0F0EE;">${totalEmailed}</td>
-      <td class="mc" style="background:#F0F0EE;">${totalResponses}</td>
-      <td style="background:#F0F0EE;"><span class="rb ${anyReplied?'ry':'rn'}">${anyReplied?'✓ Yes':'— No'}</span></td>
-      <td style="background:#F0F0EE;"><span class="sb ${sc2(status)}">${status}</span></td>
-      <td style="background:#F0F0EE;"></td>
-    </tr>`;
-    // Individual contact rows — hidden if collapsed
-    if(!isCollapsed){
+    const brokSafe=brok.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+    // Only show group header row if more than 1 contact
+    if(!single){
+      html+=`<tr class="grp-row" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropOnGroup(event,'${brokSafe}')" onclick="toggleGroup('${brokSafe}')">
+        <td class="nc" colspan="2" style="background:#F0F0EE;padding-left:14px;">
+          <span style="font-family:'DM Mono',monospace;font-size:13px;margin-right:8px;color:#999;">${isCollapsed?'▶':'▼'}</span>
+          ${anyFlag?'<span class="fi"></span>':''}
+          <strong>${brok}</strong>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contacts</span>
+        </td>
+        <td class="dc" style="background:#F0F0EE;">${contacts.map(c=>c.firstEmailDate||'').sort()[0]||'—'}</td>
+        <td class="dc" style="background:#F0F0EE;">${latestEmailed}</td>
+        <td class="dc" style="background:#F0F0EE;">${latestReply}</td>
+        <td class="dc" style="background:#F0F0EE;"><span class="${dc(minDays)}">${minDays===maxDays?minDays+'d':minDays+'–'+maxDays+'d'}</span></td>
+        <td class="mc" style="background:#F0F0EE;">${totalEmailed}</td>
+        <td class="mc" style="background:#F0F0EE;">${totalResponses}</td>
+        <td style="background:#F0F0EE;"><span class="rb ${anyReplied?'ry':'rn'}">${anyReplied?'✓ Yes':'— No'}</span></td>
+        <td style="background:#F0F0EE;"><span class="sb ${sc2(status)}">${status}</span></td>
+        <td style="background:#F0F0EE;"></td>
+        <td style="background:#F0F0EE;"></td>
+      </tr>`;
+    }
+    // Individual contact rows
+    if(!isCollapsed||single){
       contacts.forEach(c=>{
         const idx=all.indexOf(c);
         const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
-        html+=`<tr style="background:#FAFAFA;">
-          <td class="nc" onclick="ov2(${idx})" style="padding-left:36px;">${fl?'<span class="fi"></span>':''}${c.firstName} ${c.lastName}</td>
+        const indent=single?'16px':'36px';
+        html+=`<tr style="background:#FAFAFA;" draggable="true"
+          ondragstart="dragIdx=${idx};this.style.opacity='0.4'"
+          ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'))"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="dropOnRow(event,${idx})">
+          <td class="nc" onclick="ov2(${idx})" style="padding-left:${indent};cursor:grab;">
+            <span style="color:#ccc;margin-right:6px;font-size:11px;">⠿</span>
+            ${fl?'<span class="fi"></span>':''}${c.firstName} ${c.lastName}
+          </td>
           <td class="bc" title="${c.brokerage}" style="color:#999;font-size:11px;">↳ ${c.email}</td>
           <td class="dc">${c.firstEmailDate||'—'}</td>
           <td class="dc">${c.lastEmailedDate||'—'}</td>
@@ -501,6 +516,33 @@ function rt(){
     }
   });
   tb.innerHTML=html;
+}
+
+function dropOnGroup(event,targetBrok){
+  event.preventDefault();
+  event.stopPropagation();
+  document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));
+  if(dragIdx===null)return;
+  const c=all[dragIdx];
+  if(c.brokerage===targetBrok)return;
+  c.brokerage=targetBrok;
+  sov2(c.email,'brokerage',targetBrok);
+  dragIdx=null;
+  render();
+}
+
+function dropOnRow(event,targetIdx){
+  event.preventDefault();
+  event.stopPropagation();
+  document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));
+  if(dragIdx===null||dragIdx===targetIdx)return;
+  const dragged=all[dragIdx];
+  const target=all[targetIdx];
+  if(dragged.brokerage===target.brokerage)return;
+  dragged.brokerage=target.brokerage;
+  sov2(dragged.email,'brokerage',target.brokerage);
+  dragIdx=null;
+  render();
 }
 function us(){document.getElementById('sT').textContent=all.length;document.getElementById('sE').textContent=all.filter(c=>c.status==='Engaged — Replied').length;document.getElementById('sM').textContent=all.filter(c=>c.status==='Meeting Booked').length;document.getElementById('sF').textContent=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response').length;document.getElementById('sR').textContent=all.filter(c=>c.replied==='Yes').length;document.getElementById('sEM').textContent=all.reduce((s,c)=>s+(c.timesEmailed||0),0);}
 function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');const b=document.getElementById('fb');if(fl.length){b.style.display='flex';document.getElementById('fn').textContent=fl.slice(0,5).map(c=>c.firstName+' '+c.lastName.charAt(0)+'.').join(', ')+(fl.length>5?` +${fl.length-5} more`:'');}else{b.style.display='none';}}
