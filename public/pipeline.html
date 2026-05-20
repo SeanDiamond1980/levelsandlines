@@ -196,6 +196,7 @@
   <button class="filter-btn" onclick="sf('Nurture — Come Back Later',this)">Nurture</button>
   <input class="search-input" id="si" type="text" placeholder="Search..." oninput="af()"/>
   <button class="add-btn" onclick="oaf()">+ Add Contact</button>
+  <button class="add-btn" style="background:transparent;border:1px solid var(--grey-mid);margin-left:8px;" onclick="createNewGroup()">+ New Group</button>
 </div>
 <div class="table-container">
   <table>
@@ -524,7 +525,25 @@ function rt(){
       });
     }
   });
+  // Render custom empty groups
+  customGroups.forEach(g=>{
+    if(groups.some(([b])=>b===g))return;
+    const gSafe=g.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+    html+=`<tr class="grp-row" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropOnGroup(event,'${gSafe}')">
+      <td colspan="12" style="background:#F0F0EE;padding:10px 14px;">
+        <strong>${g}</strong>
+        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">0 contacts — drag contacts here</span>
+        <button onclick="event.stopPropagation();deleteCustomGroup('${gSafe}')" style="float:right;background:none;border:none;cursor:pointer;font-size:11px;color:#bbb;padding:0;">✕ Remove</button>
+      </td>
+    </tr>`;
+  });
   tb.innerHTML=html;
+}
+
+function deleteCustomGroup(name){
+  customGroups=customGroups.filter(g=>g!==name);
+  localStorage.setItem('ll_custom_groups',JSON.stringify(customGroups));
+  render();
 }
 
 function createNewGroup(){
