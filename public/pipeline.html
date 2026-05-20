@@ -232,6 +232,18 @@
       <div class="mmi"><div class="mnum" id="vDS">—</div><div class="mlbl">Days Since</div></div>
       <div class="mmi"><div class="mnum" id="vRp">—</div><div class="mlbl">Replied</div></div>
     </div>
+    <div class="sr"><span class="srl">Business Line:</span>
+      <select class="ss" id="vBL" onchange="updateBLModal(event)">
+        <option value="">— Select —</option>
+        <option>Property Lab: Brokerage</option>
+        <option>Property Lab: Team Lead</option>
+        <option>Property Lab: Agent</option>
+        <option>Immersive Showroom: End Client</option>
+        <option>Immersive Showroom: Builder</option>
+        <option>Immersive Showroom: Architect</option>
+        <option>Other</option>
+      </select>
+    </div>
     <div class="sr"><span class="srl">Status:</span>
       <select class="ss" id="vSS" onchange="ucs(event)">
         <option>Cold — Not Contacted</option><option>Emailed — No Response</option>
@@ -493,6 +505,7 @@ function rt(){
 function us(){document.getElementById('sT').textContent=all.length;document.getElementById('sE').textContent=all.filter(c=>c.status==='Engaged — Replied').length;document.getElementById('sM').textContent=all.filter(c=>c.status==='Meeting Booked').length;document.getElementById('sF').textContent=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response').length;document.getElementById('sR').textContent=all.filter(c=>c.replied==='Yes').length;document.getElementById('sEM').textContent=all.reduce((s,c)=>s+(c.timesEmailed||0),0);}
 function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');const b=document.getElementById('fb');if(fl.length){b.style.display='flex';document.getElementById('fn').textContent=fl.slice(0,5).map(c=>c.firstName+' '+c.lastName.charAt(0)+'.').join(', ')+(fl.length>5?` +${fl.length-5} more`:'');}else{b.style.display='none';}}
 function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;
+  if(document.getElementById('vBL'))document.getElementById('vBL').value=c.businessLine||'';
   document.getElementById('vBL').value=c.businessLine||'';document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
 function updateBLModal(e){
   if(ci===null)return;
