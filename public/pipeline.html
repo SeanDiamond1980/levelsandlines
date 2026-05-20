@@ -126,6 +126,7 @@
   .cs{font-size:13px;color:#555;margin-bottom:20px;line-height:1.5;}
   .ca{display:flex;gap:8px;justify-content:flex-end;}
   .es{padding:48px;text-align:center;color:var(--grey);font-family:'DM Mono',monospace;font-size:13px;}
+  .bl-select{border:1px solid var(--grey-mid);padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:var(--white);max-width:160px;}
 </style>
 </head>
 <body>
@@ -273,6 +274,7 @@
       </div>
       <div class="fgrp"><label class="flbl">Times Emailed</label><input class="fi2" id="fTEM" type="number" min="0" value="0"/></div>
       <div class="fgrp"><label class="flbl">Total Responses</label><input class="fi2" id="fTRS" type="number" min="0" value="0"/></div>
+      <div class="fgrp full"><label class="flbl">Business Line</label><select class="fi2" id="fBL"><option value="">— Select —</option><option>Property Lab: Brokerage</option><option>Property Lab: Team Lead</option><option>Property Lab: Agent</option><option>Immersive Showroom: End Client</option><option>Immersive Showroom: Builder</option><option>Immersive Showroom: Architect</option><option>Other</option></select></div>
       <div class="fgrp full"><label class="flbl">Notes</label><textarea class="fi2 ni" id="fNO" rows="3"></textarea></div>
     </div>
     <div class="fa">
@@ -358,7 +360,7 @@ function pcsv(csv){
       const unescaped=raw.replace(/""/g,'"');
       ch2=tj(unescaped);
     }
-    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,_m:false};
+    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,businessLine:o['Business Line']||'',_m:false};
   }).filter(c=>c.email);
 }
 function spl(line){
@@ -374,6 +376,30 @@ function spl(line){
   r.push(c);return r;
 }
 function tj(s){try{return JSON.parse(s);}catch{return[];}}
+
+const BL_OPTIONS = [
+  '',
+  'Property Lab: Brokerage',
+  'Property Lab: Team Lead',
+  'Property Lab: Agent',
+  'Immersive Showroom: End Client',
+  'Immersive Showroom: Builder',
+  'Immersive Showroom: Architect',
+  'Other'
+];
+
+function renderBL(c, idx) {
+  const val = c.businessLine || '';
+  const opts = BL_OPTIONS.map(o => `<option value="${o}" ${o===val?'selected':''}>${o||'— Select —'}</option>`).join('');
+  return `<select class="bl-select" onchange="updateBL(${idx},this.value)" onclick="event.stopPropagation()">${opts}</select>`;
+}
+
+function updateBL(idx, val) {
+  all[idx].businessLine = val;
+  sov2(all[idx].email, 'businessLine', val);
+  render();
+}
+
 function render(){af();us();uf();}
 function af(){const q=document.getElementById('si').value.toLowerCase();fil=all.filter(c=>{const mf=cur==='all'||c.status===cur;const ms=!q||(c.firstName+' '+c.lastName).toLowerCase().includes(q)||c.brokerage.toLowerCase().includes(q)||c.email.toLowerCase().includes(q);return mf&&ms;});rt();}
 function sf(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cur=f;af();}
@@ -452,6 +478,7 @@ function rt(){
           <td class="mc">${c.totalResponses||0}</td>
           <td><span class="rb ${c.replied==='Yes'?'ry':'rn'}">${c.replied==='Yes'?'✓ Yes':'— No'}</span></td>
           <td><span class="sb ${sc2(c.status)}">${c.status}</span></td>
+          <td>${renderBL(c,idx)}</td>
           <td><div class="ac">
             <button class="ab" onclick="ov2(${idx})">View</button>
             <button class="ab" onclick="oef(${idx})">Edit</button>
@@ -465,13 +492,20 @@ function rt(){
 }
 function us(){document.getElementById('sT').textContent=all.length;document.getElementById('sE').textContent=all.filter(c=>c.status==='Engaged — Replied').length;document.getElementById('sM').textContent=all.filter(c=>c.status==='Meeting Booked').length;document.getElementById('sF').textContent=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response').length;document.getElementById('sR').textContent=all.filter(c=>c.replied==='Yes').length;document.getElementById('sEM').textContent=all.reduce((s,c)=>s+(c.timesEmailed||0),0);}
 function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');const b=document.getElementById('fb');if(fl.length){b.style.display='flex';document.getElementById('fn').textContent=fl.slice(0,5).map(c=>c.firstName+' '+c.lastName.charAt(0)+'.').join(', ')+(fl.length>5?` +${fl.length-5} more`:'');}else{b.style.display='none';}}
-function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
+function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;
+  document.getElementById('vBL').value=c.businessLine||'';document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
+function updateBLModal(e){
+  if(ci===null)return;
+  all[ci].businessLine=e.target.value;
+  sov2(all[ci].email,'businessLine',e.target.value);
+  render();
+}
 function ucs(e){if(ci===null)return;all[ci].status=e.target.value;sov2(all[ci].email,'status',e.target.value);render();}
 function sns(){if(ci===null)return;const c=all[ci];c.notes=document.getElementById('vNo').value;c.status=document.getElementById('vSS').value;sov2(c.email,'notes',c.notes);sov2(c.email,'status',c.status);render();const b=document.querySelector('.ma .btn-yellow');b.textContent='Saved ✓';setTimeout(()=>b.textContent='Save Changes',2000);}
 function oaf(){ei=null;document.getElementById('fT').textContent='Add Contact';document.getElementById('fS').textContent='New Property Lab prospect';cf();om('fo');}
-function oef(idx){cm2('vo');ei=idx;const c=all[idx];document.getElementById('fT').textContent='Edit Contact';document.getElementById('fS').textContent=c.firstName+' '+c.lastName+' · '+c.brokerage;document.getElementById('fFN').value=c.firstName||'';document.getElementById('fLN').value=c.lastName||'';document.getElementById('fEM').value=c.email||'';document.getElementById('fBR').value=c.brokerage||'';document.getElementById('fFED').value=c.firstEmailDate||'';document.getElementById('fLED').value=c.lastEmailedDate||'';document.getElementById('fLRD').value=c.lastReplyDate||'';document.getElementById('fST').value=c.status||'Cold — Not Contacted';document.getElementById('fTEM').value=c.timesEmailed||0;document.getElementById('fTRS').value=c.totalResponses||0;document.getElementById('fNO').value=c.notes||'';om('fo');}
-function cf(){['fFN','fLN','fEM','fBR','fFED','fLED','fLRD','fNO'].forEach(id=>document.getElementById(id).value='');document.getElementById('fST').value='Cold — Not Contacted';document.getElementById('fTEM').value=0;document.getElementById('fTRS').value=0;}
-function subf(){const fn=document.getElementById('fFN').value.trim();const em=document.getElementById('fEM').value.trim();if(!fn||!em){alert('First name and email required.');return;}const td=new Date().toISOString().split('T')[0];const ld=document.getElementById('fLED').value||td;const d=Math.floor((new Date()-new Date(ld))/(1000*60*60*24));const c={firstName:fn,lastName:document.getElementById('fLN').value.trim(),email:em,brokerage:document.getElementById('fBR').value.trim(),firstEmailDate:document.getElementById('fFED').value||td,lastEmailedDate:ld,lastReplyDate:document.getElementById('fLRD').value||'',daysSinceContact:d,timesEmailed:parseInt(document.getElementById('fTEM').value)||0,totalResponses:parseInt(document.getElementById('fTRS').value)||0,replied:parseInt(document.getElementById('fTRS').value)>0?'Yes':'No',status:document.getElementById('fST').value,notes:document.getElementById('fNO').value.trim(),conversationHistory:[],threadId:'',_m:true};if(ei!==null){all[ei]={...all[ei],...c};if(all[ei]._m){const mi=mc.findIndex(x=>x.email===em);if(mi>-1)mc[mi]=c;else mc.push(c);smc();}}else{all.push(c);mc.push(c);smc();}render();cm2('fo');}
+function oef(idx){cm2('vo');ei=idx;const c=all[idx];document.getElementById('fT').textContent='Edit Contact';document.getElementById('fS').textContent=c.firstName+' '+c.lastName+' · '+c.brokerage;document.getElementById('fFN').value=c.firstName||'';document.getElementById('fLN').value=c.lastName||'';document.getElementById('fEM').value=c.email||'';document.getElementById('fBR').value=c.brokerage||'';document.getElementById('fFED').value=c.firstEmailDate||'';document.getElementById('fLED').value=c.lastEmailedDate||'';document.getElementById('fLRD').value=c.lastReplyDate||'';document.getElementById('fST').value=c.status||'Cold — Not Contacted';document.getElementById('fTEM').value=c.timesEmailed||0;document.getElementById('fTRS').value=c.totalResponses||0;document.getElementById('fNO').value=c.notes||'';if(document.getElementById('fBL'))document.getElementById('fBL').value=c.businessLine||'';om('fo');}
+function cf(){['fFN','fLN','fEM','fBR','fFED','fLED','fLRD','fNO'].forEach(id=>document.getElementById(id).value='');document.getElementById('fST').value='Cold — Not Contacted';document.getElementById('fTEM').value=0;document.getElementById('fTRS').value=0;if(document.getElementById('fBL'))document.getElementById('fBL').value='';}
+function subf(){const fn=document.getElementById('fFN').value.trim();const em=document.getElementById('fEM').value.trim();if(!fn||!em){alert('First name and email required.');return;}const td=new Date().toISOString().split('T')[0];const ld=document.getElementById('fLED').value||td;const d=Math.floor((new Date()-new Date(ld))/(1000*60*60*24));const c={firstName:fn,lastName:document.getElementById('fLN').value.trim(),email:em,brokerage:document.getElementById('fBR').value.trim(),firstEmailDate:document.getElementById('fFED').value||td,lastEmailedDate:ld,lastReplyDate:document.getElementById('fLRD').value||'',daysSinceContact:d,timesEmailed:parseInt(document.getElementById('fTEM').value)||0,totalResponses:parseInt(document.getElementById('fTRS').value)||0,replied:parseInt(document.getElementById('fTRS').value)>0?'Yes':'No',status:document.getElementById('fST').value,notes:document.getElementById('fNO').value.trim(),businessLine:document.getElementById('fBL').value,conversationHistory:[],threadId:'',_m:true};if(ei!==null){all[ei]={...all[ei],...c};if(all[ei]._m){const mi=mc.findIndex(x=>x.email===em);if(mi>-1)mc[mi]=c;else mc.push(c);smc();}}else{all.push(c);mc.push(c);smc();}render();cm2('fo');}
 function cd(idx){cm2('vo');di=idx;const c=all[idx];document.getElementById('dm').textContent=`Remove ${c.firstName} ${c.lastName} (${c.brokerage})? This cannot be undone.`;om('do2');}
 function exd(){if(di===null)return;const c=all[di];sov2(c.email,'_del',true);const mi=mc.findIndex(m=>m.email===c.email);if(mi>-1){mc.splice(mi,1);smc();}all.splice(di,1);di=null;render();cm2('do2');}
 function sov2(email,k,v){if(!ov[email])ov[email]={};ov[email][k]=v;sov();}
