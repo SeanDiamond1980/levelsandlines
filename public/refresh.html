@@ -257,7 +257,7 @@ Return ONLY the CSV. No preamble, no explanation, no markdown fences.`;
     setStep(1, 'done', 'Gmail read complete');
     setStep(2, 'done', contactCount + ' contacts extracted');
 
-    // STEP 3 — Write to Sheet
+    // STEP 3 — Write to Sheet via chunked GET requests
     setStep(3, 'running', 'Sending to Google Sheet...');
 
     let sheetSuccess = false;
@@ -265,21 +265,56 @@ Return ONLY the CSV. No preamble, no explanation, no markdown fences.`;
 
     if (scriptUrl) {
       try {
-        log('POSTing to Apps Script: ' + scriptUrl.substring(0, 60) + '...');
-        const sheetRes = await fetch(scriptUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ csv: csvText })
-        });
-        const sheetData = await sheetRes.json();
-        if (sheetData.success) {
-          sheetSuccess = true;
-          sheetMsg = sheetData.rowsWritten + ' rows written at ' + new Date(sheetData.updatedAt).toLocaleTimeString();
-          log('Sheet write success: ' + sheetMsg);
-          setStep(3, 'done', sheetMsg);
-        } else {
-          throw new Error(sheetData.error || 'Sheet write failed');
+        const csvLines2 = csvText.trim().split('\n').filter(l => l.trim());
+        const headerRow2 = csvLines2[0];
+        const dataLines2 = csvLines2.slice(1);
+        const CHUNK = 10;
+
+        function parseCSVLine2(line) {
+          const result = []; let cur = ''; let q = false;
+          for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+            if (ch === '"') { if (q && line[i+1]==='"'){cur+='"';i++;} else{q=!q;} }
+            else if (ch === ',' && !q) { result.push(cur); cur = ''; }
+            else { cur += ch; }
+          }
+          result.push(cur); return result;
         }
+
+        log('Chunked GET strategy: ' + dataLines2.length + ' rows in chunks of ' + CHUNK);
+
+        // Send headers
+        const headerArr2 = parseCSVLine2(headerRow2);
+        const hUrl = scriptUrl + '?action=headers&data=' + encodeURIComponent(JSON.stringify(headerArr2));
+        const hRes = await fetch(hUrl);
+        const hData = await hRes.json();
+        if (!hData.success) throw new Error('Header write failed: ' + (hData.error||'unknown'));
+        log('Headers written: ' + hData.count + ' columns');
+
+        // Send data chunks
+        for (let i = 0; i < dataLines2.length; i += CHUNK) {
+          const chunk2 = dataLines2.slice(i, i + CHUNK).map(l => parseCSVLine2(l));
+          const chUrl = scriptUrl + '?action=chunk&data=' + encodeURIComponent(JSON.stringify(chunk2));
+          const cRes = await fetch(chUrl);
+          const cData = await cRes.json();
+          if (!cData.success) throw new Error('Chunk failed at row ' + i + ': ' + (cData.error||'unknown'));
+          log('Chunk written: rows ' + (i+2) + '–' + Math.min(i+CHUNK+1, dataLines2.length+1));
+          setStep(3, 'running', 'Writing ' + Math.min(i+CHUNK, dataLines2.length) + ' of ' + dataLines2.length + ' rows...');
+        }
+
+        // Finalize
+        const fUrl = scriptUrl + '?action=finalize';
+        const fRes = await fetch(fUrl);
+        const fData = await fRes.json();
+        if (!fData.success) throw new Error('Finalize failed: ' + (fData.error||'unknown'));
+
+        sheetSuccess = true;
+        sheetMsg = fData.totalRows + ' rows written at ' + new Date(fData.updatedAt).toLocaleTimeString();
+        log('Sheet write complete: ' + sheetMsg);
+        setStep(3, 'done', sheetMsg);
+
+      } catch(sheetErr) {
+        // keep existing error handling
       } catch (sheetErr) {
         log('Sheet write failed: ' + sheetErr.message);
         log('Falling back to manual CSV copy');
