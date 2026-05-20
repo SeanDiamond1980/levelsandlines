@@ -321,19 +321,42 @@ function pcsv(csv){
   if(lines.length<2)return[];
   const h=spl(lines[0]).map(x=>x.replace(/^"|"$/g,'').trim());
   return lines.slice(1).map(line=>{
-    const v=spl(line);
-    const o={};h.forEach((k,i)=>o[k]=(v[i]||'').replace(/^"|"$/g,'').trim());
-    // Calculate days since contact if not provided
+    const v=spl(line).map(x=>x.replace(/^"|"$/g,'').trim());
+    const o={};h.forEach((k,i)=>o[k]=v[i]||'');
+    // Days since contact
     let days=parseInt(o['Days Since Last Contact'])||0;
     if(!days&&o['Last Emailed Date']){try{days=Math.floor((new Date()-new Date(o['Last Emailed Date']))/(1000*60*60*24));}catch{days=0;}}
-    // Parse conversation history — handle double-encoded JSON
-    let ch2=[];
-    const raw=(o['Conversation History']||'').trim();
-    if(raw&&raw!=='No'&&raw!==''){
-      ch2=tj(raw);
-      if(!ch2.length){ch2=tj(raw.replace(/""/g,'"'));}
+    // Handle case where Times Emailed and Total Responses are extra columns not in header
+    // Detect by checking if Replied column contains a number instead of Yes/No
+    let timesEmailed=parseInt(o['Times Emailed'])||0;
+    let totalResponses=parseInt(o['Total Responses'])||0;
+    let replied=o['Replied']||'No';
+    let status=o['Status']||'Emailed — No Response';
+    let notes=o['Notes']||'';
+    let threadId=o['Thread ID']||'';
+    let convHist=o['Conversation History']||'';
+    // If Replied is a number, the CSV has extra unlabelled columns — shift everything
+    if(!isNaN(parseInt(replied))&&parseInt(replied)>0){
+      const ri=h.indexOf('Replied');
+      if(ri>-1){
+        timesEmailed=parseInt(v[ri])||0;
+        totalResponses=parseInt(v[ri+1])||0;
+        replied=v[ri+2]||'No';
+        status=v[ri+3]||'Emailed — No Response';
+        notes=v[ri+4]||'';
+        threadId=v[ri+5]||'';
+        convHist=v[ri+6]||'';
+      }
     }
-    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed:parseInt(o['Times Emailed'])||0,totalResponses:parseInt(o['Total Responses'])||0,replied:o['Replied']||'No',status:o['Status']||'Emailed — No Response',notes:o['Notes']||'',threadId:o['Thread ID']||'',conversationHistory:ch2,_m:false};
+    // Parse conversation history — handle CSV double-quote escaping
+    let ch2=[];
+    const raw=convHist.trim();
+    if(raw&&raw!=='No'&&raw.startsWith('[')){
+      // Unescape CSV double-quote encoding: "" → "
+      const unescaped=raw.replace(/""/g,'"');
+      ch2=tj(unescaped);
+    }
+    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,_m:false};
   }).filter(c=>c.email);
 }
 function spl(line){
