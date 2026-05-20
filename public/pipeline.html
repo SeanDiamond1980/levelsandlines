@@ -17,6 +17,8 @@
   .header-right{display:flex;align-items:center;gap:10px;}
   .last-updated{font-family:'DM Mono',monospace;font-size:11px;color:#555;}
   .btn{border:none;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity 0.2s;letter-spacing:0.03em;}
+  .btn-outline{background:transparent;border:1px solid var(--grey-mid);padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink);}
+  .btn-outline:hover{border-color:var(--ink);}
   .btn-yellow{background:var(--yellow);color:var(--ink);}
   .btn-white{background:var(--white);color:var(--ink);}
   .btn-ink{background:var(--ink);color:var(--white);border:1px solid #333;}
@@ -212,6 +214,12 @@
     </tr></thead>
     <tbody id="tb"><tr><td colspan="12"><div class="es">Loading...</div></td></tr></tbody>
   </table>
+</div>
+<div id="dropZone" style="display:none;margin:0;border:2px dashed var(--grey-mid);padding:14px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);cursor:pointer;transition:all 0.15s;"
+  ondragover="event.preventDefault();this.style.borderColor='var(--yellow)';this.style.color='var(--ink)'"
+  ondragleave="this.style.borderColor='var(--grey-mid)';this.style.color='var(--grey)'"
+  ondrop="dropToIndividual(event)">
+  ↓ Drop here to make individual (no group)
 </div>
 
 <!-- VIEW -->
@@ -433,7 +441,8 @@ function groupByBrokerage(contacts){
   return Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0]));
 }
 
-let collapsed={};// track which brokerages are collapsed
+let collapsed={};
+let customGroups=JSON.parse(localStorage.getItem('ll_custom_groups')||'[]');
 
 function toggleGroup(brok){
   collapsed[brok]=!collapsed[brok];
@@ -487,8 +496,8 @@ function rt(){
         const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
         const indent=single?'16px':'36px';
         html+=`<tr style="background:#FAFAFA;" draggable="true"
-          ondragstart="dragIdx=${idx};this.style.opacity='0.4'"
-          ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'))"
+          ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ()"
+          ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));hideDZ()"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
           ondrop="dropOnRow(event,${idx})">
@@ -517,6 +526,42 @@ function rt(){
   });
   tb.innerHTML=html;
 }
+
+function createNewGroup(){
+  const name = prompt('New group / brokerage name:');
+  if(!name||!name.trim())return;
+  const n=name.trim();
+  // Check it doesn't already exist
+  if(all.some(c=>c.brokerage===n)){alert('A group called "'+n+'" already exists.');return;}
+  // Add a placeholder contact so the group appears — user drags real contacts in
+  // Actually just store as a custom group name that contacts can be dragged into
+  // Easiest: rename selected contact's brokerage, or just show it as a target
+  // Best approach: store custom groups in localStorage
+  let cg=JSON.parse(localStorage.getItem('ll_custom_groups')||'[]');
+  if(!cg.includes(n))cg.push(n);
+  localStorage.setItem('ll_custom_groups',JSON.stringify(cg));
+  customGroups=cg;
+  render();
+  alert('"'+n+'" group created. Drag contacts into it from the table.');
+}
+
+function dropToIndividual(event){
+  event.preventDefault();
+  document.getElementById('dropZone').style.borderColor='var(--grey-mid)';
+  document.getElementById('dropZone').style.color='var(--grey)';
+  if(dragIdx===null)return;
+  const c=all[dragIdx];
+  // Set brokerage to their own name so they appear solo with no group header
+  const solo=c.firstName+(c.lastName?' '+c.lastName:'');
+  c.brokerage=solo;
+  sov2(c.email,'brokerage',solo);
+  dragIdx=null;
+  hideDZ();
+  render();
+}
+
+function showDZ(){document.getElementById('dropZone').style.display='block';}
+function hideDZ(){document.getElementById('dropZone').style.display='none';}
 
 function dropOnGroup(event,targetBrok){
   event.preventDefault();
