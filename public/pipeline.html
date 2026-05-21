@@ -128,7 +128,14 @@
   .cs{font-size:13px;color:#555;margin-bottom:20px;line-height:1.5;}
   .ca{display:flex;gap:8px;justify-content:flex-end;}
   .es{padding:48px;text-align:center;color:var(--grey);font-family:'DM Mono',monospace;font-size:13px;}
-  .bl-select{border:1px solid var(--grey-mid);padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:var(--white);width:140px;max-width:140px;}
+  .bl-select{border:none;padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:transparent;width:180px;max-width:180px;}
+  .status-select{border:none;padding:4px 6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;outline:none;cursor:pointer;border-radius:3px;width:170px;}
+  .status-select.sc-marine{background:#E8F4F4;color:#2C7873;}
+  .status-select.sc-yellow{background:#FFF3DC;color:#B8860B;}
+  .status-select.sc-green{background:#E8F8F0;color:#27AE60;}
+  .status-select.sc-red{background:#FFE8E8;color:#C0392B;}
+  .status-select.sc-grey{background:#F0F0EE;color:#666;}
+  .status-select.sc-purple{background:#F0EEF8;color:#6C5CE7;}
   .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
   .ie-field{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;transition:border-color 0.15s;}
   .ie-field:hover,.ie-field:focus{border-bottom-color:var(--grey-mid);background:#FAFAFA;}
@@ -470,6 +477,27 @@ const BL_OPTIONS = [
   'Other'
 ];
 
+const STATUS_OPTIONS = [
+  'Cold — Not Contacted',
+  'Emailed — No Response',
+  'Engaged — Replied',
+  'Meeting Booked',
+  'Not Interested',
+  'Nurture — Come Back Later'
+];
+
+function renderStatus(c, idx) {
+  const val = c.status || '';
+  const opts = STATUS_OPTIONS.map(o => `<option value="${o}" ${o===val?'selected':''}>${o}</option>`).join('');
+  return `<select class="status-select ${sc2(val)}" onchange="updateStatusInline(${idx},this.value)" onclick="event.stopPropagation()">${opts}</select>`;
+}
+
+function updateStatusInline(idx, val) {
+  all[idx].status = val;
+  sov2(all[idx].email, 'status', val);
+  render();
+}
+
 function renderBL(c, idx) {
   const val = c.businessLine || '';
   const opts = BL_OPTIONS.map(o => `<option value="${o}" ${o===val?'selected':''}>${o||'— Select —'}</option>`).join('');
@@ -574,7 +602,7 @@ function rt(){
           <td class="mc">${c.timesEmailed||0}</td>
           <td class="mc">${c.totalResponses||0}</td>
           <td><span class="rb ${c.replied==='Yes'?'ry':'rn'}">${c.replied==='Yes'?'✓ Yes':'— No'}</span></td>
-          <td><span class="sb ${sc2(c.status)}">${c.status}</span></td>
+          <td>${renderStatus(c,idx)}</td>
           <td>${renderBL(c,idx)}</td>
           <td><div class="ac">
             <button class="ab" onclick="ov2(${idx})">View</button>
