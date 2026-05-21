@@ -130,6 +130,10 @@
   .es{padding:48px;text-align:center;color:var(--grey);font-family:'DM Mono',monospace;font-size:13px;}
   .bl-select{border:1px solid var(--grey-mid);padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:var(--white);max-width:160px;}
   .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
+  .ie-field{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;transition:border-color 0.15s;}
+  .ie-field:hover,.ie-field:focus{border-bottom-color:var(--grey-mid);background:#FAFAFA;}
+  .ie-num{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;text-align:center;font-size:18px;font-weight:700;transition:border-color 0.15s;}
+  .ie-num:hover,.ie-num:focus{border-bottom-color:var(--grey-mid);background:#FAFAFA;}
 </style>
 </head>
 <body>
@@ -227,23 +231,35 @@
 <div class="mo" id="vo" onclick="cio(event,'vo')">
   <div class="md">
     <div class="mh">
-      <div class="mn" id="vN">—</div>
-      <div class="ms" id="vB">—</div>
+      <div style="flex:1">
+        <div style="display:flex;gap:8px;margin-bottom:4px;">
+          <input class="ie-field" id="vFN" placeholder="First name" oninput="ieSave('firstName',this.value)" style="font-size:16px;font-weight:600;width:50%"/>
+          <input class="ie-field" id="vLN" placeholder="Last name" oninput="ieSave('lastName',this.value)" style="font-size:16px;font-weight:600;width:50%"/>
+        </div>
+        <input class="ie-field" id="vBrok" placeholder="Brokerage" oninput="ieSave('brokerage',this.value)" style="font-size:12px;color:var(--grey);width:100%"/>
+      </div>
       <button class="mc2" onclick="cm2('vo')">✕</button>
     </div>
     <div class="mm">
-      <div class="mi"><div class="ml">Email</div><div class="mv" id="vE">—</div></div>
-      <div class="mi"><div class="ml">First Contacted</div><div class="mv" id="vFE">—</div></div>
-      <div class="mi"><div class="ml">Last Activity</div><div class="mv" id="vLA">—</div></div>
+      <div class="mi"><div class="ml">Email</div><input class="ie-field mv" id="vE" placeholder="email@domain.com" oninput="ieSave('email',this.value)"/></div>
+      <div class="mi"><div class="ml">First Contacted</div><input class="ie-field mv" id="vFE" type="date" oninput="ieSave('firstEmailDate',this.value)"/></div>
+      <div class="mi"><div class="ml">Last Emailed</div><input class="ie-field mv" id="vLE" type="date" oninput="ieSave('lastEmailedDate',this.value)"/></div>
+      <div class="mi"><div class="ml">Last Reply</div><input class="ie-field mv" id="vLR" type="date" oninput="ieSave('lastReplyDate',this.value)"/></div>
     </div>
     <div class="mmt">
-      <div class="mmi"><div class="mnum" id="vTE">—</div><div class="mlbl">Times Emailed</div></div>
-      <div class="mmi"><div class="mnum" id="vTR">—</div><div class="mlbl">Responses</div></div>
+      <div class="mmi"><input class="ie-num" id="vTE" type="number" min="0" oninput="ieSave('timesEmailed',parseInt(this.value)||0)"/><div class="mlbl">Times Emailed</div></div>
+      <div class="mmi"><input class="ie-num" id="vTR" type="number" min="0" oninput="ieSave('totalResponses',parseInt(this.value)||0)"/><div class="mlbl">Responses</div></div>
       <div class="mmi"><div class="mnum" id="vDS">—</div><div class="mlbl">Days Since</div></div>
-      <div class="mmi"><div class="mnum" id="vRp">—</div><div class="mlbl">Replied</div></div>
+      <div class="mmi">
+        <select class="ie-num" id="vRp" onchange="ieSave('replied',this.value)" style="font-size:14px;font-weight:700;">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+        <div class="mlbl">Replied</div>
+      </div>
     </div>
     <div class="sr"><span class="srl">Business Line:</span>
-      <select class="ss" id="vBL" onchange="updateBLModal(event)">
+      <select class="ss" id="vBL" onchange="ieSave('businessLine',this.value);render()">
         <option value="">— Select —</option>
         <option>Property Lab: Brokerage</option>
         <option>Property Lab: Team Lead</option>
@@ -255,18 +271,17 @@
       </select>
     </div>
     <div class="sr"><span class="srl">Status:</span>
-      <select class="ss" id="vSS" onchange="ucs(event)">
+      <select class="ss" id="vSS" onchange="ieSave('status',this.value);render()">
         <option>Cold — Not Contacted</option><option>Emailed — No Response</option>
         <option>Engaged — Replied</option><option>Meeting Booked</option>
         <option>Not Interested</option><option>Nurture — Come Back Later</option>
       </select>
     </div>
     <div class="msc"><div class="stl">Conversation History</div><div class="ct" id="vTh"><div class="nh">Run weekly refresh prompt to populate.</div></div></div>
-    <div class="msc"><div class="stl">Notes</div><textarea class="ni" id="vNo" placeholder="Add notes..."></textarea></div>
+    <div class="msc"><div class="stl">Notes</div><textarea class="ni" id="vNo" placeholder="Add notes..." oninput="ieSave('notes',this.value)"></textarea></div>
     <div class="ma">
-      <button class="btn btn-ink" onclick="oef(ci)">Edit</button>
       <button class="btn btn-red" onclick="cd(ci)">Delete</button>
-      <button class="btn btn-yellow" onclick="sns()" style="margin-left:auto">Save Changes</button>
+      <span id="vSaveStatus" style="margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);align-self:center;"></span>
     </div>
   </div>
 </div>
@@ -658,6 +673,21 @@ function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed 
 function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;
   if(document.getElementById('vBL'))document.getElementById('vBL').value=c.businessLine||'';
   document.getElementById('vBL').value=c.businessLine||'';document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
+function ieSave(field, value){
+  if(ci===null)return;
+  all[ci][field]=value;
+  sov2(all[ci].email, field, value);
+  // Update days since if dates changed
+  if(field==='lastEmailedDate'||field==='firstEmailDate'){
+    const d=all[ci].lastEmailedDate||all[ci].firstEmailDate||'';
+    if(d){const diff=Math.floor((new Date()-new Date(d))/(1000*60*60*24));all[ci].daysSinceContact=diff;document.getElementById('vDS').textContent=diff+'d';}
+  }
+  // Show save indicator in modal
+  const vs=document.getElementById('vSaveStatus');
+  if(vs){vs.textContent='Saving...';clearTimeout(vs._t);vs._t=setTimeout(()=>vs.textContent='Saved ✓',1600);}
+  render();
+}
+
 function updateBLModal(e){
   if(ci===null)return;
   all[ci].businessLine=e.target.value;
