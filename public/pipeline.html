@@ -221,7 +221,7 @@
 </div>
 <div class="table-container">
   <table>
-    <thead><tr>
+    <thead style="position:sticky;top:0;z-index:10;"><tr>
       <th onclick="sb('firstName')">Name ↕</th>
       <th onclick="sb('brokerage')">Brokerage ↕</th>
       <th onclick="sb('firstEmailDate')">First Email ↕</th>
@@ -233,6 +233,7 @@
       <th onclick="sb('replied')">Replied ↕</th>
       <th onclick="sb('status')">Status ↕</th>
       <th onclick="sb('businessLine')">Line of Business ↕</th>
+      <th onclick="sb('reminderDate')">Reminder ↕</th>
     </tr></thead>
     <tbody id="tb"><tr><td colspan="12"><div class="es">Loading...</div></td></tr></tbody>
   </table>
@@ -297,6 +298,8 @@
     </div>
     <div class="msc"><div class="stl">Conversation History</div><div class="ct" id="vTh"><div class="nh">Run weekly refresh prompt to populate.</div></div></div>
     <div class="msc"><div class="stl">Notes</div><textarea class="ni" id="vNo" placeholder="Add notes..." oninput="ieSave('notes',this.value)"></textarea></div>
+    <div class="msc"><div class="stl">Next Steps</div><textarea class="ni" id="vNS" placeholder="What needs to happen next..." oninput="ieSave('nextStep',this.value)" rows="2"></textarea></div>
+    <div class="sr"><span class="srl">Reminder Date:</span><input type="date" class="ss" id="vRD" onchange="ieSave('reminderDate',this.value)"/></div>
     <div class="ma">
       <button class="btn btn-red" onclick="cd(ci)">Delete</button>
       <span id="vSaveStatus" style="margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);align-self:center;"></span>
@@ -468,7 +471,7 @@ function pcsv(csv){
       const unescaped=raw.replace(/""/g,'"');
       ch2=tj(unescaped);
     }
-    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,businessLine:o['Business Line']||'',_m:false};
+    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,businessLine:o['Business Line']||'',nextStep:o['Next Step']||'',reminderDate:o['Reminder Date']||'',_m:false};
   }).filter(c=>c.email);
 }
 function spl(line){
@@ -496,6 +499,28 @@ const BL_OPTIONS = [
   'Ally',
   'Other'
 ];
+
+function renderReminder(c, idx) {
+  const val = c.reminderDate || '';
+  const today = new Date().toISOString().split('T')[0];
+  const isOverdue = val && val < today;
+  const isDueToday = val && val === today;
+  const color = isOverdue ? '#C0392B' : isDueToday ? '#E67E22' : 'inherit';
+  return `<div style="display:flex;flex-direction:column;gap:2px;min-width:120px;">
+    <input type="date" class="ie-field" value="${val}" 
+      style="font-size:11px;color:${color};width:120px;"
+      onchange="updateReminder(${idx},this.value)" 
+      onclick="event.stopPropagation()"
+      title="Set reminder date"/>
+    ${val ? `<span style="font-family:'DM Mono',monospace;font-size:9px;color:${color};">${isOverdue?'⚠ Overdue':isDueToday?'● Due today':''}</span>` : ''}
+  </div>`;
+}
+
+function updateReminder(idx, val) {
+  all[idx].reminderDate = val;
+  sov2(all[idx].email, 'reminderDate', val);
+  render();
+}
 
 const STATUS_OPTIONS = [
   'Cold — Not Contacted',
@@ -626,7 +651,8 @@ function rt(){
     const latestReply=contacts.map(c=>c.lastReplyDate||'').filter(Boolean).sort().reverse()[0]||'—';
     const minDays=Math.min(...contacts.map(c=>c.daysSinceContact||999));
     const maxDays=Math.max(...contacts.map(c=>c.daysSinceContact||0));
-    const anyFlag=contacts.some(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');
+    const today2=new Date().toISOString().split('T')[0];
+    const anyFlag=contacts.some(c=>(c.daysSinceContact>=5&&c.status==='Emailed — No Response')||(c.reminderDate&&c.reminderDate<=today2));
     const status=topStatus(contacts);
     const single=contacts.length===1;
     const brokSafe=brok.replace(/'/g,"\\'").replace(/"/g,'&quot;');
@@ -655,7 +681,7 @@ function rt(){
     if(!isCollapsed||single){
       contacts.forEach(c=>{
         const idx=all.indexOf(c);
-        const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
+        const td2=new Date().toISOString().split('T')[0];const fl=(c.daysSinceContact>=5&&c.status==='Emailed — No Response')||(c.reminderDate&&c.reminderDate<=td2);
         const indent=single?'16px':'36px';
         html+=`<tr style="background:#FAFAFA;" draggable="true"
           id="row-${idx}" ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ();showInlineDZ(${idx})"
@@ -677,6 +703,7 @@ function rt(){
           <td><span class="rb ${c.replied==='Yes'?'ry':'rn'}">${c.replied==='Yes'?'✓ Yes':'— No'}</span></td>
           <td>${renderStatus(c,idx)}</td>
           <td>${renderBL(c,idx)}</td>
+          <td>${renderReminder(c,idx)}</td>
           <td><div class="ac">
             <button class="ab" onclick="ov2(${idx})">View</button>
             <button class="ab" onclick="oef(${idx})">Edit</button>
