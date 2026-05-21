@@ -88,7 +88,7 @@
   .ms{font-size:12px;color:var(--grey);font-family:'DM Mono',monospace;}
   .mc2{position:absolute;top:18px;right:18px;background:none;border:1px solid #444;color:var(--white);width:30px;height:30px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
   .mc2:hover{background:#333;}
-  .mm{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--grey-mid);}
+  .mm{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--grey-mid);}
   .mi{padding:14px 18px;border-right:1px solid var(--grey-mid);}
   .mi:last-child{border-right:none;}
   .ml{font-size:10px;color:var(--grey);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;font-family:'DM Mono',monospace;}
@@ -137,8 +137,12 @@
   .status-select.sc-grey{background:#F0F0EE;color:#666;}
   .status-select.sc-purple{background:#F0EEF8;color:#6C5CE7;}
   .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
-  .ie-field{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;transition:border-color 0.15s;}
-  .ie-field:hover,.ie-field:focus{border-bottom-color:var(--grey-mid);background:#FAFAFA;}
+  .ie-field{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;transition:border-color 0.15s;color:inherit;}
+  .ie-field:hover,.ie-field:focus{border-bottom-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);}
+  .mh .ie-field{color:var(--white);}
+  .mh .ie-field::placeholder{color:rgba(255,255,255,0.4);}
+  .mh .ie-field:hover,.mh .ie-field:focus{border-bottom-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.08);}
+  .mm .ie-field,.mm .ie-field:hover,.mm .ie-field:focus{color:var(--ink);border-bottom-color:var(--grey-mid);background:#FAFAFA;}
   .ie-num{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;text-align:center;font-size:18px;font-weight:700;transition:border-color 0.15s;}
   .ie-num:hover,.ie-num:focus{border-bottom-color:var(--grey-mid);background:#FAFAFA;}
 </style>
