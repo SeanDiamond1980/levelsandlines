@@ -670,9 +670,25 @@ function dropOnRow(event,targetIdx){
 }
 function us(){document.getElementById('sT').textContent=all.length;document.getElementById('sE').textContent=all.filter(c=>c.status==='Engaged — Replied').length;document.getElementById('sM').textContent=all.filter(c=>c.status==='Meeting Booked').length;document.getElementById('sF').textContent=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response').length;document.getElementById('sR').textContent=all.filter(c=>c.replied==='Yes').length;document.getElementById('sEM').textContent=all.reduce((s,c)=>s+(c.timesEmailed||0),0);}
 function uf(){const fl=all.filter(c=>c.daysSinceContact>=5&&c.status==='Emailed — No Response');const b=document.getElementById('fb');if(fl.length){b.style.display='flex';document.getElementById('fn').textContent=fl.slice(0,5).map(c=>c.firstName+' '+c.lastName.charAt(0)+'.').join(', ')+(fl.length>5?` +${fl.length-5} more`:'');}else{b.style.display='none';}}
-function ov2(idx){ci=idx;const c=all[idx];document.getElementById('vN').textContent=c.firstName+' '+c.lastName;document.getElementById('vB').textContent=c.brokerage;document.getElementById('vE').textContent=c.email;document.getElementById('vFE').textContent=c.firstEmailDate||'—';document.getElementById('vLA').textContent=c.lastEmailedDate||'—';document.getElementById('vTE').textContent=c.timesEmailed||0;document.getElementById('vTR').textContent=c.totalResponses||0;document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';document.getElementById('vRp').textContent=c.replied==='Yes'?'✓ Yes':'— No';document.getElementById('vSS').value=c.status;
-  if(document.getElementById('vBL'))document.getElementById('vBL').value=c.businessLine||'';
-  document.getElementById('vBL').value=c.businessLine||'';document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');}
+function ov2(idx){ci=idx;const c=all[idx];
+  document.getElementById('vFN').value=c.firstName||'';
+  document.getElementById('vLN').value=c.lastName||'';
+  document.getElementById('vBrok').value=c.brokerage||'';
+  document.getElementById('vE').value=c.email||'';
+  document.getElementById('vFE').value=c.firstEmailDate||'';
+  document.getElementById('vLE').value=c.lastEmailedDate||'';
+  document.getElementById('vLR').value=c.lastReplyDate||'';
+  document.getElementById('vTE').value=c.timesEmailed||0;
+  document.getElementById('vTR').value=c.totalResponses||0;
+  document.getElementById('vDS').textContent=(c.daysSinceContact||0)+'d';
+  document.getElementById('vRp').value=c.replied||'No';
+  document.getElementById('vSS').value=c.status||'';
+  document.getElementById('vBL').value=c.businessLine||'';
+  document.getElementById('vSS').value=c.status;
+  
+  document.getElementById('vNo').value=c.notes||'';const th=document.getElementById('vTh');th.innerHTML=(c.conversationHistory&&c.conversationHistory.length)?c.conversationHistory.map(m=>`<div class="msg ${m.direction||'outbound'}"><div class="mmeta"><div class="mfrom">${m.from}</div><div class="mdate">${m.date}</div></div><div class="mbody">${m.body}</div></div>`).join(''):'<div class="nh">No conversation history yet. Run the weekly refresh prompt to populate.</div>';om('vo');
+  om('vo');
+}
 function ieSave(field, value){
   if(ci===null)return;
   all[ci][field]=value;
