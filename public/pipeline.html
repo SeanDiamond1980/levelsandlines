@@ -241,7 +241,7 @@
   ondragover="event.preventDefault();this.style.borderColor='var(--yellow)';this.style.color='var(--ink)'"
   ondragleave="this.style.borderColor='var(--grey-mid)';this.style.color='var(--grey)'"
   ondrop="dropToIndividual(event)">
-  ↓ Drop here to make individual
+  ↓ Drop here to add to a company
 </div>
 
 <!-- VIEW -->
@@ -728,13 +728,15 @@ function dropToIndividual(event){
   document.getElementById('dropZone').style.borderColor='var(--grey-mid)';
   document.getElementById('dropZone').style.color='var(--grey)';
   if(dragIdx===null)return;
-  const c=all[dragIdx];
-  // Set brokerage to their own name so they appear solo with no group header
-  const solo=c.firstName+(c.lastName?' '+c.lastName:'');
-  c.brokerage=solo;
-  sov2(c.email,'brokerage',solo);
+  const savedIdx=dragIdx;
   dragIdx=null;
   hideDZ();
+  // Prompt for company name
+  const company=prompt('Company / brokerage name:');
+  if(!company||!company.trim())return;
+  const c=all[savedIdx];
+  c.brokerage=company.trim();
+  sov2(c.email,'brokerage',company.trim());
   render();
 }
 
@@ -746,20 +748,22 @@ function showInlineDZ(idx) {
   if (!row) return;
   const dz = document.createElement('tr');
   dz.id = 'inlineDZ';
-  dz.innerHTML = '<td colspan="12" style="background:#FFFBF0;border:2px dashed #FEC780;height:32px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:#B8860B;line-height:28px;cursor:pointer;">↓ Drop here to make individual</td>';
+  dz.innerHTML = '<td colspan="12" style="background:#FFFBF0;border:2px dashed #FEC780;height:32px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:#B8860B;line-height:28px;cursor:pointer;">↓ Drop here to add to a company</td>';
   dz.addEventListener('dragover', e => { e.preventDefault(); dz.querySelector('td').style.background='#FEC780'; dz.querySelector('td').style.color='#000'; });
   dz.addEventListener('dragleave', () => { dz.querySelector('td').style.background='#FFFBF0'; dz.querySelector('td').style.color='#B8860B'; });
   dz.addEventListener('drop', e => {
     e.preventDefault();
     e.stopPropagation();
     hideInlineDZ();
-    if (dragIdx === null) return;
-    const c = all[dragIdx];
-    const solo = [c.firstName, c.lastName].filter(Boolean).join(' ') || c.email;
-    c.brokerage = solo;
-    sov2(c.email, 'brokerage', solo);
+    const savedIdx = dragIdx;
     dragIdx = null;
     hideDZ();
+    if (savedIdx === null) return;
+    const company = prompt('Company / brokerage name:');
+    if (!company || !company.trim()) return;
+    const c = all[savedIdx];
+    c.brokerage = company.trim();
+    sov2(c.email, 'brokerage', company.trim());
     render();
   });
   row.insertAdjacentElement('afterend', dz);
