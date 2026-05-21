@@ -137,6 +137,10 @@
   .status-select.sc-grey{background:#F0F0EE;color:#666;}
   .status-select.sc-purple{background:#F0EEF8;color:#6C5CE7;}
   .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
+  .ctx-item{padding:9px 16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .ctx-item:hover{background:var(--grey-light);}
+  .ctx-del{color:#C0392B;}
+  .ctx-sep{border-top:1px solid var(--grey-mid);margin:3px 0;}
   .ie-field{border:none;border-bottom:1px solid transparent;padding:2px 4px;font-family:'DM Sans',sans-serif;background:transparent;outline:none;width:100%;transition:border-color 0.15s;color:inherit;}
   .ie-field:hover,.ie-field:focus{border-bottom-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);}
   .mh .ie-field{color:var(--white);}
@@ -235,7 +239,7 @@
   ondragover="event.preventDefault();this.style.borderColor='var(--yellow)';this.style.color='var(--ink)'"
   ondragleave="this.style.borderColor='var(--grey-mid)';this.style.color='var(--grey)'"
   ondrop="dropToIndividual(event)">
-  ↓ Drop here to make individual (no group)
+  ↓ Drop here to make individual
 </div>
 
 <!-- VIEW -->
@@ -342,6 +346,14 @@
       <button class="btn" style="background:#C0392B;color:white" onclick="exd()">Delete</button>
     </div>
   </div>
+</div>
+
+<div id="ctxMenu" style="display:none;position:fixed;background:#fff;border:1px solid var(--grey-mid);box-shadow:0 4px 12px rgba(0,0,0,0.12);z-index:9999;min-width:180px;">
+  <div class="ctx-item" onclick="ctxMakeIndividual()">↗ Make individual</div>
+  <div class="ctx-item" onclick="ctxEdit()">✏ Edit contact</div>
+  <div class="ctx-item" onclick="ctxView()">👁 View contact</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item ctx-del" onclick="ctxDelete()">✕ Delete contact</div>
 </div>
 
 <script>
@@ -514,6 +526,59 @@ function updateBL(idx, val) {
   render();
 }
 
+let ctxIdx = null;
+
+function showCtx(e, idx) {
+  e.preventDefault();
+  e.stopPropagation();
+  ctxIdx = idx;
+  const menu = document.getElementById('ctxMenu');
+  menu.style.display = 'block';
+  // Position near cursor, keep within viewport
+  const x = Math.min(e.clientX, window.innerWidth - 200);
+  const y = Math.min(e.clientY, window.innerHeight - 160);
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+}
+
+function hideCtx() {
+  document.getElementById('ctxMenu').style.display = 'none';
+  ctxIdx = null;
+}
+
+function ctxMakeIndividual() {
+  if (ctxIdx === null) return;
+  const c = all[ctxIdx];
+  const solo = (c.firstName || '') + (c.lastName ? ' ' + c.lastName : '') || c.email;
+  c.brokerage = solo;
+  sov2(c.email, 'brokerage', solo);
+  hideCtx();
+  render();
+}
+
+function ctxEdit() {
+  if (ctxIdx === null) return;
+  hideCtx();
+  oef(ctxIdx);
+}
+
+function ctxView() {
+  if (ctxIdx === null) return;
+  hideCtx();
+  ov2(ctxIdx);
+}
+
+function ctxDelete() {
+  if (ctxIdx === null) return;
+  di = ctxIdx;
+  hideCtx();
+  om('do2');
+}
+
+// Close context menu on any click outside
+document.addEventListener('click', hideCtx);
+document.addEventListener('keydown', e => { if(e.key==='Escape') hideCtx(); });
+
 function render(){af();us();uf();}
 function af(){const q=document.getElementById('si').value.toLowerCase();fil=all.filter(c=>{const mf=cur==='all'||c.status===cur;const ms=!q||(c.firstName+' '+c.lastName).toLowerCase().includes(q)||c.brokerage.toLowerCase().includes(q)||c.email.toLowerCase().includes(q);return mf&&ms;});rt();}
 function sf(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cur=f;af();}
@@ -593,7 +658,7 @@ function rt(){
           ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));hideDZ()"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
-          ondrop="dropOnRow(event,${idx})">
+          ondrop="dropOnRow(event,${idx})" oncontextmenu="showCtx(event,${idx})">
           <td class="nc" onclick="ov2(${idx})" style="padding-left:${indent};cursor:grab;">
             <span style="color:#ccc;margin-right:6px;font-size:11px;">⠿</span>
             ${fl?'<span class="fi"></span>':''}${c.firstName} ${c.lastName}
