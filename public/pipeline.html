@@ -656,7 +656,7 @@ function rt(){
         const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
         const indent=single?'16px':'36px';
         html+=`<tr style="background:#FAFAFA;" draggable="true"
-          ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ();showInlineDZ(this)"
+          id="row-${idx}" ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ();showInlineDZ(${idx})"
           ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));hideDZ();hideInlineDZ()"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
@@ -740,14 +740,15 @@ function dropToIndividual(event){
 
 function showDZ(){document.getElementById('dropZone').style.display='block';}
 
-function showInlineDZ(row) {
+function showInlineDZ(idx) {
   hideInlineDZ();
+  const row = document.getElementById('row-' + idx);
+  if (!row) return;
   const dz = document.createElement('tr');
   dz.id = 'inlineDZ';
-  dz.className = 'inline-dz';
-  dz.innerHTML = '<td colspan="12">↓ Drop here to make individual</td>';
-  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dz-active'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('dz-active'));
+  dz.innerHTML = '<td colspan="12" style="background:#FFFBF0;border:2px dashed #FEC780;height:32px;text-align:center;font-family:DM Mono,monospace;font-size:10px;color:#B8860B;line-height:28px;cursor:pointer;">↓ Drop here to make individual</td>';
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.querySelector('td').style.background='#FEC780'; dz.querySelector('td').style.color='#000'; });
+  dz.addEventListener('dragleave', () => { dz.querySelector('td').style.background='#FFFBF0'; dz.querySelector('td').style.color='#B8860B'; });
   dz.addEventListener('drop', e => {
     e.preventDefault();
     e.stopPropagation();
