@@ -137,6 +137,8 @@
   .status-select.sc-grey{background:#F0F0EE;color:#666;}
   .status-select.sc-purple{background:#F0EEF8;color:#6C5CE7;}
   .drag-over{outline:2px dashed var(--yellow);outline-offset:-2px;}
+  .inline-dz{background:#FFFBF0;border:1px dashed var(--yellow);height:32px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:#B8860B;line-height:32px;cursor:pointer;transition:background 0.15s;}
+  .inline-dz:hover,.inline-dz.dz-active{background:#FEC780;color:#000;}
   .ctx-item{padding:9px 16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
   .ctx-item:hover{background:var(--grey-light);}
   .ctx-del{color:#C0392B;}
@@ -654,8 +656,8 @@ function rt(){
         const fl=c.daysSinceContact>=5&&c.status==='Emailed — No Response';
         const indent=single?'16px':'36px';
         html+=`<tr style="background:#FAFAFA;" draggable="true"
-          ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ()"
-          ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));hideDZ()"
+          ondragstart="dragIdx=${idx};this.style.opacity='0.4';showDZ();showInlineDZ(this)"
+          ondragend="this.style.opacity='1';document.querySelectorAll('.drag-over').forEach(r=>r.classList.remove('drag-over'));hideDZ();hideInlineDZ()"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
           ondrop="dropOnRow(event,${idx})" oncontextmenu="showCtx(event,${idx})">
@@ -737,6 +739,35 @@ function dropToIndividual(event){
 }
 
 function showDZ(){document.getElementById('dropZone').style.display='block';}
+
+function showInlineDZ(row) {
+  hideInlineDZ();
+  const dz = document.createElement('tr');
+  dz.id = 'inlineDZ';
+  dz.className = 'inline-dz';
+  dz.innerHTML = '<td colspan="12">↓ Drop here to make individual</td>';
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dz-active'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dz-active'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    hideInlineDZ();
+    if (dragIdx === null) return;
+    const c = all[dragIdx];
+    const solo = [c.firstName, c.lastName].filter(Boolean).join(' ') || c.email;
+    c.brokerage = solo;
+    sov2(c.email, 'brokerage', solo);
+    dragIdx = null;
+    hideDZ();
+    render();
+  });
+  row.insertAdjacentElement('afterend', dz);
+}
+
+function hideInlineDZ() {
+  const el = document.getElementById('inlineDZ');
+  if (el) el.remove();
+}
 function hideDZ(){document.getElementById('dropZone').style.display='none';}
 
 function dropOnGroup(event,targetBrok){
