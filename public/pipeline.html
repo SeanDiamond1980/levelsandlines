@@ -688,6 +688,26 @@ let collapsed={};
 let customGroups=JSON.parse(localStorage.getItem('ll_custom_groups')||'[]');
 let pinnedGroups=JSON.parse(localStorage.getItem('ll_pinned_groups')||'[]');
 
+function renameGroup(brokSafe, currentName) {
+  const newName = prompt('Rename group:', currentName);
+  if (!newName || !newName.trim() || newName.trim() === currentName) return;
+  const n = newName.trim();
+  // Update all contacts in this group
+  all.forEach(c => {
+    if (c.brokerage === currentName) {
+      c.brokerage = n;
+      sov2(c.email, 'brokerage', n);
+    }
+  });
+  // Update pinned groups
+  pinnedGroups = pinnedGroups.map(g => g === currentName ? n : g);
+  localStorage.setItem('ll_pinned_groups', JSON.stringify(pinnedGroups));
+  // Update custom groups
+  customGroups = customGroups.map(g => g === currentName ? n : g);
+  localStorage.setItem('ll_custom_groups', JSON.stringify(customGroups));
+  render();
+}
+
 function pinGroup(name) {
   if (!pinnedGroups.includes(name)) {
     pinnedGroups.push(name);
@@ -731,7 +751,7 @@ function rt(){
         <td class="nc" colspan="2" style="background:#F0F0EE;padding-left:14px;">
           <span style="font-family:'DM Mono',monospace;font-size:13px;margin-right:8px;color:#999;">${isCollapsed?'▶':'▼'}</span>
           ${anyFlag?'<span class="fi"></span>':''}
-          <strong>${brok}</strong>
+          <strong id="grp-${brokSafe}" ondblclick="event.stopPropagation();renameGroup('${brokSafe}','${brok}')" style="cursor:text;" title="Double-click to rename">${brok}</strong>
           <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contact${contacts.length>1?"s":""}</span>
           <button onclick="event.stopPropagation();unpinGroup('${brokSafe}');all.filter(c=>c.brokerage===brok).forEach(c=>{c.brokerage=c.firstName+(c.lastName?' '+c.lastName:'');sov2(c.email,'brokerage',c.brokerage);});render();" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:10px;color:#bbb;padding:0 4px;" title="Dissolve group">✕</button>
         </td>
