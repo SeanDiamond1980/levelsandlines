@@ -40,6 +40,9 @@
   .filter-btn{padding:5px 12px;border:1px solid var(--grey-mid);background:var(--white);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all 0.15s;color:var(--ink);}
   .filter-btn:hover{border-color:var(--ink);}
   .filter-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .lob-btn{padding:4px 10px;border:1px solid var(--grey-mid);background:var(--white);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all 0.15s;color:var(--ink);}
+  .lob-btn:hover{border-color:var(--marine);}
+  .lob-btn.active{background:var(--marine);color:var(--ink);border-color:var(--marine);}
   .search-input{padding:6px 12px;border:1px solid var(--grey-mid);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:200px;transition:border-color 0.15s;}
   .search-input:focus{border-color:var(--ink);}
   .add-btn{margin-left:auto;background:var(--ink);color:var(--white);border:none;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
@@ -221,6 +224,19 @@
   <input class="search-input" id="si" type="text" placeholder="Search..." oninput="af()"/>
   <button class="add-btn" onclick="oaf()">+ Add Contact</button>
   <button class="add-btn" style="background:transparent;border:1px solid var(--grey-mid);margin-left:8px;" onclick="createNewGroup()">+ New Group</button>
+</div>
+<div class="toolbar" style="border-top:none;padding-top:8px;padding-bottom:8px;background:#F7F7F5;">
+  <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);margin-right:4px;">Line of Business:</span>
+  <button class="lob-btn active" onclick="slob('all',this)">All</button>
+  <button class="lob-btn" onclick="slob('Property Lab: Brokerage',this)">PL: Brokerage</button>
+  <button class="lob-btn" onclick="slob('Property Lab: Team Lead',this)">PL: Team Lead</button>
+  <button class="lob-btn" onclick="slob('Property Lab: Agent',this)">PL: Agent</button>
+  <button class="lob-btn" onclick="slob('Immersive Showroom: End Client',this)">IS: End Client</button>
+  <button class="lob-btn" onclick="slob('Immersive Showroom: Builder',this)">IS: Builder</button>
+  <button class="lob-btn" onclick="slob('Immersive Showroom: Architect',this)">IS: Architect</button>
+  <button class="lob-btn" onclick="slob('Ally',this)">Ally</button>
+  <button class="lob-btn" onclick="slob('Other',this)">Other</button>
+  <button class="lob-btn" onclick="slob('unset',this)">Not Set</button>
 </div>
 <div class="table-container">
   <div class="table-scroll">
@@ -666,8 +682,15 @@ document.addEventListener('click', hideCtx);
 document.addEventListener('keydown', e => { if(e.key==='Escape') hideCtx(); });
 
 function render(){af();us();uf();setTimeout(initStickyHeader,120);}
-function af(){const q=document.getElementById('si').value.toLowerCase();fil=all.filter(c=>{const mf=cur==='all'||c.status===cur;const ms=!q||(c.firstName+' '+c.lastName).toLowerCase().includes(q)||c.brokerage.toLowerCase().includes(q)||c.email.toLowerCase().includes(q);return mf&&ms;});rt();}
+function af(){const q=document.getElementById('si').value.toLowerCase();fil=all.filter(c=>{const mf=cur==='all'||c.status===cur;const ml=curLob==='all'||(curLob==='unset'?!c.businessLine:c.businessLine===curLob);const ms=!q||(c.firstName+' '+c.lastName).toLowerCase().includes(q)||c.brokerage.toLowerCase().includes(q)||c.email.toLowerCase().includes(q);return mf&&ml&&ms;});rt();}
 function sf(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cur=f;af();}
+function slob(lob, btn) {
+  document.querySelectorAll('.lob-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  curLob = lob;
+  af();
+}
+
 function sb(k){if(sk===k)sa=!sa;else{sk=k;sa=true;}fil.sort((a,b)=>{let av=a[k]||'',bv=b[k]||'';if(['daysSinceContact','timesEmailed','totalResponses'].includes(k)){av=Number(av);bv=Number(bv);}return sa?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);});rt();}
 function dc(d){return d>=14?'du':d>=7?'dw':'do';}
 function sc2(s){const m={'Cold — Not Contacted':'sc','Emailed — No Response':'se','Engaged — Replied':'sg','Meeting Booked':'sm','Not Interested':'sni','Nurture — Come Back Later':'sn'};return m[s]||'sc';}
