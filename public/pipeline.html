@@ -630,6 +630,19 @@ function groupByBrokerage(contacts){
 
 let collapsed={};
 let customGroups=JSON.parse(localStorage.getItem('ll_custom_groups')||'[]');
+let pinnedGroups=JSON.parse(localStorage.getItem('ll_pinned_groups')||'[]');
+
+function pinGroup(name) {
+  if (!pinnedGroups.includes(name)) {
+    pinnedGroups.push(name);
+    localStorage.setItem('ll_pinned_groups', JSON.stringify(pinnedGroups));
+  }
+}
+
+function unpinGroup(name) {
+  pinnedGroups = pinnedGroups.filter(g => g !== name);
+  localStorage.setItem('ll_pinned_groups', JSON.stringify(pinnedGroups));
+}
 
 function toggleGroup(brok){
   collapsed[brok]=!collapsed[brok];
@@ -654,7 +667,7 @@ function rt(){
     const today2=new Date().toISOString().split('T')[0];
     const anyFlag=contacts.some(c=>(c.daysSinceContact>=5&&c.status==='Emailed — No Response')||(c.reminderDate&&c.reminderDate<=today2));
     const status=topStatus(contacts);
-    const single=contacts.length===1;
+    const single=contacts.length===1&&!pinnedGroups.includes(brok);
     const brokSafe=brok.replace(/'/g,"\\'").replace(/"/g,'&quot;');
     // Only show group header row if more than 1 contact
     if(!single){
@@ -663,7 +676,8 @@ function rt(){
           <span style="font-family:'DM Mono',monospace;font-size:13px;margin-right:8px;color:#999;">${isCollapsed?'▶':'▼'}</span>
           ${anyFlag?'<span class="fi"></span>':''}
           <strong>${brok}</strong>
-          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contacts</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey);margin-left:8px;">${contacts.length} contact${contacts.length>1?"s":""}</span>
+          <button onclick="event.stopPropagation();unpinGroup('${brokSafe}');all.filter(c=>c.brokerage===brok).forEach(c=>{c.brokerage=c.firstName+(c.lastName?' '+c.lastName:'');sov2(c.email,'brokerage',c.brokerage);});render();" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:10px;color:#bbb;padding:0 4px;" title="Dissolve group">✕</button>
         </td>
         <td class="dc" style="background:#F0F0EE;">${contacts.map(c=>c.firstEmailDate||'').sort()[0]||'—'}</td>
         <td class="dc" style="background:#F0F0EE;">${latestEmailed}</td>
@@ -766,6 +780,7 @@ function dropToIndividual(event){
   const c=all[savedIdx];
   c.brokerage=company.trim();
   sov2(c.email,'brokerage',company.trim());
+  pinGroup(company.trim());
   render();
 }
 
@@ -793,6 +808,8 @@ function showInlineDZ(idx) {
     const c = all[savedIdx];
     c.brokerage = company.trim();
     sov2(c.email, 'brokerage', company.trim());
+    // Pin this brokerage so it always shows a group header
+    pinGroup(company.trim());
     render();
   });
   row.insertAdjacentElement('afterend', dz);
@@ -813,6 +830,7 @@ function dropOnGroup(event,targetBrok){
   if(c.brokerage===targetBrok)return;
   c.brokerage=targetBrok;
   sov2(c.email,'brokerage',targetBrok);
+  pinGroup(targetBrok);
   dragIdx=null;
   render();
 }
