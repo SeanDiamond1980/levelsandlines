@@ -454,7 +454,7 @@ async function fetchData(){
   try{const r=await fetch(CSV);const c=await r.text();const p=pcsv(c);all=p.length>0?p:seed();}catch{all=seed();}
   mc.forEach(m=>{if(!all.find(c=>c.email===m.email))all.push(m);});
   all=all.map(c=>{const o=ov[c.email];return o?{...c,...o}:c;});
-  all=all.filter(c=>!ov[c.email]||!ov[c.email]._del);
+  all=all.filter(c=>{const d=ov[c.email]&&ov[c.email]._del;return !d||d===false||d==='false';});
   render();b.disabled=false;b.textContent='↻ Refresh';
   document.getElementById('lu').textContent='Updated: '+new Date().toLocaleString('en-CA',{dateStyle:'medium',timeStyle:'short'});
 }
