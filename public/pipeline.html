@@ -664,7 +664,7 @@ function ctxDelete() {
 document.addEventListener('click', hideCtx);
 document.addEventListener('keydown', e => { if(e.key==='Escape') hideCtx(); });
 
-function render(){af();us();uf();setTimeout(initStickyHeader,100);}
+function render(){af();us();uf();setTimeout(initStickyHeader,120);}
 function af(){const q=document.getElementById('si').value.toLowerCase();fil=all.filter(c=>{const mf=cur==='all'||c.status===cur;const ms=!q||(c.firstName+' '+c.lastName).toLowerCase().includes(q)||c.brokerage.toLowerCase().includes(q)||c.email.toLowerCase().includes(q);return mf&&ms;});rt();}
 function sf(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cur=f;af();}
 function sb(k){if(sk===k)sa=!sa;else{sk=k;sa=true;}fil.sort((a,b)=>{let av=a[k]||'',bv=b[k]||'';if(['daysSinceContact','timesEmailed','totalResponses'].includes(k)){av=Number(av);bv=Number(bv);}return sa?(av<bv?-1:av>bv?1:0):(av>bv?-1:av<bv?1:0);});rt();}
