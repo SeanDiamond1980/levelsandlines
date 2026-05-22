@@ -708,6 +708,7 @@ function groupByBrokerage(contacts){
   return Object.entries(map).sort((a,b)=>a[0].localeCompare(b[0]));
 }
 
+let curLob='all';
 let collapsed={};
 let customGroups=JSON.parse(localStorage.getItem('ll_custom_groups')||'[]');
 let pinnedGroups=JSON.parse(localStorage.getItem('ll_pinned_groups')||'[]');
