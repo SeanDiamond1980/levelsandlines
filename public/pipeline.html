@@ -44,9 +44,11 @@
   .search-input:focus{border-color:var(--ink);}
   .add-btn{margin-left:auto;background:var(--ink);color:var(--white);border:none;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
   .add-btn:hover{opacity:0.82;}
-  .table-container{padding:0 28px 32px;overflow-x:auto;}
+  .table-container{padding:0 28px 32px;}
+  .table-scroll{overflow-x:auto;}
   table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--grey-mid);min-width:1200px;}
   thead{background:var(--ink);color:var(--white);}
+  thead th{position:sticky;top:0;z-index:20;background:var(--ink);}
   th{padding:11px 12px;text-align:left;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:400;white-space:nowrap;cursor:pointer;user-select:none;}
   th:hover{background:#1a1a1a;}
   th.ns{cursor:default;}th.ns:hover{background:var(--ink);}
@@ -221,8 +223,9 @@
   <button class="add-btn" style="background:transparent;border:1px solid var(--grey-mid);margin-left:8px;" onclick="createNewGroup()">+ New Group</button>
 </div>
 <div class="table-container">
+  <div class="table-scroll">
   <table>
-    <thead style="position:sticky;top:0;z-index:10;"><tr>
+    <thead><tr>
       <th onclick="sb('firstName')">Name ↕</th>
       <th onclick="sb('brokerage')">Brokerage ↕</th>
       <th onclick="sb('firstEmailDate')">First Email ↕</th>
@@ -239,6 +242,7 @@
     </tr></thead>
     <tbody id="tb"><tr><td colspan="12"><div class="es">Loading...</div></td></tr></tbody>
   </table>
+  </div>
 </div>
 <div id="dropZone" style="display:none;margin:0;border:2px dashed var(--grey-mid);padding:14px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--grey);cursor:pointer;transition:all 0.15s;"
   ondragover="event.preventDefault();this.style.borderColor='var(--yellow)';this.style.color='var(--ink)'"
