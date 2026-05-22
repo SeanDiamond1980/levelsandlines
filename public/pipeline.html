@@ -129,6 +129,7 @@
   .ca{display:flex;gap:8px;justify-content:flex-end;}
   .es{padding:48px;text-align:center;color:var(--grey);font-family:'DM Mono',monospace;font-size:13px;}
   .bl-select{border:none;padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:transparent;width:180px;max-width:180px;}
+  .ns-select{border:none;padding:3px 6px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;background:transparent;width:170px;max-width:170px;}
   .status-select{border:none;padding:4px 6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;outline:none;cursor:pointer;border-radius:3px;width:170px;}
   .status-select.sc-marine{background:#E8F4F4;color:#2C7873;}
   .status-select.sc-yellow{background:#FFF3DC;color:#B8860B;}
@@ -234,6 +235,7 @@
       <th onclick="sb('status')">Status ↕</th>
       <th onclick="sb('businessLine')">Line of Business ↕</th>
       <th onclick="sb('reminderDate')">Reminder ↕</th>
+      <th onclick="sb('nextStepAction')">Next Step ↕</th>
     </tr></thead>
     <tbody id="tb"><tr><td colspan="12"><div class="es">Loading...</div></td></tr></tbody>
   </table>
@@ -298,7 +300,26 @@
     </div>
     <div class="msc"><div class="stl">Conversation History</div><div class="ct" id="vTh"><div class="nh">Run weekly refresh prompt to populate.</div></div></div>
     <div class="msc"><div class="stl">Notes</div><textarea class="ni" id="vNo" placeholder="Add notes..." oninput="ieSave('notes',this.value)"></textarea></div>
-    <div class="msc"><div class="stl">Next Steps</div><textarea class="ni" id="vNS" placeholder="What needs to happen next..." oninput="ieSave('nextStep',this.value)" rows="2"></textarea></div>
+    <div class="sr"><span class="srl">Next Step:</span>
+      <select class="ss" id="vNSA" onchange="ieSave('nextStepAction',this.value);render()">
+        <option value="">— Select —</option>
+        <option>Follow-up email</option>
+        <option>Phone call</option>
+        <option>Follow up with assistant</option>
+        <option>Send proposal</option>
+        <option>Send case study</option>
+        <option>Book meeting</option>
+        <option>Confirm meeting</option>
+        <option>Send calendar invite</option>
+        <option>Follow up post-meeting</option>
+        <option>Waiting for intro</option>
+        <option>Re-engage — gone cold</option>
+        <option>Connect on LinkedIn</option>
+        <option>Send contract</option>
+        <option>No action needed</option>
+      </select>
+    </div>
+    <div class="msc"><div class="stl">Next Step Notes</div><textarea class="ni" id="vNS" placeholder="Additional context on next step..." oninput="ieSave('nextStep',this.value)" rows="2"></textarea></div>
     <div class="sr"><span class="srl">Reminder Date:</span><input type="date" class="ss" id="vRD" onchange="ieSave('reminderDate',this.value)"/></div>
     <div class="ma">
       <button class="btn btn-red" onclick="cd(ci)">Delete</button>
@@ -471,7 +492,7 @@ function pcsv(csv){
       const unescaped=raw.replace(/""/g,'"');
       ch2=tj(unescaped);
     }
-    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,businessLine:o['Business Line']||'',nextStep:o['Next Step']||'',reminderDate:o['Reminder Date']||'',_m:false};
+    return{firstName:o['First Name']||'',lastName:o['Last Name']||'',email:o['Email']||'',brokerage:o['Brokerage']||'',firstEmailDate:o['First Email Date']||'',lastEmailedDate:o['Last Emailed Date']||'',lastReplyDate:o['Last Reply Date']||'',daysSinceContact:days,timesEmailed,totalResponses,replied,status,notes,threadId,conversationHistory:ch2,businessLine:o['Business Line']||'',nextStep:o['Next Step']||'',reminderDate:o['Reminder Date']||'',nextStepAction:o['Next Step Action']||'',_m:false};
   }).filter(c=>c.email);
 }
 function spl(line){
@@ -499,6 +520,37 @@ const BL_OPTIONS = [
   'Ally',
   'Other'
 ];
+
+const NS_OPTIONS = [
+  '',
+  'Follow-up email',
+  'Phone call',
+  'Follow up with assistant',
+  'Send proposal',
+  'Send case study',
+  'Book meeting',
+  'Confirm meeting',
+  'Send calendar invite',
+  'Follow up post-meeting',
+  'Waiting for intro',
+  'Re-engage — gone cold',
+  'Connect on LinkedIn',
+  'Send contract',
+  'No action needed'
+];
+
+function renderNextStep(c, idx) {
+  const val = c.nextStepAction || '';
+  const opts = NS_OPTIONS.map(o => `<option value="${o}" ${o===val?'selected':''}>${o||'— Next step —'}</option>`).join('');
+  const color = val && val !== 'No action needed' ? 'var(--ink)' : '#aaa';
+  return `<select class="ns-select" style="color:${color}" onchange="updateNextStep(${idx},this.value)" onclick="event.stopPropagation()">${opts}</select>`;
+}
+
+function updateNextStep(idx, val) {
+  all[idx].nextStepAction = val;
+  sov2(all[idx].email, 'nextStepAction', val);
+  render();
+}
 
 function renderReminder(c, idx) {
   const val = c.reminderDate || '';
@@ -718,6 +770,7 @@ function rt(){
           <td>${renderStatus(c,idx)}</td>
           <td>${renderBL(c,idx)}</td>
           <td>${renderReminder(c,idx)}</td>
+          <td>${renderNextStep(c,idx)}</td>
           <td><div class="ac">
             <button class="ab" onclick="ov2(${idx})">View</button>
             <button class="ab" onclick="oef(${idx})">Edit</button>
