@@ -403,8 +403,10 @@ function syncOverridesToSheet(){
   // Debounce — wait 1.5s after last change before writing
   clearTimeout(syncTimer);
   syncTimer=setTimeout(()=>{
-    const su=localStorage.getItem('pl_script_url')||'';
+    const su=localStorage.getItem('pl_script_url')||
+             (JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}').scriptUrl)||'';
     if(!su)return;
+    localStorage.setItem('pl_script_url',su);
     const rows=Object.entries(ov).map(([email,changes])=>({email,...changes}));
     if(!rows.length)return;
     const url=su+'?action=saveOverrides&data='+encodeURIComponent(JSON.stringify(rows));
@@ -421,8 +423,16 @@ function showSaveToast(msg){
 }
 const smc=()=>localStorage.setItem('pl_mc',JSON.stringify(mc));
 async function loadSheetOverrides(){
-  const su=localStorage.getItem('pl_script_url')||'';
-  if(!su)return;
+  // Get script URL from either storage key
+  const su=localStorage.getItem('pl_script_url')||
+           (JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}').scriptUrl)||'';
+  if(!su){
+    // Save it for future use if found in refresh config
+    const rc=JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}');
+    if(rc.scriptUrl)localStorage.setItem('pl_script_url',rc.scriptUrl);
+    return;
+  }
+  localStorage.setItem('pl_script_url',su);
   try{
     const url=su+'?action=getOverrides';
     const r=await fetch(url);
@@ -978,11 +988,14 @@ function exd(){
   if(di===null)return;
   const c=all[di];
   const email=c.email;
-  // Register as deleted so refresh never re-adds
-  sov2(email,'_del',true);
-  const su=localStorage.getItem('pl_script_url')||'';
-  if(su){
-    fetch(su+'?action=deleteContact&email='+encodeURIComponent(email)).catch(()=>{});
+  // Mark as deleted in overrides — this syncs to Sheet so all browsers see it
+  sov2(email,'_del','true');
+  // Also call deleteContact on Apps Script to remove from Sheet row
+  const su=localStorage.getItem('pl_script_url')||
+            localStorage.getItem('pl_refresh_cfg') && JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}').scriptUrl||'';
+  const scriptUrl = su || (JSON.parse(localStorage.getItem('pl_refresh_cfg')||'{}').scriptUrl)||'';
+  if(scriptUrl){
+    fetch(scriptUrl+'?action=deleteContact&email='+encodeURIComponent(email)).catch(()=>{});
   }
   const mi=mc.findIndex(m=>m.email===email);
   if(mi>-1){mc.splice(mi,1);smc();}
