@@ -34,8 +34,12 @@ export function VideoShowcase({ index, title, description, src }: VideoShowcaseP
           ref={videoRef}
           src={src}
           controls
+          muted
           playsInline
           preload="metadata"
+          onLoadedMetadata={(e) => {
+            e.currentTarget.muted = true
+          }}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           className="h-full w-full bg-black object-contain [color-scheme:dark]"
