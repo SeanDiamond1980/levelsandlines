@@ -1,0 +1,266 @@
+
+LEVELS + LINES
+Design Brief
+Paradise Developments
+Immersive Real Estate — 6-Slide Pitch Deck
+For Designer Use · August 2026
+
+Overview
+This is a cold-to-warm pitch deck for an introductory meeting with Paradise Developments. Sean Diamond has received a warm introduction and is presenting the next day. The goal is to make Paradise feel the opportunity — not read about it. The deck should do the talking so Sean doesn't have to.
+
+This is not a capabilities deck. It is a strategic provocation followed by a demonstration. Every slide should earn its place by making the viewer lean in, not lean back.
+
+
+Brand Reference
+Visual Identity
+Draw inspiration directly from levelsandlines.com/lizjohnson — the existing slide format for prospect-facing presentations. It sets the exact tone.
+
+• Backgrounds: pure black (#000000 or near-black #0D0D0D). No gradients.
+• Primary type: white, uppercase, tracking/letter-spacing applied — feels cinematic, not corporate
+• Accent colour: warm gold/amber (#FEC780) used sparingly for the single most important phrase per slide
+• Atmosphere: like stepping into a space before it exists — premium, spatial, consequential
+• What it must never look like: a SaaS deck, a real estate portal slide, a VR company brochure
+
+Typography
+ROLE
+FONT
+WEIGHT / USE
+Headlines
+Fragment
+Regular — large, tracked, uppercase
+Subheads
+Styrene A
+Medium
+Body
+Styrene A
+Regular — kept minimal on slides
+
+Colour Palette
+Ink
+#000000
+Focus Yellow
+#FEC780
+White
+#FFFFFF
+Structure
+#ACB2B5
+Marine
+#BED2D3
+
+Deck Format
+• Widescreen 16:9 (1920 × 1080px or equivalent)
+• Deliver as editable Keynote or Google Slides
+• L+L wordmark (LEVELS + LINES) + icon appears bottom-centre or bottom-right, white, every slide
+• DO NOT text-heavy. Every slide should be felt, not read. One big idea per slide, supported by visuals and a video where indicated.
+
+Slide-by-Slide Direction
+SLIDE 1  —  The Nial Collins Quote
+
+Purpose
+This is the opening provocation. It sets the stakes — the market is changing and the developers who adapt will win. It is borrowed authority — a respected industry voice saying what Sean would say himself.
+
+Layout
+Full-bleed black slide. Centered composition. Nothing else on screen except the quote, attribution, and L+L logo.
+
+Content — Exact Text
+"I've survived four real estate recessions. Every time the market comes back, it comes back differently. The agents who kept doing what they always did drifted toward the exit."
+
+KEY CALLOUT (in gold/amber, bold, uppercase):
+"THE ONES WHO ADAPTED OWNED THE MARKET."
+ATTRIBUTION:
+— Nial Collins, COO · Choice Properties
+
+Visual Direction
+• No background imagery — pure black only
+• Quote renders in white, spaced tracking, Fragment or Styrene A
+• "OWNED THE MARKET" in #FEC780 — the only colour on this slide
+• Horizontal rule or thin gold line separates the quote body from the punchline
+• Choice Properties logo rendered small and white beside the attribution
+• L+L logo bottom centre, white, small
+SLIDE 2  —  Immersive Real Estate Will Be Essential in the Recovery
+
+Purpose
+This slide answers: "what is Immersive Real Estate and why does it matter right now?" It bridges from the quote's provocation to a concrete solution — without a wall of text.
+
+Layout
+Full-bleed atmospheric background — ideally a photo or frame from the Illuminarium footage showing the space, the projection, the scale. A person inside helps communicate the physical reality. Text overlays on the image.
+
+Content
+HEADLINE (large, white, Fragment):
+Immersive Real Estate
+SUBHEAD (smaller, gold or white):
+Walk through a space before it exists. At full scale. Physically.
+
+What It Is — Body Copy (minimal, 2–3 lines max)
+Not VR. Not a rendering. People stand inside the actual dimensions of an unbuilt space — projected at 1:1 scale on the floor and walls. Real props. Real decisions.
+
+Visual Notes
+• Use real Illuminarium footage or photography — not a rendering
+• The physical, human-scale nature of the experience must be visible
+• Overlay text should feel like it's part of the space — not a caption block
+SLIDE 3  —  The Two Technologies
+
+Purpose
+Educates the client on the two delivery formats available. Keeps it benefit-focused, not spec-heavy. The split creates a natural comparison.
+
+Layout
+Split-panel slide — left half dark (Overhead Projection), right half slightly lighter or contrasting. Each panel: technology name at top (large, tracked caps), benefits as short, punchy lines below. Images or video stills fill each panel behind the text.
+
+Content
+
+OVERHEAD PROJECTION
+→  Bigger space, higher walls
+→  More widely adopted globally
+→  Ready to deploy now
+→  Proven at the Illuminarium
+
+LED
+→  More mobile — goes where you need it
+→  True interactivity
+→  Modify content in real time
+→  Your permanent sales centre solution
+
+
+Visual Notes
+• Left panel: show an overhead projection image — the Illuminarium, floor plan projected, person inside
+• Right panel: show an LED volume — use Japan reference imagery or Kanken-style LED showroom visual
+• Sean will provide two videos (one overhead projection, one LED) — embed or link within slide if format allows
+• Visual language should feel like a comparison between two powerful tools, not a limitation
+SLIDE 4  —  How It's Being Used: Pre-Construction
+
+Purpose
+Shows social proof with a real developer use case. DiamondCorp is the reference client. This is about using immersive technology before a building exists to sell the vision, align stakeholders, and build confidence.
+
+Layout
+Primarily video. The slide is built around the DiamondCorp video. Minimal surrounding copy — let the footage prove the concept.
+
+Content
+
+▶
+VIDEO PLACEHOLDER — DIAMONDCORP
+Sean to provide: overhead projection footage from DiamondCorp / 611 Keele or 450 Dufferin session
+Embed full-width. Autoplay preferred, silent or with audio — Sean to confirm.
+
+Supporting Text (minimal — 1–2 lines below or beside video)
+Label: PRE-CONSTRUCTION
+Caption: "DiamondCorp walked their units at full scale before a single floor was poured."
+
+Visual Notes
+• The video is the slide — do not crowd it with bullets or body copy
+• PRE-CONSTRUCTION label in gold, tracked caps, understated
+• Black background surrounding the video
+SLIDE 5  —  How It's Being Used: Sales
+
+Purpose
+This slide covers the sales phase — both pre-sales (showing buyers units before they commit) and post-sales (upgrades and modifications). The Japan video is the visual anchor. This is the closest comparable market internationally.
+
+Layout
+Video-forward. Japan video plays prominently. Two sub-sections below or beside — PRE-SALES and POST-SALES — each with 1–2 benefit lines. Keep total text to under 30 words.
+
+Content
+
+▶
+VIDEO PLACEHOLDER — JAPAN / LED SHOWROOM
+Sean to provide: Japan Kanken/LED volume video upload in progress
+Target: Nitetsu Kowa / LIVIO showroom reference or similar LED immersive condo sales footage.
+
+PRE-SALES
+→  See every unit at full scale
+→  Compare suites side by side
+POST-SALES
+→  Experience upgrade finishes
+→  Request modifications before closing
+
+SLIDE 6  —  How You Apply It
+
+Purpose
+The close. Two clear paths for Paradise to engage — rent the existing space for a sales event, or put the technology permanently into their own sales design centre. No pressure. Two genuine options.
+
+Layout
+Two-option layout — each option in its own panel with a clear visual separator. Could be a left/right or top/bottom split. Each option: a label number, a short bold headline, 2–3 lines of context. Ends with an implicit CTA (no hard sell — just "Let's talk").
+
+Content
+
+01
+RENT OUR SPACE
+A single-day or multi-day sales event.
+By-appointment private showings.
+We handle setup. You show units.
+02
+IN YOUR SALES CENTRE
+Install the technology permanently.
+In your design centre or sales suite.
+Your brand. Your space. Your edge.
+
+Footer / Close
+Bottom of slide or final frame — L+L logo + wordmark, centred. No hard CTA text needed. The two options are the invitation.
+
+
+Asset Checklist
+The following assets are needed to build the deck. Two videos are pending upload from Sean — placeholders are designed into slides 4 and 5.
+
+#
+ASSET
+WHERE USED
+SOURCE
+STATUS
+1
+L+L Wordmark + Icon
+All slides (bottom)
+Brand guidelines PDF
+✓ Ready
+2
+Choice Properties logo
+Slide 1 (attribution)
+Source from web — white version
+Needed
+3
+Illuminarium photo/video
+Slide 2 (background)
+Google Drive: DiamondCorp/ or ObenGroup/
+✓ Available
+4
+Overhead projection image
+Slide 3 (left panel)
+Illuminarium session footage
+✓ Available
+5
+LED volume image
+Slide 3 (right panel)
+Japan reference / Kanken Vision Room
+Needed
+6
+DiamondCorp video
+Slide 4 (primary)
+Sean to upload
+⏳ Pending
+7
+Japan LED video
+Slide 5 (primary)
+Sean to upload
+⏳ Pending
+
+Tone & Design Rules
+• One idea per slide. If a slide needs explaining, the slide is wrong.
+• Let the video do the heavy lifting on slides 4 and 5 — surround it with air, not bullets.
+• Text on slides should be felt, not read. Big, tracked, purposeful.
+• Gold (#FEC780) is for the single most important phrase on a slide — use it once per slide, maximum.
+• The deck should feel like the experience itself: dark, spatial, premium, consequential.
+• No clip art, no icons, no stock photography. Real Illuminarium assets or nothing.
+• L+L logo is always white. Always small. Always present.
+
+Delivery
+Deck is needed for a presentation to Paradise Developments. Meeting is tomorrow.
+
+FORMAT
+Keynote (.key) or Google Slides — editable, so Sean can adjust before the meeting
+
+VIDEO
+Embed videos or provide as a linked package. Flag if format limits embedding.
+
+FONTS
+Fragment (brand typeface — headlines). Styrene A (secondary). If unavailable, substitute with a clean geometric sans for the build.
+
+CONTACT
+Sean Diamond · sean@experiencediamond.com · Levels + Lines
+
