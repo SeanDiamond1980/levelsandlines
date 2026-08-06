@@ -1,0 +1,6 @@
+:HL["/hallmark/_next/static/chunks/1cd61e9fe380ed96.css","style"]
+:HL["/hallmark/_next/static/chunks/ec48e880119a3f9d.css","style"]
+:HL["/hallmark/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/hallmark/_next/static/media/a85fe84266768609-s.p.e658778d.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/hallmark/_next/static/media/a9a434ecf764164f-s.p.73974b4a.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"buildId":"D0-4AuMqDtJbFvx0W9Zgb","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"sales-center","paramType":null,"paramKey":"sales-center","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

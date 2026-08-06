@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[27834,["/hallmark/_next/static/chunks/1e086dccfb274931.js"],"ClientPageRoot"]
+3:I[87380,["/hallmark/_next/static/chunks/a2a6d79fd99585a9.js","/hallmark/_next/static/chunks/1610b54a03a8fdc1.js","/hallmark/_next/static/chunks/25d6c6da86e68932.js","/hallmark/_next/static/chunks/85aef7c04d91aa05.js"],"default"]
+6:I[89836,["/hallmark/_next/static/chunks/1e086dccfb274931.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"D0-4AuMqDtJbFvx0W9Zgb","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/hallmark/_next/static/chunks/1610b54a03a8fdc1.js","async":true}],["$","script","script-1",{"src":"/hallmark/_next/static/chunks/25d6c6da86e68932.js","async":true}],["$","script","script-2",{"src":"/hallmark/_next/static/chunks/85aef7c04d91aa05.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null

@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Levels & Lines Brand Colors */
+    --font-sans: var(--font-dm-sans);
+    --font-mono: var(--font-inter);
+    
+    /* Primary White #FFFFFF */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    
+    /* Card - White with Ink text */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* Primary - Ink Black #000000 */
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - Structure Gray #ACB2B5 */
+    --secondary: 204 5% 69%;
+    --secondary-foreground: 0 0% 0%;
+    
+    /* Muted - Light Structure */
+    --muted: 204 5% 95%;
+    --muted-foreground: 204 5% 40%;
+    
+    /* Accent - Focus Yellow #FEC780 */
+    --accent: 35 99% 75%;
+    --accent-foreground: 0 0% 0%;
+    
+    /* Marine #BED2D3 */
+    --marine: 183 24% 79%;
+    
+    /* Focus Yellow #FEC780 */
+    --focus: 35 99% 75%;
+    
+    /* Structure Gray #ACB2B5 */
+    --structure: 204 5% 69%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 204 5% 85%;
+    --input: 204 5% 85%;
+    --ring: 0 0% 0%;
+    
+    --chart-1: 35 99% 75%;
+    --chart-2: 183 24% 79%;
+    --chart-3: 204 5% 69%;
+    --chart-4: 0 0% 0%;
+    --chart-5: 0 0% 50%;
+    
+    --radius: 0.25rem;
+    
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 0 0% 0%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 35 99% 75%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 204 5% 85%;
+    --sidebar-ring: 0 0% 0%;
+  }
+  
+  .dark {
+    /* Dark mode - Ink as background, White as foreground */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    
+    --secondary: 204 5% 25%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 204 5% 15%;
+    --muted-foreground: 204 5% 60%;
+    
+    --accent: 35 99% 75%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 204 5% 20%;
+    --input: 204 5% 20%;
+    --ring: 0 0% 100%;
+    
+    --chart-1: 35 99% 75%;
+    --chart-2: 183 24% 79%;
+    --chart-3: 204 5% 69%;
+    --chart-4: 0 0% 100%;
+    --chart-5: 0 0% 70%;
+    
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 35 99% 75%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 204 5% 20%;
+    --sidebar-ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Global hover style for all links and buttons - black background on hover with white text */
+  a:hover,
+  button:hover {
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  /* Ensure all children elements also turn white on hover */
+  a:hover *,
+  button:hover * {
+    color: hsl(var(--primary-foreground)) !important;
+    stroke: hsl(var(--primary-foreground)) !important;
+  }
+}
