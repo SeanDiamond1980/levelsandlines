@@ -13,14 +13,14 @@ const VIDEOS = [
     title: "Walkthrough Without Props",
     description:
       "Walk through any architectural drawing 1:1 with windows, doors or finishings projected on any wall.",
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Unit_walkthrough_no_props-OFFgPuzkhaOTcsILv90mlr97tSkwGq.mov",
+    src: "https://mmla9on5wj4r22lh.public.blob.vercel-storage.com/Unit_walkthrough_no_props_silent-vKIhOU3wB5b8oi2H5OjoLV9lRqmcGd.mp4",
   },
   {
     index: "02",
     title: "Walkthrough With Props",
     description:
       "Stage any unit with furniture, walls, cabinetry and more. Don't just see space, feel it.",
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Unit_Walkthrough_With_Props-ZAwazvdRGPq98FG4buv8o7zjpI00x9.mov",
+    src: "https://mmla9on5wj4r22lh.public.blob.vercel-storage.com/Unit_Walkthrough_With_Props_silent-qXf0OxnsaDOInXnDD8KXy2BANLv2Gv.mp4",
   },
 ]
 
