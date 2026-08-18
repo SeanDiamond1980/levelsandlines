@@ -1,11 +1,7 @@
 import type { Metadata } from "next"
 import type React from "react"
-import { Fraunces, Geist } from "next/font/google"
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-harlo-geist",
-})
+import { Fraunces } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -27,8 +23,7 @@ export default function HarloLayout({
 }) {
   return (
     <div
-      className={`${geist.variable} ${fraunces.variable} min-h-screen bg-white text-ink`}
-      style={{ fontFamily: "var(--font-harlo-geist), system-ui, sans-serif" }}
+      className={`${GeistSans.className} ${fraunces.variable} min-h-screen bg-white text-ink`}
     >
       {children}
     </div>
