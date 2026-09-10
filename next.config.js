@@ -22,6 +22,10 @@ const nextConfig = {
         source: '/broccolini',
         destination: '/broccolini/index.html',
       },
+      {
+        source: '/metropia',
+        destination: '/metropia/index.html',
+      },
     ]
   },
 }
