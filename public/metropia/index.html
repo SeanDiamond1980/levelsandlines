@@ -261,7 +261,7 @@ class Component extends DCLogic {
   toggle5 = () => {
     const v = this.video5.current;
     if (!v) return;
-    if (v.paused) { v.play(); this.setState({ p5: true }); } else { v.pause(); this.setState({ p5: false }); }
+    if (v.paused || v.ended) { v.currentTime = 0; v.play(); this.setState({ p5: true }); } else { v.pause(); this.setState({ p5: false }); }
   };
   circleOn = (e) => {
     if (e) { e.preventDefault(); e.stopPropagation(); }
@@ -278,6 +278,24 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function() {
+  function fixVideos() {
+    document.querySelectorAll('video').forEach(function(v) {
+      v.loop = true;
+      v.muted = true;
+      if (v.paused && !v.ended) { v.play().catch(function(){}); }
+    });
+  }
+  // Run now and watch for new video elements added by the deck renderer
+  fixVideos();
+  var obs = new MutationObserver(fixVideos);
+  obs.observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('load', fixVideos);
+  setTimeout(fixVideos, 1000);
+  setTimeout(fixVideos, 3000);
+})();
 </script>
 </body>
 </html>
