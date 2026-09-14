@@ -26,6 +26,10 @@ const nextConfig = {
         source: '/metropia',
         destination: '/metropia/index.html',
       },
+      {
+        source: '/centrecourt',
+        destination: '/centrecourt/index.html',
+      },
     ]
   },
 }
